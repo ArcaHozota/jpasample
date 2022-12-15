@@ -61,7 +61,7 @@ public class CentreController {
 		PageMethod.startPage(pageNum, 15);
 		final List<CityDto> list = this.cityDtoService.getAll();
 		final PageInfo<CityDto> pageInfo = PageInfo.of(list, 7);
-		final ModelAndView mav = new ModelAndView("cities");
+		final ModelAndView mav = new ModelAndView("index");
 		mav.addObject("title", "CityList");
 		final int totalPages = pageInfo.getPages();
 		if (pageNum == 1) {
