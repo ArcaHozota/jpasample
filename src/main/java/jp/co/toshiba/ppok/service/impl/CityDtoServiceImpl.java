@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import jp.co.toshiba.ppok.entity.City;
 import jp.co.toshiba.ppok.entity.Nation;
-import jp.co.toshiba.ppok.mapper.CityDao;
+import jp.co.toshiba.ppok.mapper.CityDtoMapper;
 import jp.co.toshiba.ppok.mapper.CityMapper;
 import jp.co.toshiba.ppok.mapper.NationMapper;
 import jp.co.toshiba.ppok.service.CityDtoService;
@@ -24,10 +24,10 @@ import jp.co.toshiba.ppok.utils.CustomException;
  * @author Administrator
  */
 @Service
-public class CityDtoServiceImpl extends ServiceImpl<CityDao, CityDto> implements CityDtoService {
+public class CityDtoServiceImpl extends ServiceImpl<CityDtoMapper, CityDto> implements CityDtoService {
 
     @Resource
-    private CityDao cityDao;
+    private CityDtoMapper cityDao;
 
     @Resource
     private CityMapper cityMapper;
