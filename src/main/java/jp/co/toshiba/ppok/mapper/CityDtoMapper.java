@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import jp.co.toshiba.ppok.entity.CityDto;
 
 @Mapper
-public interface CityDao extends BaseMapper<CityDto> {
+public interface CityDtoMapper extends BaseMapper<CityDto> {
 
 	/**
 	 * Search the cities in wcv.

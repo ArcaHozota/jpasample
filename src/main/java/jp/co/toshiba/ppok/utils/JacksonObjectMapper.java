@@ -1,4 +1,4 @@
-package jp.co.toshiba.ppok.config;
+package jp.co.toshiba.ppok.utils;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 
