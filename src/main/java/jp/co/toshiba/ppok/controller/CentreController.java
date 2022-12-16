@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.page.PageMethod;
 
 import jakarta.validation.Valid;
 import jp.co.toshiba.ppok.entity.CityDto;
@@ -38,19 +38,6 @@ public class CentreController {
 	@Resource
 	private CityDtoService cityDtoService;
 
-//    /**
-//     * Retrieve the city data.
-//     *
-//     * @return page(JSON)
-//     */
-//    @GetMapping(value = "/city")
-//    public RestMsg getCities(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum) {
-//        PageMethod.startPage(pageNum, 15);
-//        final List<CityDto> list = cityDtoService.getAll();
-//        final PageInfo<CityDto> pageInfo = new PageInfo<>(list, 7);
-//        return RestMsg.success().add("pageInfo", pageInfo);
-//    }
-
 	/**
 	 * Retrieve the city data.
 	 *
@@ -58,7 +45,7 @@ public class CentreController {
 	 */
 	@GetMapping(value = "/city")
 	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum) {
-		PageMethod.startPage(pageNum, 15);
+		PageHelper.startPage(pageNum, 15);
 		final List<CityDto> list = this.cityDtoService.getAll();
 		final PageInfo<CityDto> pageInfo = PageInfo.of(list, 7);
 		final ModelAndView mav = new ModelAndView("index");
