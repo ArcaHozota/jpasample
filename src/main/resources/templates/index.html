@@ -84,41 +84,6 @@
                 <li th:id="prepg" th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">
                     <a th:href="@{'/jpasmcrud/city?pageNum='+ ${pageInfo.getNumber()}}">&laquo</a>
                 </li>
-<!--                <li th:id="numberpg1"-->
-<!--                    th:class="${pageNum} eq ${navipg[0]} ? 'active' : 'enable'">-->
-<!--                    <a th:text="${navipg[0]}"-->
-<!--                       th:href="@{'/jpasmcrud/city?pageNum='+ ${navipg[0]}}"></a>-->
-<!--                </li>-->
-<!--                <li th:id="numberpg2"-->
-<!--                    th:class="${pageNum} eq ${navipg[1]} ? 'active' : 'enable'">-->
-<!--                    <a th:text="${navipg[1]}"-->
-<!--                       th:href="@{'/jpasmcrud/city?pageNum='+ ${navipg[1]}}"></a>-->
-<!--                </li>-->
-<!--                <li th:id="numberpg3"-->
-<!--                    th:class="${pageNum} eq ${navipg[2]} ? 'active' : 'enable'">-->
-<!--                    <a th:text="${navipg[2]}"-->
-<!--                       th:href="@{'/jpasmcrud/city?pageNum='+ ${navipg[2]}}"></a>-->
-<!--                </li>-->
-<!--                <li th:id="numberpg4"-->
-<!--                    th:class="${pageNum} eq ${navipg[3]} ? 'active' : 'enable'">-->
-<!--                    <a th:text="${navipg[3]}"-->
-<!--                       th:href="@{'/jpasmcrud/city?pageNum='+ ${navipg[3]}}"></a>-->
-<!--                </li>-->
-<!--                <li th:id="numberpg5"-->
-<!--                    th:class="${pageNum} eq ${navipg[4]} ? 'active' : 'enable'">-->
-<!--                    <a th:text="${navipg[4]}"-->
-<!--                       th:href="@{'/jpasmcrud/city?pageNum='+ ${navipg[4]}}"></a>-->
-<!--                </li>-->
-<!--                <li th:id="numberpg5"-->
-<!--                    th:class="${pageNum} eq ${navipg[5]} ? 'active' : 'enable'">-->
-<!--                    <a th:text="${navipg[5]}"-->
-<!--                       th:href="@{'/jpasmcrud/city?pageNum='+ ${navipg[5]}}"></a>-->
-<!--                </li>-->
-<!--                <li th:id="numberpg6"-->
-<!--                    th:class="${pageNum} eq ${navipg[6]} ? 'active' : 'enable'">-->
-<!--                    <a th:text="${navipg[6]}"-->
-<!--                       th:href="@{'/jpasmcrud/city?pageNum='+ ${navipg[6]}}"></a>-->
-<!--                </li>-->
                 <li th:id="nextpg" th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">
                     <a th:href="@{'/jpasmcrud/city?pageNum='+ ${pageInfo.getNumber()+2}}">&raquo</a>
                 </li>
