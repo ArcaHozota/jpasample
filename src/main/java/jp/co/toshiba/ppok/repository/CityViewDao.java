@@ -1,4 +1,4 @@
-package jp.co.toshiba.ppok.mapper;
+package jp.co.toshiba.ppok.repository;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import jp.co.toshiba.ppok.entity.CityDto;
 
 @Mapper
-public interface CityDtoMapper extends BaseMapper<CityDto> {
+public interface CityViewDao extends BaseMapper<CityDto> {
 
 	/**
 	 * Search the cities in wcv.
