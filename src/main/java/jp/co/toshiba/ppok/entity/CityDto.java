@@ -2,8 +2,11 @@ package jp.co.toshiba.ppok.entity;
 
 import java.io.Serializable;
 
-import jakarta.validation.constraints.Pattern;
-import lombok.Data;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.Pattern;
 
 /**
  * dto of the view of world cities
@@ -11,7 +14,7 @@ import lombok.Data;
  * @author Administrator
  */
 
-@Data
+@Entity(name = "world_city_view")
 public class CityDto implements Serializable {
 
 	private static final long serialVersionUID = -863534569423043863L;
@@ -19,6 +22,8 @@ public class CityDto implements Serializable {
 	/**
 	 * This field corresponds to the database column WORLD_CITY_VIEW.ID
 	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	/**
