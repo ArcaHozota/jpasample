@@ -27,27 +27,32 @@ public class CityDto implements Serializable {
     /**
      * This field corresponds to the database column WORLD_CITY_VIEW.NAME
      */
+    @Column(nullable = false)
     @Pattern(regexp = "^[a-zA-Z_-]{4,17}$", message = "Name of cities should be in 4~17 Latin alphabets.")
     private String name;
 
     /**
      * This field corresponds to the database column WORLD_CITY_VIEW.CONTINENT
      */
+    @Column(nullable = false)
     private String continent;
 
     /**
      * This field corresponds to the database column WORLD_CITY_VIEW.NATION
      */
+    @Column(nullable = false)
     private String nation;
 
     /**
      * This field corresponds to the database column WORLD_CITY_VIEW.DISTRICT
      */
+    @Column(nullable = false)
     private String district;
 
     /**
      * This field corresponds to the database column WORLD_CITY_VIEW.POPULATION
      */
+    @Column(nullable = false)
     private Long population;
 
     /**

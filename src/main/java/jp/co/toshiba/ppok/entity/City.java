@@ -23,28 +23,31 @@ public class City implements Serializable {
     /**
      * This field corresponds to the database column WORLD_CITY.NAME
      */
+    @Column(nullable = false)
     private String name;
 
     /**
      * This field corresponds to the database column WORLD_CITY.COUNTRY_CODE
      */
-    @Column(name = "country_code")
+    @Column(name = "country_code", nullable = false)
     private String countryCode;
 
     /**
      * This field corresponds to the database column WORLD_CITY.DISTRICT
      */
+    @Column(nullable = false)
     private String district;
 
     /**
      * This field corresponds to the database column WORLD_CITY.POPULATION
      */
+    @Column(nullable = false)
     private Long population;
 
     /**
      * This field corresponds to the database column WORLD_CITY.IS_DELETED
      */
-    @Column(name = "is_deleted")
+    @Column(name = "is_deleted", nullable = false)
     private Integer isDeleted;
 
     /**
