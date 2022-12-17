@@ -54,9 +54,6 @@ public class CentreController {
      */
     @GetMapping(value = "/city")
     public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        if (pageNum < 1) {
-            pageNum = 1;
-        }
         final PageRequest pageRequest = PageRequest.of(pageNum - 1, 15);
         final Page<CityDto> dtoPage = this.cityViewDao.findAll(pageRequest);
         final ModelAndView mav = new ModelAndView("index");
