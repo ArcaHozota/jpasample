@@ -6,9 +6,18 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
+import com.google.common.collect.Maps;
+import jp.co.toshiba.ppok.entity.City;
 import jp.co.toshiba.ppok.entity.CityDto;
+import jp.co.toshiba.ppok.entity.Nation;
+import jp.co.toshiba.ppok.repository.CityDao;
 import jp.co.toshiba.ppok.repository.CityViewDao;
+import jp.co.toshiba.ppok.repository.NationDao;
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -32,6 +41,12 @@ import com.github.pagehelper.PageInfo;
 @Controller
 @RequestMapping("/jpasmcrud")
 public class CentreController {
+
+    @Resource
+    private CityDao cityDao;
+
+    @Resource
+    private NationDao nationDao;
 
     @Resource
     private CityViewDao cityViewDao;
@@ -84,18 +99,27 @@ public class CentreController {
      * @return RestMsg.success()
      */
     @PostMapping(value = "/city")
-    public RestMsg saveCityInfos(@Valid final CityDto cityDto, final BindingResult result) {
-        final Map<String, Object> map = new HashMap<>(5);
+    public ModelAndView saveCityInfo(@Valid final CityDto cityDto, final BindingResult result) {
+        final Map<String, Object> map = Maps.newHashMap();
+        final City city = new City();
+        final ModelAndView mav = new ModelAndView("index");
         if (result.hasErrors()) {
             final List<FieldError> fieldErrors = result.getFieldErrors();
             for (final FieldError fieldError : fieldErrors) {
                 map.put(fieldError.getField(), fieldError.getDefaultMessage());
             }
-            return RestMsg.failure().add("errorFields", map);
+            return mav.addObject("errorFields", map);
         } else {
-            this.cityDtoService.saveCityInfo(cityDto);
-            return RestMsg.success();
+            BeanUtils.copyProperties(cityDto, city, "continent", "nation");
+            final Nation nation = new Nation();
+            nation.setName(cityDto.getName());
+            final Example<Nation> nationExample = Example.of(nation);
+            final List<Nation> nations = this.nationDao.findAll(nationExample);
+            city.setCountryCode(nations.get(0).getCode());
         }
+        city.setIsDeleted(0);
+        this.cityDao.save(city);
+        return mav;
     }
 
     /**
