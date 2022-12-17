@@ -29,6 +29,3 @@ spring:
          content-type: text/html
       prefix: classpath:/templates/
       suffix: .html
-pagehelper:
-   helper-dialect: oracle
-   reasonable: true
