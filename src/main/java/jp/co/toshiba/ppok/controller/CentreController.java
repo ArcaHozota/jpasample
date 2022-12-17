@@ -122,18 +122,6 @@ public class CentreController {
         return mav;
     }
 
-    /**
-     * Update city info.
-     *
-     * @param cityDto the input message of cities
-     * @return RestMsg.success()
-     */
-    @PutMapping(value = "/city/{id}")
-    public RestMsg updateCityInfo(@RequestBody final CityDto cityDto) {
-        this.cityDtoService.updateCityInfo(cityDto);
-        return RestMsg.success();
-    }
-
 //    /**
 //     * Delete the selected city info.
 //     *
@@ -145,46 +133,46 @@ public class CentreController {
 //        cityDtoService.deleteCityInfo(id);
 //        return RestMsg.success();
 //    }
-
-    /**
-     * Check the input city name already existed or not.
-     *
-     * @param cityName the input name
-     * @return RestMsg.success()
-     */
-    @GetMapping(value = "/checklist")
-    public RestMsg checkCityName(@RequestParam("cityName") final String cityName) {
-        final String regex = "^[a-zA-Z_-]{4,17}$";
-        if (cityName.matches(regex)) {
-            if (this.cityDtoService.checkDuplicated(cityName)) {
-                return RestMsg.failure().add("validatedMsg", "City name is duplicate.");
-            } else {
-                return RestMsg.success();
-            }
-        } else {
-            return RestMsg.failure().add("validatedMsg", "Name of cities should be in 4~17 Latin alphabets.");
-        }
-    }
-
-    /**
-     * Get list of continents.
-     *
-     * @return RestMsg.success().add(data)
-     */
-    @GetMapping(value = "/continents")
-    public RestMsg getListOfContinents() {
-        final List<CityDto> list = this.cityDtoService.getContinents();
-        return RestMsg.success().add("continents", list);
-    }
-
-    /**
-     * Get list of nations.
-     *
-     * @return RestMsg.success().add(data)
-     */
-    @GetMapping(value = "/nations")
-    public RestMsg getListOfNations(@RequestParam("continentVal") final String continent) {
-        final List<CityDto> list = this.cityDtoService.getNations(continent);
-        return RestMsg.success().add("nations", list);
-    }
+//
+//    /**
+//     * Check the input city name already existed or not.
+//     *
+//     * @param cityName the input name
+//     * @return RestMsg.success()
+//     */
+//    @GetMapping(value = "/checklist")
+//    public RestMsg checkCityName(@RequestParam("cityName") final String cityName) {
+//        final String regex = "^[a-zA-Z_-]{4,17}$";
+//        if (cityName.matches(regex)) {
+//            if (this.cityDtoService.checkDuplicated(cityName)) {
+//                return RestMsg.failure().add("validatedMsg", "City name is duplicate.");
+//            } else {
+//                return RestMsg.success();
+//            }
+//        } else {
+//            return RestMsg.failure().add("validatedMsg", "Name of cities should be in 4~17 Latin alphabets.");
+//        }
+//    }
+//
+//    /**
+//     * Get list of continents.
+//     *
+//     * @return RestMsg.success().add(data)
+//     */
+//    @GetMapping(value = "/continents")
+//    public RestMsg getListOfContinents() {
+//        final List<CityDto> list = this.cityDtoService.getContinents();
+//        return RestMsg.success().add("continents", list);
+//    }
+//
+//    /**
+//     * Get list of nations.
+//     *
+//     * @return RestMsg.success().add(data)
+//     */
+//    @GetMapping(value = "/nations")
+//    public RestMsg getListOfNations(@RequestParam("continentVal") final String continent) {
+//        final List<CityDto> list = this.cityDtoService.getNations(continent);
+//        return RestMsg.success().add("nations", list);
+//    }
 }
