@@ -77,12 +77,16 @@
              th:text="|The ${pageInfo.getNumber()+1} page in ${pageInfo.getTotalPages()} pages, ${pageInfo.getTotalElements()} records found.|"></div>
         <div class="col-lg-7">
             <ul class="pagination">
-<!--                th:with="navipg=${pageInfo.getNavigatepageNums()}">-->
+                <!--                th:with="navipg=${pageInfo.getNavigatepageNums()}">-->
                 <li th:id="firstpage" th:class="${pageInfo.isFirst()} eq true ? 'disabled' : 'enable'">
                     <a th:href="@{/jpasmcrud/city?pageNum=1}">最初のページへ</a>
                 </li>
                 <li th:id="prepg" th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">
                     <a th:href="@{'/jpasmcrud/city?pageNum='+ ${pageInfo.getNumber()}}">&laquo</a>
+                </li>
+                <li th:each="i:${#numbers.sequence(pageFirstIndex,pageLastIndex)}"
+                    th:class="${pageInfo.getNumber()} eq ${i} ? 'active' : 'enable'">
+                    <a th:href="@{'/jpasmcrud/city?pageNum='+${i+1}}" th:text="${i+1}"></a>
                 </li>
                 <li th:id="nextpg" th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">
                     <a th:href="@{'/jpasmcrud/city?pageNum='+ ${pageInfo.getNumber()+2}}">&raquo</a>

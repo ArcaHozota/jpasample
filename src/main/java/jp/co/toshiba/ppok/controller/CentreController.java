@@ -1,6 +1,5 @@
 package jp.co.toshiba.ppok.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -17,21 +16,18 @@ import jp.co.toshiba.ppok.repository.CityViewDao;
 import jp.co.toshiba.ppok.repository.NationDao;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 
 /**
  * Center Terminal Controller Handle the retrieve and update requests.
@@ -57,20 +53,25 @@ public class CentreController {
      * @return modelAndView
      */
     @GetMapping(value = "/city")
-    public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum) {
-        PageHelper.startPage(pageNum, 15);
-        final List<CityDto> list = this.cityViewDao.findAll();
-        final PageInfo<CityDto> pageInfo = PageInfo.of(list, 7);
+    public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        if (pageNum < 1) {
+            pageNum = 1;
+        }
+        final PageRequest pageRequest = PageRequest.of(pageNum - 1, 15);
+        final Page<CityDto> dtoPage = this.cityViewDao.findAll(pageRequest);
         final ModelAndView mav = new ModelAndView("index");
         mav.addObject("title", "CityList");
-        final int totalPages = pageInfo.getPages();
-        if (pageNum == 1) {
-            final int prePage = 1;
-            pageInfo.setPrePage(prePage);
-        } else if (pageNum == totalPages) {
-            pageInfo.setNextPage(totalPages);
+        mav.addObject("pageInfo", dtoPage);
+        final int current = dtoPage.getNumber();
+        final int pageFirstIndex = (current / 7) * 7;
+        int pageLastIndex = (current / 7 + 1) * 7 - 1;
+        if (pageLastIndex < dtoPage.getTotalPages() - 1) {
+            pageLastIndex = (current / 7 + 1) * 7 - 1;
+        } else {
+            pageLastIndex = dtoPage.getTotalPages() - 1;
         }
-        mav.addObject("pageInfo", pageInfo);
+        mav.addObject("pageFirstIndex", pageFirstIndex);
+        mav.addObject("pageLastIndex", pageLastIndex);
         return mav;
     }
 
