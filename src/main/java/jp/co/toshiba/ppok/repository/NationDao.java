@@ -1,11 +1,15 @@
 package jp.co.toshiba.ppok.repository;
 
-import org.apache.ibatis.annotations.Mapper;
-
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-
 import jp.co.toshiba.ppok.entity.Nation;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-@Mapper
-public interface NationDao extends BaseMapper<Nation> {
+/**
+ * searching dao of table WORLD_COUNTRY
+ *
+ * @author Administrator
+ * @date 2022-12-16
+ */
+@Repository
+public interface NationDao extends JpaRepository<Nation, String> {
 }

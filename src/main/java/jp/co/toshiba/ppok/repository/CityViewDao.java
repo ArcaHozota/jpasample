@@ -1,35 +1,15 @@
 package jp.co.toshiba.ppok.repository;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
-
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-
 import jp.co.toshiba.ppok.entity.CityDto;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-@Mapper
-public interface CityViewDao extends BaseMapper<CityDto> {
-
-	/**
-	 * Search the cities in wcv.
-	 *
-	 * @return List<CityDto>
-	 */
-	List<CityDto> selectByCityView();
-
-	/**
-	 * Search continents of cities located on.
-	 *
-	 * @return List<CityDto>
-	 */
-	List<CityDto> selectContinents();
-
-	/**
-	 * Search nation's name of cities.
-	 *
-	 * @param continent name of continent which the nation located on.
-	 * @return List<CityDto>
-	 */
-	List<CityDto> selectNations(String continent);
+/**
+ * searching dao of table WORLD_CITY_VIEW
+ *
+ * @author Administrator
+ * @date 2022-12-17
+ */
+@Repository
+public interface CityViewDao extends JpaRepository<CityDto, Long> {
 }

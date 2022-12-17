@@ -7,7 +7,8 @@ import javax.persistence.*;
 /**
  * @author Administrator
  */
-@Entity(name = "world_city")
+@Entity
+@Table(name = "world_city")
 public class City implements Serializable {
 
     private static final long serialVersionUID = 1815689293387304425L;
