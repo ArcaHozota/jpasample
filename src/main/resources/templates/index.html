@@ -50,7 +50,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="pg:${pageInfo.getList()}">
+                <tr th:each="pg:${pageInfo.getContent()}">
                     <td th:text="${pg.id}" class='text-center'></td>
                     <td th:text="${pg.name}" class='text-center'></td>
                     <td th:text="${pg.continent}" class='text-center'></td>
@@ -72,57 +72,57 @@
         </div>
     </div>
     <!-- Info of the navigated pages -->
-    <div class="row" th:with="pageNumber=${pageInfo.getPageNum()}">
+    <div class="row" th:with="pageNumber=${pageInfo.getNumber()}">
         <div class="col-lg-5"
-             th:text="|The ${pageNumber} page in ${pageInfo.pages} pages, ${pageInfo.total} records found.|"></div>
+             th:text="|The ${pageNumber} page in ${pageInfo.getTotalPages()} pages, ${pageInfo.getTotalElements()} records found.|"></div>
         <div class="col-lg-7">
             <ul class="pagination"
                 th:with="navipg=${pageInfo.getNavigatepageNums()}">
-                <li th:id="firstpage"><a th:href="@{/ssmcrud/city?pageNum=1}">最初のページへ</a>
+                <li th:id="firstpage"><a th:href="@{/jpasmcrud/city?pageNum=1}">最初のページへ</a>
                 </li>
-                <li th:id="prepg"><a
-                        th:href="@{'/ssmcrud/city?pageNum='+ ${pageInfo.prePage}}">&laquo</a>
+                <li th:id="prepg">
+                    <a th:href="@{'/jpasmcrud/city?pageNum='+ ${pageInfo.prePage}}">&laquo</a>
                 </li>
                 <li th:id="numberpg1"
                     th:class="${pageNumber} eq ${navipg[0]} ? 'active' : 'enable'">
                     <a th:text="${navipg[0]}"
-                       th:href="@{'/ssmcrud/city?pageNum='+ ${navipg[0]}}"></a>
+                       th:href="@{'/jpasmcrud/city?pageNum='+ ${navipg[0]}}"></a>
                 </li>
                 <li th:id="numberpg2"
                     th:class="${pageNumber} eq ${navipg[1]} ? 'active' : 'enable'">
                     <a th:text="${navipg[1]}"
-                       th:href="@{'/ssmcrud/city?pageNum='+ ${navipg[1]}}"></a>
+                       th:href="@{'/jpasmcrud/city?pageNum='+ ${navipg[1]}}"></a>
                 </li>
                 <li th:id="numberpg3"
                     th:class="${pageNumber} eq ${navipg[2]} ? 'active' : 'enable'">
                     <a th:text="${navipg[2]}"
-                       th:href="@{'/ssmcrud/city?pageNum='+ ${navipg[2]}}"></a>
+                       th:href="@{'/jpasmcrud/city?pageNum='+ ${navipg[2]}}"></a>
                 </li>
                 <li th:id="numberpg4"
                     th:class="${pageNumber} eq ${navipg[3]} ? 'active' : 'enable'">
                     <a th:text="${navipg[3]}"
-                       th:href="@{'/ssmcrud/city?pageNum='+ ${navipg[3]}}"></a>
+                       th:href="@{'/jpasmcrud/city?pageNum='+ ${navipg[3]}}"></a>
                 </li>
                 <li th:id="numberpg5"
                     th:class="${pageNumber} eq ${navipg[4]} ? 'active' : 'enable'">
                     <a th:text="${navipg[4]}"
-                       th:href="@{'/ssmcrud/city?pageNum='+ ${navipg[4]}}"></a>
+                       th:href="@{'/jpasmcrud/city?pageNum='+ ${navipg[4]}}"></a>
                 </li>
                 <li th:id="numberpg5"
                     th:class="${pageNumber} eq ${navipg[5]} ? 'active' : 'enable'">
                     <a th:text="${navipg[5]}"
-                       th:href="@{'/ssmcrud/city?pageNum='+ ${navipg[5]}}"></a>
+                       th:href="@{'/jpasmcrud/city?pageNum='+ ${navipg[5]}}"></a>
                 </li>
                 <li th:id="numberpg6"
                     th:class="${pageNumber} eq ${navipg[6]} ? 'active' : 'enable'">
                     <a th:text="${navipg[6]}"
-                       th:href="@{'/ssmcrud/city?pageNum='+ ${navipg[6]}}"></a>
+                       th:href="@{'/jpasmcrud/city?pageNum='+ ${navipg[6]}}"></a>
                 </li>
                 <li th:id="nextpg"><a
-                        th:href="@{'/ssmcrud/city?pageNum='+ ${pageInfo.nextPage}}">&raquo</a>
+                        th:href="@{'/jpasmcrud/city?pageNum='+ ${pageInfo.nextPage}}">&raquo</a>
                 </li>
                 <li th:id="lastpage"><a
-                        th:href="@{'/ssmcrud/city?pageNum='+${pageInfo.pages}}">最後のページへ</a>
+                        th:href="@{'/jpasmcrud/city?pageNum='+${pageInfo.pages}}">最後のページへ</a>
                 </li>
             </ul>
         </div>
