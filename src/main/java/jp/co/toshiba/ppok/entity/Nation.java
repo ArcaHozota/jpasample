@@ -23,22 +23,25 @@ public class Nation implements Serializable {
     /**
      * This field corresponds to the database column WORLD_COUNTRY.NAME
      */
+    @Column(nullable = false)
     private String name;
 
     /**
      * This field corresponds to the database column WORLD_COUNTRY.CONTINENT
      */
+    @Column(nullable = false)
     private String continent;
 
     /**
      * This field corresponds to the database column WORLD_COUNTRY.REGION
      */
+    @Column(nullable = false)
     private String region;
 
     /**
      * This field corresponds to the database column WORLD_COUNTRY.SURFACE_AREA
      */
-    @Column(name = "surface_area")
+    @Column(name = "surface_area", nullable = false)
     private BigDecimal surfaceArea;
 
     /**
@@ -50,6 +53,7 @@ public class Nation implements Serializable {
     /**
      * This field corresponds to the database column WORLD_COUNTRY.POPULATION
      */
+    @Column(nullable = false)
     private Long population;
 
     /**
@@ -72,13 +76,13 @@ public class Nation implements Serializable {
     /**
      * This field corresponds to the database column WORLD_COUNTRY.LOCAL_NAME
      */
-    @Column(name = "local_name")
+    @Column(name = "local_name", nullable = false)
     private String localName;
 
     /**
      * This field corresponds to the database column WORLD_COUNTRY.GOVERNMENT_FORM
      */
-    @Column(name = "government_form")
+    @Column(name = "government_form", nullable = false)
     private String governmentForm;
 
     /**
@@ -95,12 +99,13 @@ public class Nation implements Serializable {
     /**
      * This field corresponds to the database column WORLD_COUNTRY.CODE2
      */
+    @Column(nullable = false)
     private String code2;
 
     /**
      * This field corresponds to the database column WORLD_COUNTRY.IS_DELETED
      */
-    @Column(name = "is_deleted")
+    @Column(name = "is_deleted", nullable = false)
     private Integer isDeleted;
 
     /**
