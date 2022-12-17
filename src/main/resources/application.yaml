@@ -4,13 +4,13 @@ spring:
    application:
       name: jpasmcrud
    datasource:
-      driver-class-name: oracle.jdbc.OracleDriver
-      url: jdbc:oracle:thin:@//localhost:1521/XEPDB1
-      username: oraclect
-      password: oraclect
-      hikari:
-         maximum-pool-size: 30
-         max-lifetime: 1500000
+      druid:
+         url: jdbc:oracle:thin:@//localhost:1521/XEPDB1
+         driver-class-name: oracle.jdbc.OracleDriver
+         username: oraclect
+         password: oraclect
+         max-active: 30
+         max-wait: 12000
    jpa:
       hibernate:
          ddl-auto: update
