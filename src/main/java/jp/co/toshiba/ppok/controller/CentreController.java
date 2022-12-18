@@ -46,7 +46,7 @@ public class CentreController {
 	private NationDao nationDao;
 
 	@Resource
-	private CityEmDao cityDtoDao;
+	private CityEmDao cityEmDao;
 
 	/**
 	 * Retrieve the city data.
@@ -56,7 +56,7 @@ public class CentreController {
 	@GetMapping(value = "/city")
 	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum) {
 		final PageRequest pageRequest = PageRequest.of(pageNum - 1, 15);
-		final Page<CityEm> dtoPage = this.cityDtoDao.findByOrderByIdAsc(pageRequest);
+		final Page<CityEm> dtoPage = this.cityEmDao.findByOrderByIdAsc(pageRequest);
 		final ModelAndView mav = new ModelAndView("index");
 		mav.addObject("title", "CityList");
 		mav.addObject("pageInfo", dtoPage);
@@ -86,7 +86,7 @@ public class CentreController {
 	@GetMapping(value = "/city/{id}")
 	public ModelAndView getCityInfo(@PathVariable("id") final Long id) {
 		final ModelAndView mav = new ModelAndView("index");
-		final Optional<CityEm> cityOp = this.cityDtoDao.findById(id);
+		final Optional<CityEm> cityOp = this.cityEmDao.findById(id);
 		CityEm cityDto = null;
 		if (cityOp.isPresent()) {
 			cityDto = cityOp.get();
