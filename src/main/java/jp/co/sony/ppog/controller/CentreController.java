@@ -1,4 +1,4 @@
-package jp.co.toshiba.ppok.controller;
+package jp.co.sony.ppog.controller;
 
 import java.util.List;
 import java.util.Map;

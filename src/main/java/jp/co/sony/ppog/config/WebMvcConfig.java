@@ -1,4 +1,4 @@
-package jp.co.toshiba.ppok.config;
+package jp.co.sony.ppog.config;
 
 import java.util.List;
 
