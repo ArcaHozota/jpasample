@@ -8,7 +8,7 @@
 		<version>2.5.14</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>jp.co.toshiba.ppok</groupId>
+	<groupId>jp.co.sony.ppog</groupId>
 	<artifactId>jpasmcrud</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<properties>
