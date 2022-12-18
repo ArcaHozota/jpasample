@@ -23,12 +23,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.common.collect.Maps;
 
-import jp.co.toshiba.ppok.entity.City;
-import jp.co.toshiba.ppok.entity.CityEm;
-import jp.co.toshiba.ppok.entity.Nation;
-import jp.co.toshiba.ppok.repository.CityDao;
-import jp.co.toshiba.ppok.repository.CityEmDao;
-import jp.co.toshiba.ppok.repository.NationDao;
+import jp.co.sony.ppog.entity.City;
+import jp.co.sony.ppog.entity.CityEm;
+import jp.co.sony.ppog.entity.Nation;
+import jp.co.sony.ppog.repository.CityDao;
+import jp.co.sony.ppog.repository.CityEmDao;
+import jp.co.sony.ppog.repository.NationDao;
 
 /**
  * Center Terminal Controller Handle the retrieve and update requests.

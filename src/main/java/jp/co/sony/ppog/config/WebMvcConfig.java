@@ -8,7 +8,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
-import jp.co.toshiba.ppok.utils.JacksonObjectMapper;
+import jp.co.sony.ppog.utils.JacksonObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 
 /**
