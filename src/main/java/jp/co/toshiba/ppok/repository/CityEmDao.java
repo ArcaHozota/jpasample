@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import jp.co.toshiba.ppok.entity.CityDto;
+import jp.co.toshiba.ppok.entity.CityEm;
 
 /**
  * searching dao of table WORLD_CITY_VIEW
@@ -14,7 +14,7 @@ import jp.co.toshiba.ppok.entity.CityDto;
  * @date 2022-12-17
  */
 @Repository
-public interface CityDtoDao extends JpaRepository<CityDto, Long> {
+public interface CityEmDao extends JpaRepository<CityEm, Long> {
 
 	/**
 	 * ページング検索ID昇順
@@ -22,5 +22,5 @@ public interface CityDtoDao extends JpaRepository<CityDto, Long> {
 	 * @param pageable ページング
 	 * @return Pageオブジェクト
 	 */
-	Page<CityDto> findByOrderByIdAsc(Pageable pageable);
+	Page<CityEm> findByOrderByIdAsc(Pageable pageable);
 }
