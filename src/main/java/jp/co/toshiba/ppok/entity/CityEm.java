@@ -13,7 +13,7 @@ import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "world_city_view")
-public class CityDto implements Serializable {
+public class CityEm implements Serializable {
 
     private static final long serialVersionUID = -863534569423043863L;
 

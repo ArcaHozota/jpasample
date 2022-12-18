@@ -24,10 +24,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.common.collect.Maps;
 
 import jp.co.toshiba.ppok.entity.City;
-import jp.co.toshiba.ppok.entity.CityDto;
+import jp.co.toshiba.ppok.entity.CityEm;
 import jp.co.toshiba.ppok.entity.Nation;
 import jp.co.toshiba.ppok.repository.CityDao;
-import jp.co.toshiba.ppok.repository.CityDtoDao;
+import jp.co.toshiba.ppok.repository.CityEmDao;
 import jp.co.toshiba.ppok.repository.NationDao;
 
 /**
@@ -46,7 +46,7 @@ public class CentreController {
 	private NationDao nationDao;
 
 	@Resource
-	private CityDtoDao cityDtoDao;
+	private CityEmDao cityDtoDao;
 
 	/**
 	 * Retrieve the city data.
@@ -56,7 +56,7 @@ public class CentreController {
 	@GetMapping(value = "/city")
 	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum) {
 		final PageRequest pageRequest = PageRequest.of(pageNum - 1, 15);
-		final Page<CityDto> dtoPage = this.cityDtoDao.findByOrderByIdAsc(pageRequest);
+		final Page<CityEm> dtoPage = this.cityDtoDao.findByOrderByIdAsc(pageRequest);
 		final ModelAndView mav = new ModelAndView("index");
 		mav.addObject("title", "CityList");
 		mav.addObject("pageInfo", dtoPage);
@@ -86,8 +86,8 @@ public class CentreController {
 	@GetMapping(value = "/city/{id}")
 	public ModelAndView getCityInfo(@PathVariable("id") final Long id) {
 		final ModelAndView mav = new ModelAndView("index");
-		final Optional<CityDto> cityOp = this.cityDtoDao.findById(id);
-		CityDto cityDto = null;
+		final Optional<CityEm> cityOp = this.cityDtoDao.findById(id);
+		CityEm cityDto = null;
 		if (cityOp.isPresent()) {
 			cityDto = cityOp.get();
 		}
@@ -102,7 +102,7 @@ public class CentreController {
 	 * @return RestMsg.success()
 	 */
 	@PostMapping(value = "/city")
-	public ModelAndView saveCityInfo(@Valid final CityDto cityDto, final BindingResult result) {
+	public ModelAndView saveCityInfo(@Valid final CityEm cityDto, final BindingResult result) {
 		final Map<String, Object> map = Maps.newHashMap();
 		final City city = new City();
 		final ModelAndView mav = new ModelAndView("index");
