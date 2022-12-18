@@ -64,12 +64,13 @@ public class CentreController {
 		final int current = dtoPage.getNumber();
 		// ページングナビゲーションの数を定義する；
 		final int naviNums = 7;
+		// ページングナビの最初と最後の数を取得する；
 		final int pageFirstIndex = (current / naviNums) * naviNums;
 		int pageLastIndex = (current / naviNums + 1) * naviNums - 1;
-		if (pageLastIndex < dtoPage.getTotalPages() - 1) {
-			pageLastIndex = (current / naviNums + 1) * naviNums - 1;
-		} else {
+		if (pageLastIndex > dtoPage.getTotalPages() - 1) {
 			pageLastIndex = dtoPage.getTotalPages() - 1;
+		} else {
+			pageLastIndex = (current / naviNums + 1) * naviNums - 1;
 		}
 		mav.addObject("pageFirstIndex", pageFirstIndex);
 		mav.addObject("pageLastIndex", pageLastIndex);
@@ -84,12 +85,12 @@ public class CentreController {
 	 */
 	@GetMapping(value = "/city/{id}")
 	public ModelAndView getCityInfo(@PathVariable("id") final Long id) {
+		final ModelAndView mav = new ModelAndView("index");
 		final Optional<CityDto> cityOp = this.cityViewDao.findById(id);
 		CityDto cityDto = null;
 		if (cityOp.isPresent()) {
 			cityDto = cityOp.get();
 		}
-		final ModelAndView mav = new ModelAndView("index");
 		mav.addObject("cityInfo", cityDto);
 		return mav;
 	}
