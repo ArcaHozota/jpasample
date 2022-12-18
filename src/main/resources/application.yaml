@@ -18,6 +18,7 @@ spring:
             physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
       database: oracle
       show-sql: true
+      open-in-view: false
    output:
       ansi:
          enabled: ALWAYS
