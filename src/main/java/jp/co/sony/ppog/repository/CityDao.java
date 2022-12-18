@@ -1,8 +1,9 @@
-package jp.co.toshiba.ppok.repository;
+package jp.co.sony.ppog.repository;
 
-import jp.co.toshiba.ppok.entity.City;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import jp.co.sony.ppog.entity.City;
 
 /**
  * searching dao of table WORLD_CITY

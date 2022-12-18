@@ -1,4 +1,4 @@
-package jp.co.toshiba.ppok.utils;
+package jp.co.sony.ppog.utils;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 

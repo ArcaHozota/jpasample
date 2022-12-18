@@ -1,11 +1,11 @@
-package jp.co.toshiba.ppok.repository;
+package jp.co.sony.ppog.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import jp.co.toshiba.ppok.entity.CityEm;
+import jp.co.sony.ppog.entity.CityEm;
 
 /**
  * searching dao of table WORLD_CITY_VIEW

@@ -1,4 +1,4 @@
-package jp.co.toshiba.ppok.utils;
+package jp.co.sony.ppog.utils;
 
 public class CustomException extends RuntimeException {
 

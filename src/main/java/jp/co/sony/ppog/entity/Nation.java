@@ -1,4 +1,4 @@
-package jp.co.toshiba.ppok.entity;
+package jp.co.sony.ppog.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
