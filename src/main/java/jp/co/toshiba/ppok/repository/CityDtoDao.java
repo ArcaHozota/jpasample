@@ -14,7 +14,7 @@ import jp.co.toshiba.ppok.entity.CityDto;
  * @date 2022-12-17
  */
 @Repository
-public interface CityViewDao extends JpaRepository<CityDto, Long> {
+public interface CityDtoDao extends JpaRepository<CityDto, Long> {
 
 	/**
 	 * ページング検索ID昇順

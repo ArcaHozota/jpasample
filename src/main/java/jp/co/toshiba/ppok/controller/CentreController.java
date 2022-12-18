@@ -27,7 +27,7 @@ import jp.co.toshiba.ppok.entity.City;
 import jp.co.toshiba.ppok.entity.CityDto;
 import jp.co.toshiba.ppok.entity.Nation;
 import jp.co.toshiba.ppok.repository.CityDao;
-import jp.co.toshiba.ppok.repository.CityViewDao;
+import jp.co.toshiba.ppok.repository.CityDtoDao;
 import jp.co.toshiba.ppok.repository.NationDao;
 
 /**
@@ -46,7 +46,7 @@ public class CentreController {
 	private NationDao nationDao;
 
 	@Resource
-	private CityViewDao cityViewDao;
+	private CityDtoDao cityViewDao;
 
 	/**
 	 * Retrieve the city data.
