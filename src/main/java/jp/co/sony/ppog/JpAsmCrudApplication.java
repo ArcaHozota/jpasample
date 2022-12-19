@@ -7,7 +7,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * ssmcrud application
+ * jpasmcrud application
  *
  * @author Administrator
  * @date 2022-12-12
