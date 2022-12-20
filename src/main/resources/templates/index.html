@@ -1,237 +1,240 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title th:text="${title}">Title</title>
-<!--import the jQuery framework-->
-<script type="text/javascript" th:src="@{/jquery/jquery-3.6.2.min.js}"></script>
-<!--import the bootstrap framework-->
-<link rel="shortcut icon" type="image/png" href="../static/favicon.png" />
-<link rel="stylesheet" type="text/css"
-	th:href="@{/bootstrap/css/bootstrap.min.css}">
-<script type="text/javascript"
-	th:src="@{/bootstrap/js/bootstrap.bundle.js}"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title}">Title</title>
+    <!--import the jQuery framework-->
+    <script type="text/javascript" th:src="@{/jquery/jquery-3.6.2.min.js}"></script>
+    <!--import the bootstrap framework-->
+    <link rel="shortcut icon" type="image/png" th:href="@{/favicon.png}"/>
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <script type="text/javascript"
+            th:src="@{/bootstrap/js/bootstrap.bundle.js}"></script>
 </head>
 <body>
-	<!-- Build the displayed web page. -->
-	<div class="container">
-		<!-- Title -->
-		<div class="row">
-			<div class="col-lg-12">
-				<h1>グローバル都市一覧</h1>
-			</div>
-		</div>
-		<!-- Button -->
-		<div class="row">
-			<form class="form-inline col-lg-7" role="form">
-				<div class="form-group has-feedback">
-					<div class="input-group">
-						<label for="keywordInput" class="input-group-addon">検索条件</label> <input
-							id="keywordInput" class="form-control has-success" type="text"
-							placeholder="検索条件を入力してください">
-					</div>
-				</div>
-				<button id="searchBtn" type="button" class="btn btn-warning">
-					<span class="glyphicon glyphicon-search"></span>検索
-				</button>
-			</form>
-			<div class="col-lg-2 col-lg-offset-3">
-				<button class="btn btn-success" id="cityAddModalBtn"
-					data-toggle="modal" data-target="#cityAddModal">
-					<span class="glyphicon glyphicon-pawn"></span>情報追加
-				</button>
-			</div>
-		</div>
-		<!-- Data -->
-		<div class="row">
-			<div class="col-lg-12">
-				<table class="table table-hover">
-					<thead class="thead-dark">
-						<tr>
-							<th class="text-center">都市ID</th>
-							<th class="text-center">都市名</th>
-							<th class="text-center">大陸</th>
-							<th class="text-center">国家</th>
-							<th class="text-center">地域</th>
-							<th class="text-center">人口数量</th>
-							<th class="text-center">操作</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="pg:${pageInfo.getContent()}">
-							<td th:text="${pg.id}" class='text-center'></td>
-							<td th:text="${pg.name}" class='text-center'></td>
-							<td th:text="${pg.continent}" class='text-center'></td>
-							<td th:text="${pg.nation}" class='text-center'></td>
-							<td th:text="${pg.district}" class='text-center'></td>
-							<td th:text="${pg.population}" class='text-center'></td>
-							<td class='text-center'>
-								<button id="editBtn" class="btn btn-primary btn-sm"
-									data-toggle="modal" data-target="#cityEditModal">
-									<span class="glyphicon glyphicon-pencil"></span>編集
-								</button>
-								<button id="deleteBtn" class="btn btn-danger btn-sm">
-									<span class="glyphicon glyphicon-trash"></span>削除
-								</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-		<!-- Info of the navigated pages -->
-		<div class="row">
-			<div class="col-lg-5"
-				th:text="|The ${pageInfo.getNumber()+1} page in ${pageInfo.getTotalPages()} pages, ${pageInfo.getTotalElements()} records found.|"></div>
-			<div class="col-lg-7"
-				th:with="previousPage=${pageInfo.getNumber()},nextPage=${pageInfo.getNumber()+2},totalPg=${pageInfo.getTotalPages()}">
-				<ul class="pagination">
-					<li th:id="firstpage"
-						th:class="${pageInfo.isFirst()} eq true ? 'disabled' : 'enable'">
-						<a th:href="@{/jpasmcrud/city?pageNum=1}">最初のページへ</a>
-					</li>
-					<li th:id="prepg"
-						th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">
-						<a
-						th:href="@{'/jpasmcrud/city?pageNum='+ ${previousPage < 1 ? 1 : previousPage}}">&laquo</a>
-					</li>
-					<li th:each="i:${#numbers.sequence(pageFirstIndex,pageLastIndex)}"
-						th:class="${pageInfo.getNumber()} eq ${i} ? 'active' : 'enable'">
-						<a th:href="@{'/jpasmcrud/city?pageNum='+${i+1}}" th:text="${i+1}"></a>
-					</li>
-					<li th:id="nextpg"
-						th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">
-						<a
-						th:href="@{'/jpasmcrud/city?pageNum='+ ${nextPage > totalPg ? totalPg : nextPage}}">&raquo</a>
-					</li>
-					<li th:id="lastpage"
-						th:class="${pageInfo.isLast()} eq true ? 'disabled' : 'enable'">
-						<a
-						th:href="@{'/jpasmcrud/city?pageNum='+${pageInfo.getTotalPages()}}">最後のページへ</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<!-- Modal for inputting city info -->
-	<div class="modal fade" id="cityAddModal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-					<h4 class="modal-title">都市情報追加</h4>
-				</div>
-				<div class="modal-body">
-					<form class="form-horizontal">
-						<div class="form-group">
-							<label for="nameInput" class="col-sm-2 control-label">都市名</label>
-							<div class="col-sm-10">
-								<input type="text" name="name" class="form-control"
-									id="nameInput" placeholder="都市の正式的な名称"> <span
-									class="help-block"></span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="continentInput" class="col-sm-2 control-label">大陸</label>
-							<div class="col-sm-5">
-								<select id="continentInput" class="form-control"
-									name="continent"></select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="nationInput" class="col-sm-2 control-label">国家</label>
-							<div class="col-sm-5">
-								<select id="nationInput" class="form-control" name="nation"></select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="districtInput" class="col-sm-2 control-label">地域</label>
-							<div class="col-sm-10">
-								<input type="text" name="district" class="form-control"
-									id="districtInput" placeholder="都市の地域"> <span
-									class="help-block"></span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="populationInput" class="col-sm-2 control-label">人口数量</label>
-							<div class="col-sm-10">
-								<input type="text" name="population" class="form-control"
-									id="populationInput" placeholder="都市の人口数量"> <span
-									class="help-block"></span>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" id="cityInfoSaveBtn">Save</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Modal for modifying city info -->
-	<div class="modal fade" id="cityEditModal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-					<h4 class="modal-title">都市情報修正</h4>
-				</div>
-				<div class="modal-body">
-					<form class="form-horizontal">
-						<div class="form-group">
-							<label for="displayedCityName" class="col-sm-2 control-label">都市名</label>
-							<div class="col-sm-10">
-								<p class="form-control-static" id="displayedCityName"></p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="continentName" class="col-sm-2 control-label">大陸</label>
-							<div class="col-sm-5">
-								<p class="form-control-static" id="continentName"></p>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="nationEdit" class="col-sm-2 control-label">国家</label>
-							<div class="col-sm-5">
-								<select id="nationEdit" class="form-control" name="nation"></select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="districtEdit" class="col-sm-2 control-label">地域</label>
-							<div class="col-sm-10">
-								<input type="text" name="district" class="form-control"
-									id="districtEdit" placeholder="都市の地域"> <span
-									class="help-block"></span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="populationEdit" class="col-sm-2 control-label">人口数量</label>
-							<div class="col-sm-10">
-								<input type="text" name="population" class="form-control"
-									id="populationEdit" placeholder="都市の人口数量"> <span
-									class="help-block"></span>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary"
-						id="cityInfoChangeBtn">Change</button>
-				</div>
-			</div>
-		</div>
-	</div>
+<!-- Build the displayed web page. -->
+<div class="container">
+    <!-- Title -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1>グローバル都市一覧</h1>
+        </div>
+    </div>
+    <!-- Button -->
+    <div class="row">
+        <form class="form-inline col-lg-7" role="form">
+            <div class="form-group has-feedback">
+                <div class="input-group">
+                    <label for="keywordInput" class="input-group-addon">検索条件</label> <input
+                        id="keywordInput" class="form-control has-success" type="text"
+                        placeholder="検索条件を入力してください">
+                </div>
+            </div>
+            <button id="searchBtn" type="button" class="btn btn-warning">
+                <span class="glyphicon glyphicon-search"></span>検索
+            </button>
+        </form>
+        <div class="col-lg-2 col-lg-offset-3">
+            <button class="btn btn-success" data-toggle="modal" data-target="#cityAddModal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                     class="bi bi-browser-edge" viewBox="0 0 16 16">
+                    <path d="M9.482 9.341c-.069.062-.17.153-.17.309 0 .162.107.325.3.456.877.613 2.521.54 2.592.538h.002c.667 0 1.32-.18 1.894-.519A3.838 3.838 0 0 0 16 6.819c.018-1.316-.44-2.218-.666-2.664l-.04-.08C13.963 1.487 11.106 0 8 0A8 8 0 0 0 .473 5.29C1.488 4.048 3.183 3.262 5 3.262c2.83 0 5.01 1.885 5.01 4.797h-.004v.002c0 .338-.168.832-.487 1.244l.006-.006a.594.594 0 0 1-.043.041Z"/>
+                    <path d="M.01 7.753a8.137 8.137 0 0 0 .753 3.641 8 8 0 0 0 6.495 4.564 5.21 5.21 0 0 1-.785-.377h-.01l-.12-.075a5.45 5.45 0 0 1-1.56-1.463A5.543 5.543 0 0 1 6.81 5.8l.01-.004.025-.012c.208-.098.62-.292 1.167-.285.129.001.257.012.384.033a4.037 4.037 0 0 0-.993-.698l-.01-.005C6.348 4.282 5.199 4.263 5 4.263c-2.44 0-4.824 1.634-4.99 3.49Zm10.263 7.912c.088-.027.177-.054.265-.084-.102.032-.204.06-.307.086l.042-.002Z"/>
+                    <path d="M10.228 15.667a5.21 5.21 0 0 0 .303-.086l.082-.025a8.019 8.019 0 0 0 4.162-3.3.25.25 0 0 0-.331-.35c-.215.112-.436.21-.663.294a6.367 6.367 0 0 1-2.243.4c-2.957 0-5.532-2.031-5.532-4.644.002-.135.017-.268.046-.399a4.543 4.543 0 0 0-.46 5.898l.003.005c.315.441.707.821 1.158 1.121h.003l.144.09c.877.55 1.721 1.078 3.328.996Z"/>
+                </svg>
+                情報追加
+            </button>
+        </div>
+    </div>
+    <!-- Data -->
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th class="text-center">都市ID</th>
+                    <th class="text-center">都市名</th>
+                    <th class="text-center">大陸</th>
+                    <th class="text-center">国家</th>
+                    <th class="text-center">地域</th>
+                    <th class="text-center">人口数量</th>
+                    <th class="text-center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="pg:${pageInfo.getContent()}">
+                    <td th:text="${pg.id}" class='text-center'></td>
+                    <td th:text="${pg.name}" class='text-center'></td>
+                    <td th:text="${pg.continent}" class='text-center'></td>
+                    <td th:text="${pg.nation}" class='text-center'></td>
+                    <td th:text="${pg.district}" class='text-center'></td>
+                    <td th:text="${pg.population}" class='text-center'></td>
+                    <td class='text-center'>
+                        <button id="editBtn" class="btn btn-primary btn-sm"
+                                data-toggle="modal" data-target="#cityEditModal">
+                            <span class="glyphicon glyphicon-pencil"></span>編集
+                        </button>
+                        <button id="deleteBtn" class="btn btn-danger btn-sm">
+                            <span class="glyphicon glyphicon-trash"></span>削除
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Info of the navigated pages -->
+    <div class="row">
+        <div class="col-lg-5"
+             th:text="|The ${pageInfo.getNumber()+1} page in ${pageInfo.getTotalPages()} pages, ${pageInfo.getTotalElements()} records found.|"></div>
+        <div class="col-lg-10"
+             th:with="previousPage=${pageInfo.getNumber()},nextPage=${pageInfo.getNumber()+2},totalPg=${pageInfo.getTotalPages()}">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a th:href="@{/jpasmcrud/city?pageNum=1}" class="nav-link"
+                       th:class="${pageInfo.isFirst()} eq true ? 'disabled' : 'enable'">最初のページへ</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{'/jpasmcrud/city?pageNum='+ ${previousPage < 1 ? 1 : previousPage}}"
+                       th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">&laquo</a>
+                </li>
+                <li th:each="i:${#numbers.sequence(pageFirstIndex,pageLastIndex)}"
+                    th:class="${pageInfo.getNumber()} eq ${i} ? 'active' : 'enable'">
+                    <a th:href="@{'/jpasmcrud/city?pageNum='+${i+1}}" th:text="${i+1}"></a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{'/jpasmcrud/city?pageNum='+ ${nextPage > totalPg ? totalPg : nextPage}}"
+                       th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">&raquo</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{'/jpasmcrud/city?pageNum='+${pageInfo.getTotalPages()}}"
+                       th:class="${pageInfo.isLast()} eq true ? 'disabled' : 'enable'">最後のページへ</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Modal for inputting city info -->
+<div class="modal fade" id="cityAddModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">都市情報追加</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="nameInput" class="col-sm-2 control-label">都市名</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="name" class="form-control"
+                                   id="nameInput" placeholder="都市の正式的な名称"> <span
+                                class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="continentInput" class="col-sm-2 control-label">大陸</label>
+                        <div class="col-sm-5">
+                            <select id="continentInput" class="form-control"
+                                    name="continent"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nationInput" class="col-sm-2 control-label">国家</label>
+                        <div class="col-sm-5">
+                            <select id="nationInput" class="form-control" name="nation"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="districtInput" class="col-sm-2 control-label">地域</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="district" class="form-control"
+                                   id="districtInput" placeholder="都市の地域"> <span
+                                class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="populationInput" class="col-sm-2 control-label">人口数量</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="population" class="form-control"
+                                   id="populationInput" placeholder="都市の人口数量"> <span
+                                class="help-block"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="cityInfoSaveBtn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal for modifying city info -->
+<div class="modal fade" id="cityEditModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">都市情報修正</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="displayedCityName" class="col-sm-2 control-label">都市名</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static" id="displayedCityName"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="continentName" class="col-sm-2 control-label">大陸</label>
+                        <div class="col-sm-5">
+                            <p class="form-control-static" id="continentName"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nationEdit" class="col-sm-2 control-label">国家</label>
+                        <div class="col-sm-5">
+                            <select id="nationEdit" class="form-control" name="nation"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="districtEdit" class="col-sm-2 control-label">地域</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="district" class="form-control"
+                                   id="districtEdit" placeholder="都市の地域"> <span
+                                class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="populationEdit" class="col-sm-2 control-label">人口数量</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="population" class="form-control"
+                                   id="populationEdit" placeholder="都市の人口数量"> <span
+                                class="help-block"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"
+                        id="cityInfoChangeBtn">Change
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
