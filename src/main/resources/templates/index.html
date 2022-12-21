@@ -68,11 +68,11 @@
                     <td th:text="${pg.getDistrict()}" class='text-center'></td>
                     <td th:text="${pg.getPopulation()}" class='text-center'></td>
                     <td class='text-center'>
-                        <button id="editBtn" class="btn btn-primary btn-sm"
-                                data-toggle="modal" data-target="#cityEditModal">
+                        <button class="btn btn-primary btn-sm" data-toggle="modal"
+                                data-target="#cityEditModal" th:href="@{'/jpasmcrud/city/'+ ${pg.getId()}}">
                             <span class="glyphicon glyphicon-pencil"></span>編集
                         </button>
-                        <button id="deleteBtn" class="btn btn-danger btn-sm">
+                        <button class="btn btn-danger btn-sm">
                             <span class="glyphicon glyphicon-trash"></span>削除
                         </button>
                     </td>
@@ -89,7 +89,8 @@
              th:with="previousPage=${pageInfo.getNumber()},nextPage=${pageInfo.getNumber()+2},totalPg=${pageInfo.getTotalPages()}">
             <ul class="pagination">
                 <li class="page-item">
-                    <a th:href="@{/jpasmcrud/city?pageNum=1}" th:class="${pageInfo.isFirst()} eq true ? 'disabled' : 'enable'">最初のページへ</a>
+                    <a th:href="@{/jpasmcrud/city?pageNum=1}"
+                       th:class="${pageInfo.isFirst()} eq true ? 'disabled' : 'enable'">最初のページへ</a>
                 </li>
                 <li class="page-item">
                     <a th:href="@{'/jpasmcrud/city?pageNum='+ ${previousPage < 1 ? 1 : previousPage}}"
@@ -185,15 +186,15 @@
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label for="displayedCityName" class="col-sm-2 control-label">都市名</label>
+                        <label class="col-sm-2 control-label">都市名</label>
                         <div class="col-sm-10">
-                            <p class="form-control-static" id="displayedCityName"></p>
+                            <p class="form-control-static" th:text="${cityInfo.getName()}"></p>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="continentName" class="col-sm-2 control-label">大陸</label>
+                        <label class="col-sm-2 control-label">大陸</label>
                         <div class="col-sm-5">
-                            <p class="form-control-static" id="continentName"></p>
+                            <p class="form-control-static" th:text="${cityInfo.getContinent()}"></p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -206,16 +207,16 @@
                         <label for="districtEdit" class="col-sm-2 control-label">地域</label>
                         <div class="col-sm-10">
                             <input type="text" name="district" class="form-control"
-                                   id="districtEdit" placeholder="都市の地域"> <span
-                                class="help-block"></span>
+                                   id="districtEdit" th:text="${cityInfo.getDistrict()}">
+                            <span class="help-block"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="populationEdit" class="col-sm-2 control-label">人口数量</label>
                         <div class="col-sm-10">
                             <input type="text" name="population" class="form-control"
-                                   id="populationEdit" placeholder="都市の人口数量"> <span
-                                class="help-block"></span>
+                                   id="populationEdit" th:text="${cityInfo.getPopulation()}">
+                            <span class="help-block"></span>
                         </div>
                     </div>
                 </form>
