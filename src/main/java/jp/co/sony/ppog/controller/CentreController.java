@@ -55,7 +55,7 @@ public class CentreController {
 	 */
 	@GetMapping(value = "/city")
 	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum) {
-		final PageRequest pageRequest = PageRequest.of(pageNum - 1, 12);
+		final PageRequest pageRequest = PageRequest.of(pageNum - 1, 17);
 		final Page<CityEm> dtoPage = this.cityEmDao.findByOrderByIdAsc(pageRequest);
 		final ModelAndView mav = new ModelAndView("index");
 		mav.addObject("title", "CityList");
