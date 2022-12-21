@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css"
           th:href="@{/bootstrap/css/bootstrap.min.css}">
     <script type="text/javascript"
-            th:src="@{/bootstrap/js/bootstrap.bundle.js}"></script>
+            th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
 </head>
 <body>
 <!-- Build the displayed web page. -->
@@ -25,20 +25,16 @@
     </div>
     <!-- Button -->
     <div class="row">
-        <form class="form-inline col-lg-7" role="form">
+        <div class="form-group has-feedback">
             <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">@</span>
-                </div>
-                <input class="form-control" type="text" placeholder="検索条件を入力してください" aria-label="Search">
+                <label for="keywordInput" class="input-group-addon">@</label>
+                <input id="keywordInput" class="form-control has-success" type="text"
+                    placeholder="検索条件を入力してください">
             </div>
-            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">検索</button>
-        </form>
-        <div class="col-lg-2 col-lg-offset-3">
-            <button class="btn btn-success" data-toggle="modal" data-target="#cityAddModal">
-                情報追加
-            </button>
         </div>
+        <button id="searchBtn" type="button" class="btn btn-warning">
+            <span class="glyphicon glyphicon-search"></span>検索
+        </button>
     </div>
     <!-- Data -->
     <div class="row">
