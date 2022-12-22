@@ -2,82 +2,71 @@ package jp.co.sony.ppog.utils;
 
 import lombok.Data;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * 統一AJAX請求返回結果類；
+ * The common class of JSON-data response.
  *
  * @author Administrator
  */
 @Data
-public class RestDto<T> {
+public class RestDto {
 
-	/**
-	 * 處理成功的信息
-	 */
-	private static final String SUCCESS = "SUCCESS";
+    /**
+     * status code
+     */
+    private Integer code;
 
-	/**
-	 * 處理失敗的信息
-	 */
-	private static final String FAILURE = "FAILURE";
+    /**
+     * the message of status
+     */
+    private String message;
 
-	/**
-	 * 封裝當前請求的處理結果；
-	 */
-	private String result;
+    /**
+     * data returned to browsers
+     */
+    private final Map<String, Object> extend = new HashMap<>();
 
-	/**
-	 * 請求成功與否的信息；
-	 */
-	private String message;
+    /**
+     * retrieve successfully
+     *
+     * @return result including data
+     */
+    public static RestDto success() {
+        final RestDto result = new RestDto();
+        result.setCode(200);
+        result.setMessage("Retrieve success.");
+        return result;
+    }
 
-	/**
-	 * 返回的數據；
-	 */
-	private T data;
+    /**
+     * retrieve failed
+     *
+     * @return result including error message
+     */
+    public static RestDto failure() {
+        final RestDto result = new RestDto();
+        result.setCode(400);
+        result.setMessage("Retrieve failed.");
+        return result;
+    }
 
-	/**
-	 * 請求成功時使用的工具方法；
-	 *
-	 * @param <Type> 數據類型
-	 * @param data   返回的數據；
-	 * @return ResponseDto
-	 */
-	public static <Type> RestDto<Type> succeeded(Type data) {
-		return new RestDto<>(SUCCESS, null, data);
-	}
+    /**
+     * no args constructor
+     */
+    public RestDto() {
+    }
 
-	/**
-	 * 請求成功且不需要返回數據時使用的工具方法；
-	 *
-	 * @param <Type> 數據類型
-	 * @return ResponseDto
-	 */
-	public static <Type> RestDto<Type> success() {
-		return new RestDto<>(SUCCESS, null, null);
-	}
-
-	/**
-	 * 請求失敗時使用的工具方法；
-	 *
-	 * @param <Type>  數據類型
-	 * @param message 失敗的處理信息；
-	 * @return ResponseDto
-	 */
-	public static <Type> RestDto<Type> failure(String message) {
-		return new RestDto<Type>(FAILURE, message, null);
-	}
-
-	/**
-	 * 全參數構造器
-	 * 
-	 * @param result  當前請求的處理結果
-	 * @param message 請求成功與否的信息
-	 * @param data    返回的數據
-	 */
-	public RestDto(String result, String message, T data) {
-		super();
-		this.result = result;
-		this.message = message;
-		this.data = data;
-	}
+    /**
+     * add values with messages
+     *
+     * @param key   the name pattern of value
+     * @param value value
+     * @return RestMsg
+     */
+    public RestDto add(final String key, final Object value) {
+        this.getExtend().put(key, value);
+        return this;
+    }
 }

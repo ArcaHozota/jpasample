@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
+import jp.co.sony.ppog.utils.RestDto;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.*;
@@ -49,11 +50,11 @@ public class CentreController {
      * @return modelAndView
      */
     @GetMapping(value = "/city")
-    public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum
+    public RestDto getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum
             , @RequestParam(value = "keyword", defaultValue = "") final String keyword) {
         final PageRequest pageRequest = PageRequest.of(pageNum - 1, 17, Sort.by(Sort.Direction.ASC, "id"));
         Page<CityEm> dtoPage;
-        if(StringUtils.isNotEmpty(keyword)){
+        if (StringUtils.isNotEmpty(keyword)) {
             final CityEm cityEm = new CityEm();
             cityEm.setName(keyword);
             cityEm.setNation(keyword);
@@ -64,12 +65,9 @@ public class CentreController {
                     .withIgnorePaths("id", "continent", "district", "population");
             final Example<CityEm> example = Example.of(cityEm, matcher);
             dtoPage = this.cityEmDao.findAll(example, pageRequest);
-        }else{
+        } else {
             dtoPage = this.cityEmDao.findAll(pageRequest);
         }
-        final ModelAndView mav = new ModelAndView("index");
-        mav.addObject("title", "CityList");
-        mav.addObject("pageInfo", dtoPage);
         // 前のページを取得する；
         final int current = dtoPage.getNumber();
         // ページングナビゲーションの数を定義する；
@@ -82,9 +80,7 @@ public class CentreController {
         } else {
             pageLastIndex = (current / naviNums + 1) * naviNums - 1;
         }
-        mav.addObject("pageFirstIndex", pageFirstIndex);
-        mav.addObject("pageLastIndex", pageLastIndex);
-        return mav;
+        return RestDto.success().add("pageInfo", dtoPage);
     }
 
     /**
