@@ -15,12 +15,4 @@ import jp.co.sony.ppog.entity.CityEm;
  */
 @Repository
 public interface CityEmDao extends JpaRepository<CityEm, Long> {
-
-	/**
-	 * ページング検索ID昇順
-	 *
-	 * @param pageable ページング
-	 * @return Pageオブジェクト
-	 */
-	Page<CityEm> findByOrderByIdAsc(Pageable pageable);
 }

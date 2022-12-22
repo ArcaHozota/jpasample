@@ -8,10 +8,9 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,91 +38,97 @@ import jp.co.sony.ppog.repository.NationDao;
 @RequestMapping("/jpasmcrud")
 public class CentreController {
 
-	@Resource
-	private CityDao cityDao;
+    @Resource
+    private CityDao cityDao;
 
-	@Resource
-	private NationDao nationDao;
+    @Resource
+    private NationDao nationDao;
 
-	@Resource
-	private CityEmDao cityEmDao;
+    @Resource
+    private CityEmDao cityEmDao;
 
-	/**
-	 * Retrieve the city data.
-	 *
-	 * @return modelAndView
-	 */
-	@GetMapping(value = "/city")
-	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum) {
-		final PageRequest pageRequest = PageRequest.of(pageNum - 1, 17);
-		final Page<CityEm> dtoPage = this.cityEmDao.findByOrderByIdAsc(pageRequest);
-		final ModelAndView mav = new ModelAndView("index");
-		mav.addObject("title", "CityList");
-		mav.addObject("pageInfo", dtoPage);
-		// 前のページを取得する；
-		final int current = dtoPage.getNumber();
-		// ページングナビゲーションの数を定義する；
-		final int naviNums = 7;
-		// ページングナビの最初と最後の数を取得する；
-		final int pageFirstIndex = (current / naviNums) * naviNums;
-		int pageLastIndex = (current / naviNums + 1) * naviNums - 1;
-		if (pageLastIndex > dtoPage.getTotalPages() - 1) {
-			pageLastIndex = dtoPage.getTotalPages() - 1;
-		} else {
-			pageLastIndex = (current / naviNums + 1) * naviNums - 1;
-		}
-		mav.addObject("pageFirstIndex", pageFirstIndex);
-		mav.addObject("pageLastIndex", pageLastIndex);
-		return mav;
-	}
+    /**
+     * Retrieve the city data.
+     *
+     * @return modelAndView
+     */
+    @GetMapping(value = "/city")
+    public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum
+            , @RequestParam(value = "keyword", defaultValue = "") final String keyword) {
+        final CityEm cityEm = new CityEm();
+        cityEm.setName(keyword);
+        cityEm.setNation(keyword);
+        final ExampleMatcher matcher = ExampleMatcher.matching()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                .withIgnoreCase(true)
+                .withMatcher(keyword, ExampleMatcher.GenericPropertyMatchers.contains())
+                .withIgnorePaths("id", "continent", "district", "population");
+        final Example<CityEm> example = Example.of(cityEm, matcher);
+        final PageRequest pageRequest = PageRequest.of(pageNum - 1, 17, Sort.by(Sort.Direction.ASC, "id"));
+        final Page<CityEm> dtoPage = this.cityEmDao.findAll(example, pageRequest);
+        final ModelAndView mav = new ModelAndView("index");
+        mav.addObject("title", "CityList");
+        mav.addObject("pageInfo", dtoPage);
+        // 前のページを取得する；
+        final int current = dtoPage.getNumber();
+        // ページングナビゲーションの数を定義する；
+        final int naviNums = 7;
+        // ページングナビの最初と最後の数を取得する；
+        final int pageFirstIndex = (current / naviNums) * naviNums;
+        int pageLastIndex = (current / naviNums + 1) * naviNums - 1;
+        if (pageLastIndex > dtoPage.getTotalPages() - 1) {
+            pageLastIndex = dtoPage.getTotalPages() - 1;
+        } else {
+            pageLastIndex = (current / naviNums + 1) * naviNums - 1;
+        }
+        mav.addObject("pageFirstIndex", pageFirstIndex);
+        mav.addObject("pageLastIndex", pageLastIndex);
+        return mav;
+    }
 
-	/**
-	 * Search the selected city's name.
-	 *
-	 * @param id the ID of city
-	 * @return modelAndView
-	 */
-	@GetMapping(value = "/city/{id}")
-	public ModelAndView getCityInfo(@PathVariable("id") final Long id) {
-		final ModelAndView mav = new ModelAndView("index");
-		final Optional<CityEm> cityOp = this.cityEmDao.findById(id);
-		CityEm cityDto = null;
-		if (cityOp.isPresent()) {
-			cityDto = cityOp.get();
-		}
-		mav.addObject("cityInfo", cityDto);
-		return mav;
-	}
+    /**
+     * Search the selected city's name.
+     *
+     * @param id the ID of city
+     * @return modelAndView
+     */
+    @GetMapping(value = "/city/{id}")
+    public String getCityInfo(@PathVariable("id") final Long id, final Model model) {
+        final Optional<CityEm> cityOp = this.cityEmDao.findById(id);
+        final CityEm cityDto = cityOp.get();
+        model.addAttribute("cityInfo", cityDto);
+        return "cityInfo";
+    }
 
-	/**
-	 * Save the input messages.
-	 *
-	 * @param cityDto the input message of cities
-	 * @return RestMsg.success()
-	 */
-	@PostMapping(value = "/city")
-	public ModelAndView saveCityInfo(@Valid final CityEm cityDto, final BindingResult result) {
-		final Map<String, Object> map = Maps.newHashMap();
-		final City city = new City();
-		final ModelAndView mav = new ModelAndView("index");
-		if (result.hasErrors()) {
-			final List<FieldError> fieldErrors = result.getFieldErrors();
-			for (final FieldError fieldError : fieldErrors) {
-				map.put(fieldError.getField(), fieldError.getDefaultMessage());
-			}
-			return mav.addObject("errorFields", map);
-		} else {
-			BeanUtils.copyProperties(cityDto, city, "continent", "nation");
-			final Nation nation = new Nation();
-			nation.setName(cityDto.getName());
-			final Example<Nation> nationExample = Example.of(nation);
-			final List<Nation> nations = this.nationDao.findAll(nationExample);
-			city.setCountryCode(nations.get(0).getCode());
-		}
-		city.setIsDeleted(0);
-		this.cityDao.save(city);
-		return mav;
-	}
+    /**
+     * Save the input messages.
+     *
+     * @param cityDto the input message of cities
+     * @return RestMsg.success()
+     */
+    @PostMapping(value = "/city")
+    public ModelAndView saveCityInfo(@Valid final CityEm cityDto, final BindingResult result) {
+        final Map<String, Object> map = Maps.newHashMap();
+        final City city = new City();
+        final ModelAndView mav = new ModelAndView("index");
+        if (result.hasErrors()) {
+            final List<FieldError> fieldErrors = result.getFieldErrors();
+            for (final FieldError fieldError : fieldErrors) {
+                map.put(fieldError.getField(), fieldError.getDefaultMessage());
+            }
+            return mav.addObject("errorFields", map);
+        } else {
+            BeanUtils.copyProperties(cityDto, city, "continent", "nation");
+            final Nation nation = new Nation();
+            nation.setName(cityDto.getName());
+            final Example<Nation> nationExample = Example.of(nation);
+            final List<Nation> nations = this.nationDao.findAll(nationExample);
+            city.setCountryCode(nations.get(0).getCode());
+        }
+        city.setIsDeleted(0);
+        this.cityDao.save(city);
+        return mav;
+    }
 
 //    /**
 //     * Delete the selected city info.
