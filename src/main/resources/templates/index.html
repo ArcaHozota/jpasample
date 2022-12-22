@@ -30,11 +30,10 @@
                 <div class="input-group" style="width:100%">
                     <label for="keywordInput" class="input-group-addon">@</label>
                     <input id="keywordInput" class="form-control has-success" type="text"
-                            th:value="${keyword}" placeholder="検索条件を入力してください">
+                            name="keywordInput" th:value="${keyword.input}" placeholder="検索条件を入力してください">
                 </div>
             </div>
-            <button type="button" class="btn btn-warning"
-                    th:href="@{/jpasmcrud/city/${keyword}}">
+            <button type="button" class="btn btn-warning">
                 <span class="glyphicon glyphicon-search"></span>検索
             </button>
         </form>
@@ -90,7 +89,7 @@
              th:with="previousPage=${pageInfo.getNumber()},nextPage=${pageInfo.getNumber()+2},totalPg=${pageInfo.getTotalPages()}">
             <ul class="pagination">
                 <li class="page-item">
-                    <a th:href="@{'/jpasmcrud/city?pageNum=1&keyword='+${keyword}"
+                    <a th:href="@{'/jpasmcrud/city?pageNum=1&keyword='+ keyword}"
                        th:class="${pageInfo.isFirst()} eq true ? 'disabled' : 'enable'">最初のページへ</a>
                 </li>
                 <li class="page-item">
