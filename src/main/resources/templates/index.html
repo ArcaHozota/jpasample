@@ -30,10 +30,11 @@
                 <div class="input-group" style="width:100%">
                     <label for="keywordInput" class="input-group-addon">@</label>
                     <input id="keywordInput" class="form-control has-success" type="text"
-                           placeholder="検索条件を入力してください">
+                            th:value="${keyword}" placeholder="検索条件を入力してください">
                 </div>
             </div>
-            <button id="searchBtn" type="button" class="btn btn-warning">
+            <button type="button" class="btn btn-warning"
+                    th:href="@{/jpasmcrud/city/${keyword}}">
                 <span class="glyphicon glyphicon-search"></span>検索
             </button>
         </form>
@@ -69,7 +70,7 @@
                     <td th:text="${pg.getPopulation()}" class='text-center'></td>
                     <td class='text-center'>
                         <button class="btn btn-primary btn-sm" data-toggle="modal"
-                                data-target="#cityEditModal" th:href="@{'/jpasmcrud/city/'+ ${pg.getId()}}">
+                                data-target="#cityEditModal">
                             <span class="glyphicon glyphicon-pencil"></span>編集
                         </button>
                         <button class="btn btn-danger btn-sm">
@@ -89,23 +90,23 @@
              th:with="previousPage=${pageInfo.getNumber()},nextPage=${pageInfo.getNumber()+2},totalPg=${pageInfo.getTotalPages()}">
             <ul class="pagination">
                 <li class="page-item">
-                    <a th:href="@{/jpasmcrud/city?pageNum=1}"
+                    <a th:href="@{'/jpasmcrud/city?pageNum=1&keyword='+${keyword}"
                        th:class="${pageInfo.isFirst()} eq true ? 'disabled' : 'enable'">最初のページへ</a>
                 </li>
                 <li class="page-item">
-                    <a th:href="@{'/jpasmcrud/city?pageNum='+ ${previousPage < 1 ? 1 : previousPage}}"
+                    <a th:href="@{'/jpasmcrud/city?pageNum='+ ${previousPage < 1 ? 1 : previousPage}+'&keyword='+${keyword}}"
                        th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">&laquo</a>
                 </li>
                 <li th:each="i:${#numbers.sequence(pageFirstIndex,pageLastIndex)}"
                     th:class="${pageInfo.getNumber()} eq ${i} ? 'active' : 'enable'">
-                    <a th:href="@{'/jpasmcrud/city?pageNum='+${i+1}}" th:text="${i+1}"></a>
+                    <a th:href="@{'/jpasmcrud/city?pageNum='+${i+1}+'&keyword='+${keyword}}" th:text="${i+1}"></a>
                 </li>
                 <li class="page-item">
-                    <a th:href="@{'/jpasmcrud/city?pageNum='+ ${nextPage > totalPg ? totalPg : nextPage}}"
+                    <a th:href="@{'/jpasmcrud/city?pageNum='+ ${nextPage > totalPg ? totalPg : nextPage}+'&keyword='+${keyword}}"
                        th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">&raquo</a>
                 </li>
                 <li class="page-item">
-                    <a th:href="@{'/jpasmcrud/city?pageNum='+${pageInfo.getTotalPages()}}"
+                    <a th:href="@{'/jpasmcrud/city?pageNum='+${pageInfo.getTotalPages()}+'&keyword='+${keyword}}"
                        th:class="${pageInfo.isLast()} eq true ? 'disabled' : 'enable'">最後のページへ</a>
                 </li>
             </ul>
@@ -188,13 +189,13 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">都市名</label>
                         <div class="col-sm-10">
-                            <p class="form-control-static" th:text="${cityInfo.getName()}"></p>
+                            <p class="form-control-static"></p>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">大陸</label>
                         <div class="col-sm-5">
-                            <p class="form-control-static" th:text="${cityInfo.getContinent()}"></p>
+                            <p class="form-control-static"></p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -207,7 +208,7 @@
                         <label for="districtEdit" class="col-sm-2 control-label">地域</label>
                         <div class="col-sm-10">
                             <input type="text" name="district" class="form-control"
-                                   id="districtEdit" th:text="${cityInfo.getDistrict()}">
+                                   id="districtEdit">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -215,7 +216,7 @@
                         <label for="populationEdit" class="col-sm-2 control-label">人口数量</label>
                         <div class="col-sm-10">
                             <input type="text" name="population" class="form-control"
-                                   id="populationEdit" th:text="${cityInfo.getPopulation()}">
+                                   id="populationEdit">
                             <span class="help-block"></span>
                         </div>
                     </div>

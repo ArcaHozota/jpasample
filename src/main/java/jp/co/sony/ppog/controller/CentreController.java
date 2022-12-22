@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
@@ -55,17 +56,22 @@ public class CentreController {
     @GetMapping(value = "/city")
     public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum
             , @RequestParam(value = "keyword", defaultValue = "") final String keyword) {
-        final CityEm cityEm = new CityEm();
-        cityEm.setName(keyword);
-        cityEm.setNation(keyword);
-        final ExampleMatcher matcher = ExampleMatcher.matching()
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
-                .withIgnoreCase(true)
-                .withMatcher(keyword, ExampleMatcher.GenericPropertyMatchers.contains())
-                .withIgnorePaths("id", "continent", "district", "population");
-        final Example<CityEm> example = Example.of(cityEm, matcher);
         final PageRequest pageRequest = PageRequest.of(pageNum - 1, 17, Sort.by(Sort.Direction.ASC, "id"));
-        final Page<CityEm> dtoPage = this.cityEmDao.findAll(example, pageRequest);
+        Page<CityEm> dtoPage;
+        if(StringUtils.isNotEmpty(keyword)){
+            final CityEm cityEm = new CityEm();
+            cityEm.setName(keyword);
+            cityEm.setNation(keyword);
+            final ExampleMatcher matcher = ExampleMatcher.matching()
+                    .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                    .withIgnoreCase(true)
+                    .withMatcher(keyword, ExampleMatcher.GenericPropertyMatchers.contains())
+                    .withIgnorePaths("id", "continent", "district", "population");
+            final Example<CityEm> example = Example.of(cityEm, matcher);
+            dtoPage = this.cityEmDao.findAll(example, pageRequest);
+        }else{
+            dtoPage = this.cityEmDao.findAll(pageRequest);
+        }
         final ModelAndView mav = new ModelAndView("index");
         mav.addObject("title", "CityList");
         mav.addObject("pageInfo", dtoPage);
