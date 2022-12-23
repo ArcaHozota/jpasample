@@ -20,10 +20,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.common.collect.Maps;
 
 import jp.co.sony.ppog.entity.City;
-import jp.co.sony.ppog.entity.CityEm;
+import jp.co.sony.ppog.entity.CityInfo;
 import jp.co.sony.ppog.entity.Nation;
 import jp.co.sony.ppog.repository.CityDao;
-import jp.co.sony.ppog.repository.CityEmDao;
+import jp.co.sony.ppog.repository.CityInfoDao;
 import jp.co.sony.ppog.repository.NationDao;
 
 /**
@@ -42,32 +42,34 @@ public class CentreController {
     private NationDao nationDao;
 
     @Resource
-    private CityEmDao cityEmDao;
+    private CityInfoDao cityInfoDao;
 
     /**
-     * Retrieve the city data.
+     * 都市情報を検索する
      *
      * @return modelAndView
      */
     @GetMapping(value = "/city")
-    public RestDto getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum
+    public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum
             , @RequestParam(value = "keyword", defaultValue = "") final String keyword) {
         final PageRequest pageRequest = PageRequest.of(pageNum - 1, 17, Sort.by(Sort.Direction.ASC, "id"));
-        Page<CityEm> dtoPage;
+        Page<CityInfo> dtoPage;
         if (StringUtils.isNotEmpty(keyword)) {
-            final CityEm cityEm = new CityEm();
-            cityEm.setName(keyword);
-            cityEm.setNation(keyword);
+            final CityInfo cityInfo = new CityInfo();
+            cityInfo.setName(keyword);
+            cityInfo.setNation(keyword);
             final ExampleMatcher matcher = ExampleMatcher.matching()
                     .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
                     .withIgnoreCase(true)
                     .withMatcher(keyword, ExampleMatcher.GenericPropertyMatchers.contains())
                     .withIgnorePaths("id", "continent", "district", "population");
-            final Example<CityEm> example = Example.of(cityEm, matcher);
-            dtoPage = this.cityEmDao.findAll(example, pageRequest);
+            final Example<CityInfo> example = Example.of(cityInfo, matcher);
+            dtoPage = this.cityInfoDao.findAll(example, pageRequest);
         } else {
-            dtoPage = this.cityEmDao.findAll(pageRequest);
+            dtoPage = this.cityInfoDao.findAll(pageRequest);
         }
+        // modelAndViewオブジェクトを宣言する；
+        final ModelAndView mav = new ModelAndView("index");
         // 前のページを取得する；
         final int current = dtoPage.getNumber();
         // ページングナビゲーションの数を定義する；
@@ -80,7 +82,10 @@ public class CentreController {
         } else {
             pageLastIndex = (current / naviNums + 1) * naviNums - 1;
         }
-        return RestDto.success().add("pageInfo", dtoPage);
+        mav.addObject("pageInfo", dtoPage);
+        mav.addObject("pageFirstIndex", pageFirstIndex);
+        mav.addObject("pageLastIndex", pageLastIndex);
+        return mav;
     }
 
     /**
@@ -91,8 +96,8 @@ public class CentreController {
      */
     @GetMapping(value = "/city/{id}")
     public String getCityInfo(@PathVariable("id") final Long id, final Model model) {
-        final Optional<CityEm> cityOp = this.cityEmDao.findById(id);
-        final CityEm cityDto = cityOp.get();
+        final Optional<CityInfo> cityOp = this.cityInfoDao.findById(id);
+        final CityInfo cityDto = cityOp.get();
         model.addAttribute("cityInfo", cityDto);
         return "cityInfo";
     }
@@ -104,7 +109,7 @@ public class CentreController {
      * @return RestMsg.success()
      */
     @PostMapping(value = "/city")
-    public ModelAndView saveCityInfo(@Valid final CityEm cityDto, final BindingResult result) {
+    public ModelAndView saveCityInfo(@Valid final CityInfo cityDto, final BindingResult result) {
         final Map<String, Object> map = Maps.newHashMap();
         final City city = new City();
         final ModelAndView mav = new ModelAndView("index");
