@@ -85,23 +85,23 @@
              th:with="previousPage=${pageInfo.getNumber()},nextPage=${pageInfo.getNumber()+2},totalPg=${pageInfo.getTotalPages()}">
             <ul class="pagination">
                 <li class="page-item">
-                    <a th:href="@{'/jpasmcrud/city?pageNum=1&keyword='+${keyword}"
+                    <a th:href="@{'/jpasmcrud/city?pageNum=1&keyword='+${keyword eq null ? '' : keyword}}"
                        th:class="${pageInfo.isFirst()} eq true ? 'disabled' : 'enable'">最初のページへ</a>
                 </li>
                 <li class="page-item">
-                    <a th:href="@{'/jpasmcrud/city?pageNum='+ ${previousPage < 1 ? 1 : previousPage}+'&keyword='+${keyword}}"
+                    <a th:href="@{'/jpasmcrud/city?pageNum='+${previousPage < 1 ? 1 : previousPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
                        th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">&laquo</a>
                 </li>
                 <li th:each="i:${#numbers.sequence(pageFirstIndex,pageLastIndex)}"
                     th:class="${pageInfo.getNumber()} eq ${i} ? 'active' : 'enable'">
-                    <a th:href="@{'/jpasmcrud/city?pageNum='+${i+1}+'&keyword='+${keyword}}" th:text="${i+1}"></a>
+                    <a th:href="@{'/jpasmcrud/city?pageNum='+${i+1}+'&keyword='+${keyword eq null ? '' : keyword}}" th:text="${i+1}"></a>
                 </li>
                 <li class="page-item">
-                    <a th:href="@{'/jpasmcrud/city?pageNum='+ ${nextPage > totalPg ? totalPg : nextPage}+'&keyword='+${keyword}}"
-                       th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">&raquo</a>
+                    <a th:href="@{'/jpasmcrud/city?pageNum='+${nextPage > totalPg ? totalPg : nextPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
+                    th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">&raquo</a>
                 </li>
                 <li class="page-item">
-                    <a th:href="@{'/jpasmcrud/city?pageNum='+${pageInfo.getTotalPages()}+'&keyword='+${keyword}}"
+                    <a th:href="@{'/jpasmcrud/city?pageNum='+${pageInfo.getTotalPages()}+'&keyword='+${keyword eq null ? '' : keyword}}"
                        th:class="${pageInfo.isLast()} eq true ? 'disabled' : 'enable'">最後のページへ</a>
                 </li>
             </ul>

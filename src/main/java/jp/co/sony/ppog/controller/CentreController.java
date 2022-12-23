@@ -57,12 +57,11 @@ public class CentreController {
         if (StringUtils.isNotEmpty(keyword)) {
             final CityInfo cityInfo = new CityInfo();
             cityInfo.setName(keyword);
-            cityInfo.setNation(keyword);
             final ExampleMatcher matcher = ExampleMatcher.matching()
                     .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
                     .withIgnoreCase(true)
                     .withMatcher(keyword, ExampleMatcher.GenericPropertyMatchers.contains())
-                    .withIgnorePaths("id", "continent", "district", "population");
+                    .withIgnorePaths("id", "continent", "nation", "district", "population");
             final Example<CityInfo> example = Example.of(cityInfo, matcher);
             dtoPage = this.cityInfoDao.findAll(example, pageRequest);
         } else {
