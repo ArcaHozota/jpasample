@@ -1,24 +1,32 @@
 server:
-   port: 8082
+  port: 8082
 spring:
-   application:
-      name: jpasmcrud
-   datasource:
-      druid:
-         url: jdbc:oracle:thin:@//localhost:1521/XEPDB1
-         driver-class-name: oracle.jdbc.OracleDriver
-         username: oraclect
-         password: oraclect
-         max-active: 30
-         max-wait: 120000
-   jpa:
-      hibernate:
-         ddl-auto: update
-         naming:
-            physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-      database: oracle
-      show-sql: true
-      open-in-view: false
-   output:
-      ansi:
-         enabled: ALWAYS
+  application:
+    name: jpasmcrud
+  datasource:
+    druid:
+      url: jdbc:oracle:thin:@//localhost:1521/XEPDB1
+      driver-class-name: oracle.jdbc.OracleDriver
+      username: oraclect
+      password: oraclect
+      max-active: 30
+      max-wait: 120000
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    database: oracle
+    show-sql: true
+    open-in-view: false
+  output:
+    ansi:
+      enabled: ALWAYS
+  thymeleaf:
+    cache: false
+    mode: HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    prefix: classpath:/templates/
+    suffix: .html
