@@ -2,71 +2,85 @@ package jp.co.sony.ppog.utils;
 
 import lombok.Data;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
- * The common class of JSON-data response.
+ * 統一AJAX請求返回結果類；
  *
  * @author Administrator
  */
 @Data
-public class RestDto {
+public class RestDto<Type> {
 
     /**
-     * status code
+     * 處理成功的信息
      */
-    private Integer code;
+    private static final String SUCCESS = "SUCCESS";
 
     /**
-     * the message of status
+     * 處理失敗的信息
+     */
+    private static final String FAILURE = "FAILURE";
+
+    /**
+     * 處理的結果： 成功：SUCCESS，失敗：ERROR
+     */
+    private String status;
+
+    /**
+     * 請求成功與否的信息；
      */
     private String message;
 
     /**
-     * data returned to browsers
+     * 返回的數據；
      */
-    private final Map<String, Object> extend = new HashMap<>();
+    private Type data;
 
     /**
-     * retrieve successfully
+     * 請求成功時使用的工具方法；
      *
-     * @return result including data
+     * @param <Type> 數據類型
+     * @param object 返回的數據；
+     * @return ResponseDto
      */
-    public static RestDto success() {
-        final RestDto result = new RestDto();
-        result.setCode(200);
-        result.setMessage("Retrieve success.");
-        return result;
+    public static <Type> RestDto<Type> success(final Type object) {
+        final RestDto<Type> restDto = new RestDto<>();
+        restDto.status = SUCCESS;
+        restDto.data = object;
+        return restDto;
     }
 
     /**
-     * retrieve failed
+     * 請求失敗時使用的工具方法；
      *
-     * @return result including error message
+     * @param <Type>  數據類型
+     * @param message 失敗的處理信息；
+     * @return ResponseDto
      */
-    public static RestDto failure() {
-        final RestDto result = new RestDto();
-        result.setCode(400);
-        result.setMessage("Retrieve failed.");
-        return result;
+    public static <Type> RestDto<Type> failure(String message) {
+        final RestDto<Type> restDto = new RestDto<>();
+        restDto.status = FAILURE;
+        restDto.message = message;
+        return restDto;
     }
 
     /**
-     * no args constructor
+     * 無參數構造器
      */
     public RestDto() {
+        super();
     }
 
     /**
-     * add values with messages
+     * 全參數構造器
      *
-     * @param key   the name pattern of value
-     * @param value value
-     * @return RestMsg
+     * @param status  當前請求的處理結果
+     * @param message 請求成功與否的信息
+     * @param data    返回的數據
      */
-    public RestDto add(final String key, final Object value) {
-        this.getExtend().put(key, value);
-        return this;
+    public RestDto(String status, String message, Type data) {
+        super();
+        this.status = status;
+        this.message = message;
+        this.data = data;
     }
 }
