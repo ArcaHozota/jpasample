@@ -1,20 +1,19 @@
 package jp.co.sony.ppog.entity;
 
+import lombok.*;
+import org.hibernate.Hibernate;
+
+import javax.persistence.*;
 import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import lombok.Data;
+import java.util.Objects;
 
 /**
  * @author Administrator
  */
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @Table(name = "world_city")
 public class City implements Serializable {
@@ -57,4 +56,21 @@ public class City implements Serializable {
 	 */
 	@Column(name = "is_deleted", nullable = false)
 	private Integer isDeleted;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null || Hibernate.getClass(this) != Hibernate.getClass(obj)) {
+			return false;
+		}
+		City city = (City) obj;
+		return id != null && Objects.equals(id, city.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return getClass().hashCode();
+	}
 }
