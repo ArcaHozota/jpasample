@@ -89,11 +89,11 @@
 			<nav class="col-lg-7"
 				th:with="previousPage=${pageInfo.getNumber()},nextPage=${pageInfo.getNumber()+2},totalPg=${pageInfo.getTotalPages()}">
 				<ul class="pagination">
-					<li class="page-item"><a
+					<li><a
 						th:href="@{'/jpassmcrud/city?pageNum=1&keyword='+${keyword eq null ? '' : keyword}}"
 						th:class="${pageInfo.isFirst()} eq true ? 'disabled' : 'enable'">最初のページへ</a>
 					</li>
-					<li class="page-item"><a
+					<li><a
 						th:href="@{'/jpassmcrud/city?pageNum='+${previousPage < 1 ? 1 : previousPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
 						th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">&laquo</a>
 					</li>
@@ -103,11 +103,11 @@
 						th:href="@{'/jpassmcrud/city?pageNum='+${i+1}+'&keyword='+${keyword eq null ? '' : keyword}}"
 						th:text="${i+1}"></a>
 					</li>
-					<li class="page-item"><a
+					<li><a
 						th:href="@{'/jpassmcrud/city?pageNum='+${nextPage > totalPg ? totalPg : nextPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
 						th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">&raquo</a>
 					</li>
-					<li class="page-item"><a
+					<li><a
 						th:href="@{'/jpassmcrud/city?pageNum='+${pageInfo.getTotalPages()}+'&keyword='+${keyword eq null ? '' : keyword}}"
 						th:class="${pageInfo.isLast()} eq true ? 'disabled' : 'enable'">最後のページへ</a>
 					</li>
