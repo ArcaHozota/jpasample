@@ -31,7 +31,7 @@
 					<div class="input-group" style="width: 100%">
 						<label for="keywordInput" class="input-group-addon">@</label> <input
 							id="keywordInput" class="form-control has-success" type="text"
-							th:value="*{keyword}">
+							th:value="*{keyword}" placeholder="検索条件を入力してください">
 					</div>
 				</div>
 				<button type="button" class="btn btn-warning" id="searchBtn">
@@ -95,7 +95,7 @@
 					</li>
 					<li><a
 						th:href="@{'/jpassmcrud/city?pageNum='+${previousPage < 1 ? 1 : previousPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
-						th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">&laquo</a>
+						th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">&laquo;</a>
 					</li>
 					<li th:each="i:${#numbers.sequence(pageFirstIndex,pageLastIndex)}"
 						th:class="${pageInfo.getNumber()} eq ${i} ? 'active' : 'enable'">
@@ -105,7 +105,7 @@
 					</li>
 					<li><a
 						th:href="@{'/jpassmcrud/city?pageNum='+${nextPage > totalPg ? totalPg : nextPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
-						th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">&raquo</a>
+						th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">&raquo;</a>
 					</li>
 					<li><a
 						th:href="@{'/jpassmcrud/city?pageNum='+${pageInfo.getTotalPages()}+'&keyword='+${keyword eq null ? '' : keyword}}"
