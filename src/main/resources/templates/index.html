@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CityList</title>
+<title th:text="${title}">Default</title>
 <!--import the jQuery framework-->
 <script type="text/javascript" th:src="@{/jquery/jquery-3.6.2.min.js}"></script>
 <!--import the bootstrap framework-->
@@ -50,13 +50,13 @@
 				<table id="cityTable" class="table table-condensed">
 					<thead>
 						<tr class="danger">
-							<th scope="col" class="text-center" style="width: 70px;">都市ID</th>
-							<th scope="col" class="text-center" style="width: 120px;">都市名</th>
-							<th scope="col" class="text-center" style="width: 100px;">大陸</th>
-							<th scope="col" class="text-center" style="width: 100px;">国家</th>
-							<th scope="col" class="text-center" style="width: 120px;">地域</th>
-							<th scope="col" class="text-center" style="width: 70px;">人口数量</th>
-							<th scope="col" class="text-center" style="width: 120px;">操作</th>
+							<th scope="col" class="text-center" style="width:70px;">都市ID</th>
+							<th scope="col" class="text-center" style="width:120px;">都市名</th>
+							<th scope="col" class="text-center" style="width:100px;">大陸</th>
+							<th scope="col" class="text-center" style="width:100px;">国家</th>
+							<th scope="col" class="text-center" style="width:120px;">地域</th>
+							<th scope="col" class="text-center" style="width:70px;">人口数量</th>
+							<th scope="col" class="text-center" style="width:120px;">操作</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -229,26 +229,17 @@
 	</div>
 	<script type="text/javascript" th:inline="javascript">
 		let pageNum = /*[[${pageInfo.getNumber()+1}]]*/{};
-		$("#searchBtn")
-				.on(
-						'click',
-						function() {
-							let keyword = $("#keywordInput").val().trim()
-									.toString();
-							$
-									.ajax({
-										url : '/jpassmcrud/city?pageNum='
-												+ pageNum + '&keyword='
-												+ keyword,
-										type : 'GET',
-										dataType : 'html',
-										success : function() {
-											window.location
-													.replace("/jpassmcrud/city?pageNum=1&keyword="
-															+ keyword);
-										}
-									});
-						});
+		$("#searchBtn").on('click', function() {
+			let keyword = $("#keywordInput").val().trim().toString();
+			$.ajax({
+				url : '/jpassmcrud/city?pageNum=' + pageNum + '&keyword=' + keyword,
+				type : 'GET',
+				dataType : 'html',
+				success : function() {
+					window.location.replace("/jpassmcrud/city?pageNum=1&keyword=" + keyword);
+				}
+			});
+		});
 	</script>
 </body>
 </html>
