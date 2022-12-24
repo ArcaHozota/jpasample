@@ -46,7 +46,7 @@
         <div class="col-lg-12">
             <table id="cityTable" class="table table-condensed">
                 <thead>
-                <tr>
+                <tr class="active">
                     <th scope="col" class="text-center" style="width:70px;">都市ID</th>
                     <th scope="col" class="text-center" style="width:120px;">都市名</th>
                     <th scope="col" class="text-center" style="width:100px;">大陸</th>
@@ -94,11 +94,12 @@
                 </li>
                 <li th:each="i:${#numbers.sequence(pageFirstIndex,pageLastIndex)}"
                     th:class="${pageInfo.getNumber()} eq ${i} ? 'active' : 'enable'">
-                    <a th:href="@{'/jpasmcrud/city?pageNum='+${i+1}+'&keyword='+${keyword eq null ? '' : keyword}}" th:text="${i+1}"></a>
+                    <a th:href="@{'/jpasmcrud/city?pageNum='+${i+1}+'&keyword='+${keyword eq null ? '' : keyword}}"
+                       th:text="${i+1}"></a>
                 </li>
                 <li class="page-item">
                     <a th:href="@{'/jpasmcrud/city?pageNum='+${nextPage > totalPg ? totalPg : nextPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
-                    th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">&raquo</a>
+                       th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">&raquo</a>
                 </li>
                 <li class="page-item">
                     <a th:href="@{'/jpasmcrud/city?pageNum='+${pageInfo.getTotalPages()}+'&keyword='+${keyword eq null ? '' : keyword}}"
