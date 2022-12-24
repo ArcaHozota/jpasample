@@ -15,9 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @SpringBootApplication
 @ServletComponentScan
-public class JpAsmCrudApplication {
+public class JpaSsmCrudApplication {
 	public static void main(final String[] args) {
-		SpringApplication.run(JpAsmCrudApplication.class, args);
+		SpringApplication.run(JpaSsmCrudApplication.class, args);
 		log.info("アプリは正常に起動しました!");
 	}
 }
