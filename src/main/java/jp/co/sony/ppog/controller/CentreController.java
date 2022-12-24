@@ -28,55 +28,56 @@ import jp.co.sony.ppog.repository.NationDao;
 @RequestMapping("/jpassmcrud")
 public class CentreController {
 
-	@Resource
-	private CityDao cityDao;
+    @Resource
+    private CityDao cityDao;
 
-	@Resource
-	private NationDao nationDao;
+    @Resource
+    private NationDao nationDao;
 
-	@Resource
-	private CityInfoDao cityInfoDao;
+    @Resource
+    private CityInfoDao cityInfoDao;
 
-	/**
-	 * 都市情報を検索する
-	 *
-	 * @return modelAndView
-	 */
-	@GetMapping(value = "/city")
-	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
-			@RequestParam(value = "keyword", defaultValue = "") final String keyword) {
-		final PageRequest pageRequest = PageRequest.of(pageNum - 1, 17, Sort.by(Sort.Direction.ASC, "id"));
-		Page<CityInfo> dtoPage;
-		if (StringUtils.isNotEmpty(keyword)) {
-			final CityInfo cityInfo = new CityInfo();
-			cityInfo.setName(keyword);
-			final ExampleMatcher matcher = ExampleMatcher.matching()
-					.withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase(true)
-					.withMatcher(keyword, ExampleMatcher.GenericPropertyMatchers.contains())
-					.withIgnorePaths("id", "continent", "nation", "district", "population");
-			final Example<CityInfo> example = Example.of(cityInfo, matcher);
-			dtoPage = this.cityInfoDao.findAll(example, pageRequest);
-		} else {
-			dtoPage = this.cityInfoDao.findAll(pageRequest);
-		}
-		// modelAndViewオブジェクトを宣言する；
-		final ModelAndView mav = new ModelAndView("index");
-		// 前のページを取得する；
-		final int current = dtoPage.getNumber();
-		// ページングナビゲーションの数を定義する；
-		final int naviNums = 7;
-		// ページングナビの最初と最後の数を取得する；
-		final int pageFirstIndex = (current / naviNums) * naviNums;
-		int pageLastIndex = (current / naviNums + 1) * naviNums - 1;
-		if (pageLastIndex > dtoPage.getTotalPages() - 1) {
-			pageLastIndex = dtoPage.getTotalPages() - 1;
-		} else {
-			pageLastIndex = (current / naviNums + 1) * naviNums - 1;
-		}
-		mav.addObject("pageInfo", dtoPage);
-		mav.addObject("keyword", keyword);
-		mav.addObject("pageFirstIndex", pageFirstIndex);
-		mav.addObject("pageLastIndex", pageLastIndex);
-		return mav;
-	}
+    /**
+     * 都市情報を検索する
+     *
+     * @return modelAndView
+     */
+    @GetMapping(value = "/city")
+    public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
+                                    @RequestParam(value = "keyword", defaultValue = "") final String keyword) {
+        final PageRequest pageRequest = PageRequest.of(pageNum - 1, 17, Sort.by(Sort.Direction.ASC, "id"));
+        Page<CityInfo> dtoPage;
+        if (StringUtils.isNotEmpty(keyword)) {
+            final CityInfo cityInfo = new CityInfo();
+            cityInfo.setName(keyword);
+            final ExampleMatcher matcher = ExampleMatcher.matching()
+                    .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase(true)
+                    .withMatcher(keyword, ExampleMatcher.GenericPropertyMatchers.contains())
+                    .withIgnorePaths("id", "continent", "nation", "district", "population");
+            final Example<CityInfo> example = Example.of(cityInfo, matcher);
+            dtoPage = this.cityInfoDao.findAll(example, pageRequest);
+        } else {
+            dtoPage = this.cityInfoDao.findAll(pageRequest);
+        }
+        // modelAndViewオブジェクトを宣言する；
+        final ModelAndView mav = new ModelAndView("index");
+        // 前のページを取得する；
+        final int current = dtoPage.getNumber();
+        // ページングナビゲーションの数を定義する；
+        final int naviNums = 7;
+        // ページングナビの最初と最後の数を取得する；
+        final int pageFirstIndex = (current / naviNums) * naviNums;
+        int pageLastIndex = (current / naviNums + 1) * naviNums - 1;
+        if (pageLastIndex > dtoPage.getTotalPages() - 1) {
+            pageLastIndex = dtoPage.getTotalPages() - 1;
+        } else {
+            pageLastIndex = (current / naviNums + 1) * naviNums - 1;
+        }
+        mav.addObject("pageInfo", dtoPage);
+        mav.addObject("keyword", keyword);
+        mav.addObject("pageFirstIndex", pageFirstIndex);
+        mav.addObject("pageLastIndex", pageLastIndex);
+        mav.addObject("title", "CityList");
+        return mav;
+    }
 }
