@@ -2,7 +2,7 @@ server:
   port: 8082
 spring:
   application:
-    name: jpasmcrud
+    name: jpassmcrud
   datasource:
     druid:
       url: jdbc:oracle:thin:@//localhost:1521/XEPDB1

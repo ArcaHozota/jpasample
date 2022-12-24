@@ -32,7 +32,7 @@ import jp.co.sony.ppog.repository.NationDao;
  * @author Administrator
  */
 @RestController
-@RequestMapping("/jpasmcrud")
+@RequestMapping("/jpassmcrud")
 public class CentreController {
 
     @Resource
