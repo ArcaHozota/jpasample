@@ -224,16 +224,5 @@
         </div>
     </div>
 </div>
-<script th:inline="javascript" th:src="@{/jquery/jquery-3.6.2.min.js}" type="text/javascript">
-    let keyword = $("#keywordInput").val().trim().toString();
-    let pageNum = /*[[${pageInfo.getNumber()+1}]]*/{};
-    $("#searchBtn").on('click', function () {
-        $.ajax({
-            url: '/jpassmcrud/city?pageNum=' + pageNum + '&keyword=' + keyword,
-            type: "GET",
-            dataType: html
-        });
-    });
-</script>
 </body>
 </html>
