@@ -31,12 +31,12 @@
                            th:value="*{keyword}">
                 </div>
             </div>
-            <button id="searchBtn" type="button" class="btn btn-warning">
+            <button type="button" class="btn btn-warning" id="searchBtn">
                 <span class="glyphicon glyphicon-search"></span>検索
             </button>
         </form>
         <div class="col-lg-2 col-lg-offset-3">
-            <button class="btn btn-success" id="cityAddModalBtn" data-toggle="modal" data-target="#cityAddModal">
+            <button id="cityAddModalBtn" class="btn btn-success" data-toggle="modal" data-target="#cityAddModal">
                 <span class="glyphicon glyphicon-pawn"></span>情報追加
             </button>
         </div>
@@ -224,14 +224,14 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" th:type="javascript" th:src="@{/jquery/jquery-3.6.2.min.js}">
-    let pageNum = /*[[${pageInfo.getNumber()+1}]]*/{};
-    $("#searchBtn").click(function () {
+<script type="text/javascript">
+    let pageNum = 1;
+    $("#searchBtn").on('click', function () {
         let keyword = $("#keywordInput").val().trim().toString();
         $.ajax({
             url: '/jpassmcrud/city?pageNum=' + pageNum + '&keyword=' + keyword,
             type: "GET",
-            dataType: html,
+            dataType: "html",
             success: function () {
                 window.location.replace("/jpassmcrud/city?pageNum=" + pageNum + "&keyword=" + keyword);
             }
