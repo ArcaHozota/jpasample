@@ -83,6 +83,7 @@ public class CentreController {
             pageLastIndex = (current / naviNums + 1) * naviNums - 1;
         }
         mav.addObject("pageInfo", dtoPage);
+        mav.addObject("keyword", keyword);
         mav.addObject("pageFirstIndex", pageFirstIndex);
         mav.addObject("pageLastIndex", pageLastIndex);
         return mav;
