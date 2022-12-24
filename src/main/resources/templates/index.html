@@ -225,15 +225,15 @@
     </div>
 </div>
 <script type="text/javascript">
-    let pageNum = 1;
     $("#searchBtn").on('click', function () {
+        let pageNum = 1;
         let keyword = $("#keywordInput").val().trim().toString();
         $.ajax({
             url: '/jpassmcrud/city?pageNum=' + pageNum + '&keyword=' + keyword,
-            type: "GET",
-            dataType: "html",
+            type: 'GET',
+            dataType: 'html',
             success: function () {
-                window.location.replace("/jpassmcrud/city?pageNum=" + pageNum + "&keyword=" + keyword);
+                window.location.replace("/jpassmcrud/city?pageNum=1&keyword=" + keyword);
             }
         });
     });
