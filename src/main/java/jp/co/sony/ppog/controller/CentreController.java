@@ -8,10 +8,10 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import jp.co.sony.ppog.entity.CityInfo;
@@ -20,11 +20,11 @@ import jp.co.sony.ppog.repository.CityInfoDao;
 import jp.co.sony.ppog.repository.NationDao;
 
 /**
- * Center Terminal Controller Handle the retrieve and update requests.
+ * 画面処理コアハンドル
  *
  * @author Administrator
  */
-@RestController
+@Controller
 @RequestMapping("/jpassmcrud")
 public class CentreController {
 
