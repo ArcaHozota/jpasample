@@ -68,8 +68,7 @@
 							<td th:text="${pg.getDistrict()}" class="text-center"></td>
 							<td th:text="${pg.getPopulation()}" class="text-center"></td>
 							<td class='text-center'>
-								<button class="btn btn-primary btn-sm" data-toggle="modal"
-									data-target="#cityEditModal">
+								<button class="btn btn-primary btn-sm" id="editBtn">
 									<span class="glyphicon glyphicon-pencil"></span>編集
 								</button>
 								<button class="btn btn-danger btn-sm">
@@ -190,13 +189,13 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label">都市名</label>
 							<div class="col-sm-10">
-								<p class="form-control-static"></p>
+								<p id="cityName" class="form-control-static"></p>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 control-label">大陸</label>
 							<div class="col-sm-5">
-								<p class="form-control-static"></p>
+								<p id="continentName" class="form-control-static"></p>
 							</div>
 						</div>
 						<div class="form-group">
@@ -240,6 +239,35 @@
 				}
 			});
 		});
+		$("#editBtn").on('click',function(){
+			formReset("#cityEditModal form");
+			getCityInfo($(this).attr("editId"));
+			$("#changeBtn").attr("editId", $(this).attr("editId"));
+			$("#cityEditModal").modal({
+				backdrop: "static"
+			});
+		});
+		function formReset(element) {
+			$(element)[0].reset();
+			$(element).find("*").removeClass("has-error has-success");
+			$(element).find(".help-block").text("");
+		}
+		function getCityInfo(id) {
+			alert(id)
+			let vector = $("#continentName");
+			$.ajax({
+				url: '/jpassmcrud/city/' + id,
+				type: "GET",
+				// success: function (result) {
+				// 	let cityData = result.extend.citySelected;
+				// 	$("#displayedCityName").text(cityData.name);
+				// 	vector.text(cityData.continent);
+				// 	$("#districtEdit").val(cityData.district);
+				// 	$("#populationEdit").val(cityData.population);
+				// 	getNationsById("#nationEdit", id);
+				// }
+			});
+		}
 	</script>
 </body>
 </html>
