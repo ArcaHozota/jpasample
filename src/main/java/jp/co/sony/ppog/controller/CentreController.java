@@ -20,7 +20,7 @@ import jp.co.sony.ppog.repository.CityInfoDao;
 import jp.co.sony.ppog.repository.NationDao;
 
 /**
- * 画面処理コアハンドル
+ * 中央処理コントローラ
  *
  * @author Administrator
  */
