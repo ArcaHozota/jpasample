@@ -105,7 +105,7 @@
 						th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">&raquo;</a>
 					</li>
 					<li><a
-						th:href="@{'/jpassmcrud/city?pageNum='+${pageInfo.getTotalPages()}+'&keyword='+${keyword eq null ? '' : keyword}}"
+						th:href="@{'/jpassmcrud/city?pageNum='+${pageInfo.getPages()}+'&keyword='+${keyword eq null ? '' : keyword}}"
 						th:class="${pageInfo.hasNext()} eq true ? 'disabled' : 'enable'">最後のページへ</a>
 					</li>
 				</ul>
