@@ -89,7 +89,7 @@
 				<ul class="pagination">
 					<li><a
 						th:href="@{'/ssmcrud/city?pageNum=1&keyword='+${keyword eq null ? '' : keyword}}"
-						th:class="${pageInfo.hasPrevious()} eq true ? 'disabled' : 'enable'">最初のページへ</a>
+						th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">最初のページへ</a>
 					</li>
 					<li><a
 						th:href="@{'/ssmcrud/city?pageNum='+${previousPage < 1 ? 1 : previousPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
@@ -106,7 +106,7 @@
 					</li>
 					<li><a
 						th:href="@{'/ssmcrud/city?pageNum='+${pageInfo.getPages()}+'&keyword='+${keyword eq null ? '' : keyword}}"
-						th:class="${pageInfo.hasNext()} eq true ? 'disabled' : 'enable'">最後のページへ</a>
+						th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">最後のページへ</a>
 					</li>
 				</ul>
 			</nav>
