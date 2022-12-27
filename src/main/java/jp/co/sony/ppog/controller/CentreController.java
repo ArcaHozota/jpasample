@@ -2,22 +2,17 @@ package jp.co.sony.ppog.controller;
 
 import javax.annotation.Resource;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import jp.co.sony.ppog.entity.CityView;
+import jp.co.sony.ppog.service.CityViewService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import jp.co.sony.ppog.entity.CityInfo;
-import jp.co.sony.ppog.repository.CityDao;
-import jp.co.sony.ppog.repository.CityInfoDao;
-import jp.co.sony.ppog.repository.NationDao;
 
 /**
  * 中央処理コントローラ
@@ -29,13 +24,7 @@ import jp.co.sony.ppog.repository.NationDao;
 public class CentreController {
 
     @Resource
-    private CityDao cityDao;
-
-    @Resource
-    private NationDao nationDao;
-
-    @Resource
-    private CityInfoDao cityInfoDao;
+    private CityViewService cityViewService;
 
     /**
      * 都市情報を検索する
@@ -45,35 +34,31 @@ public class CentreController {
     @GetMapping(value = "/city")
     public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
                                     @RequestParam(value = "keyword", defaultValue = "") final String keyword) {
-        final PageRequest pageRequest = PageRequest.of(pageNum - 1, 17, Sort.by(Sort.Direction.ASC, "id"));
-        Page<CityInfo> dtoPage;
-        if (StringUtils.isNotEmpty(keyword)) {
-            final CityInfo cityInfo = new CityInfo();
-            cityInfo.setName(keyword);
-            final ExampleMatcher matcher = ExampleMatcher.matching()
-                    .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase(true)
-                    .withMatcher(keyword, ExampleMatcher.GenericPropertyMatchers.contains())
-                    .withIgnorePaths("id", "continent", "nation", "district", "population");
-            final Example<CityInfo> example = Example.of(cityInfo, matcher);
-            dtoPage = this.cityInfoDao.findAll(example, pageRequest);
-        } else {
-            dtoPage = this.cityInfoDao.findAll(pageRequest);
-        }
+        // 聲明分頁構造器；
+        final Page<CityView> pageInfo = Page.of(pageNum, 17);
+        // 聲明條件構造器；
+        final LambdaQueryWrapper<CityView> queryWrapper = Wrappers.lambdaQuery(new CityView());
+        // 添加過濾條件；
+        queryWrapper.like(StringUtils.isNotEmpty(keyword), CityView::getName, keyword);
+        // 添加排序條件；
+        queryWrapper.orderByAsc(CityView::getId);
+        // 執行查詢；
+        this.cityViewService.page(pageInfo, queryWrapper);
         // modelAndViewオブジェクトを宣言する；
         final ModelAndView mav = new ModelAndView("index");
         // 前のページを取得する；
-        final int current = dtoPage.getNumber();
+        final long current = pageInfo.getCurrent();
         // ページングナビゲーションの数を定義する；
         final int naviNums = 7;
         // ページングナビの最初と最後の数を取得する；
-        final int pageFirstIndex = (current / naviNums) * naviNums;
-        int pageLastIndex = (current / naviNums + 1) * naviNums - 1;
-        if (pageLastIndex > dtoPage.getTotalPages() - 1) {
-            pageLastIndex = dtoPage.getTotalPages() - 1;
+        final int pageFirstIndex = (int) ((current / naviNums) * naviNums);
+        int pageLastIndex = (int) ((current / naviNums + 1) * naviNums - 1);
+        if (pageLastIndex > pageInfo.getPages() - 1) {
+            pageLastIndex = (int) (pageInfo.getPages() - 1);
         } else {
-            pageLastIndex = (current / naviNums + 1) * naviNums - 1;
+            pageLastIndex = (int) ((current / naviNums + 1) * naviNums - 1);
         }
-        mav.addObject("pageInfo", dtoPage);
+        mav.addObject("pageInfo", pageInfo);
         mav.addObject("keyword", keyword);
         mav.addObject("pageFirstIndex", pageFirstIndex);
         mav.addObject("pageLastIndex", pageLastIndex);
