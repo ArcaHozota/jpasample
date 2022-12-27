@@ -1,8 +1,8 @@
 package jp.co.sony.ppog.bean;
 
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 /**
