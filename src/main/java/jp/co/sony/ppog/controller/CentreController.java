@@ -51,7 +51,7 @@ public class CentreController {
         // ページングナビゲーションの数を定義する；
         final int naviNums = 7;
         // ページングナビの最初と最後の数を取得する；
-        final int pageFirstIndex = (int) ((current / naviNums) * naviNums);
+        final int pageFirstIndex = (int) ((current / naviNums) * naviNums + 1);
         int pageLastIndex = (int) ((current / naviNums + 1) * naviNums);
         if (pageLastIndex > pageInfo.getPages() - 1) {
             pageLastIndex = (int) (pageInfo.getPages() - 1);
