@@ -60,7 +60,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="pg:${pageInfo.getContent()}">
+						<tr th:each="pg:${pageInfo.getRecords()}">
 							<td th:text="${pg.getId()}" class="text-center"></td>
 							<td th:text="${pg.getName()}" class="text-center"></td>
 							<td th:text="${pg.getContinent()}" class="text-center"></td>
@@ -83,23 +83,22 @@
 		<!-- ページナビ -->
 		<div class="row">
 			<div class="col-lg-5"
-				th:text="|The ${pageInfo.getNumber()+1} page in ${pageInfo.getTotalPages()} pages, ${pageInfo.getTotalElements()} records found.|"></div>
+				th:text="|The ${pageInfo.getCurrent()} page in ${pageInfo.getPages()} pages, ${pageInfo.getTotal()} records found.|"></div>
 			<nav class="col-lg-7"
-				th:with="previousPage=${pageInfo.getNumber()},nextPage=${pageInfo.getNumber()+2},totalPg=${pageInfo.getTotalPages()}">
+				th:with="previousPage=${pageInfo.getCurrent()-1},nextPage=${pageInfo.getCurrent()+1},totalPg=${pageInfo.getTotal()}">
 				<ul class="pagination">
 					<li><a
 						th:href="@{'/jpassmcrud/city?pageNum=1&keyword='+${keyword eq null ? '' : keyword}}"
-						th:class="${pageInfo.isFirst()} eq true ? 'disabled' : 'enable'">最初のページへ</a>
+						th:class="${pageInfo.hasPrevious()} eq true ? 'disabled' : 'enable'">最初のページへ</a>
 					</li>
 					<li><a
 						th:href="@{'/jpassmcrud/city?pageNum='+${previousPage < 1 ? 1 : previousPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
 						th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">&laquo;</a>
 					</li>
 					<li th:each="i:${#numbers.sequence(pageFirstIndex,pageLastIndex)}"
-						th:class="${pageInfo.getNumber()} eq ${i} ? 'active' : 'enable'">
-						<a
-						th:href="@{'/jpassmcrud/city?pageNum='+${i+1}+'&keyword='+${keyword eq null ? '' : keyword}}"
-						th:text="${i+1}"></a>
+						th:class="${pageInfo.getCurrent()} eq ${i} ? 'active' : 'enable'">
+						<a th:text="${i}"
+						   th:href="@{'/jpassmcrud/city?pageNum='+${i+1}+'&keyword='+${keyword eq null ? '' : keyword}}"></a>
 					</li>
 					<li><a
 						th:href="@{'/jpassmcrud/city?pageNum='+${nextPage > totalPg ? totalPg : nextPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
@@ -107,7 +106,7 @@
 					</li>
 					<li><a
 						th:href="@{'/jpassmcrud/city?pageNum='+${pageInfo.getTotalPages()}+'&keyword='+${keyword eq null ? '' : keyword}}"
-						th:class="${pageInfo.isLast()} eq true ? 'disabled' : 'enable'">最後のページへ</a>
+						th:class="${pageInfo.hasNext()} eq true ? 'disabled' : 'enable'">最後のページへ</a>
 					</li>
 				</ul>
 			</nav>
