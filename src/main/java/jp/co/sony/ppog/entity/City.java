@@ -1,4 +1,4 @@
-package jp.co.sony.ppog.bean;
+package jp.co.sony.ppog.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
