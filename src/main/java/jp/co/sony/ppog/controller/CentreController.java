@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Administrator
  */
 @Controller
-@RequestMapping("/jpassmcrud")
+@RequestMapping("/ssmcrud")
 public class CentreController {
 
     @Resource

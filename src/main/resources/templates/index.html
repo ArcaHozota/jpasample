@@ -88,24 +88,24 @@
 				th:with="previousPage=${pageInfo.getCurrent()-1},nextPage=${pageInfo.getCurrent()+1},totalPg=${pageInfo.getTotal()}">
 				<ul class="pagination">
 					<li><a
-						th:href="@{'/jpassmcrud/city?pageNum=1&keyword='+${keyword eq null ? '' : keyword}}"
+						th:href="@{'/ssmcrud/city?pageNum=1&keyword='+${keyword eq null ? '' : keyword}}"
 						th:class="${pageInfo.hasPrevious()} eq true ? 'disabled' : 'enable'">最初のページへ</a>
 					</li>
 					<li><a
-						th:href="@{'/jpassmcrud/city?pageNum='+${previousPage < 1 ? 1 : previousPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
+						th:href="@{'/ssmcrud/city?pageNum='+${previousPage < 1 ? 1 : previousPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
 						th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">&laquo;</a>
 					</li>
 					<li th:each="i:${#numbers.sequence(pageFirstIndex,pageLastIndex)}"
 						th:class="${pageInfo.getCurrent()} eq ${i} ? 'active' : 'enable'">
 						<a th:text="${i}"
-						   th:href="@{'/jpassmcrud/city?pageNum='+${i}+'&keyword='+${keyword eq null ? '' : keyword}}"></a>
+						   th:href="@{'/ssmcrud/city?pageNum='+${i}+'&keyword='+${keyword eq null ? '' : keyword}}"></a>
 					</li>
 					<li><a
-						th:href="@{'/jpassmcrud/city?pageNum='+${nextPage > totalPg ? totalPg : nextPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
+						th:href="@{'/ssmcrud/city?pageNum='+${nextPage > totalPg ? totalPg : nextPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
 						th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">&raquo;</a>
 					</li>
 					<li><a
-						th:href="@{'/jpassmcrud/city?pageNum='+${pageInfo.getPages()}+'&keyword='+${keyword eq null ? '' : keyword}}"
+						th:href="@{'/ssmcrud/city?pageNum='+${pageInfo.getPages()}+'&keyword='+${keyword eq null ? '' : keyword}}"
 						th:class="${pageInfo.hasNext()} eq true ? 'disabled' : 'enable'">最後のページへ</a>
 					</li>
 				</ul>
@@ -230,11 +230,11 @@
 		$("#searchBtn").on('click', function() {
 			let keyword = $("#keywordInput").val().trim().toString();
 			$.ajax({
-				url : '/jpassmcrud/city?pageNum=' + pageNum + '&keyword=' + keyword,
+				url : '/ssmcrud/city?pageNum=' + pageNum + '&keyword=' + keyword,
 				type : 'GET',
 				dataType : 'html',
 				success : function() {
-					window.location.replace("/jpassmcrud/city?pageNum=1&keyword=" + keyword);
+					window.location.replace("/ssmcrud/city?pageNum=1&keyword=" + keyword);
 				}
 			});
 		});
@@ -255,7 +255,7 @@
 			alert(id)
 			let vector = $("#continentName");
 			$.ajax({
-				url: '/jpassmcrud/city/' + id,
+				url: '/ssmcrud/city/' + id,
 				type: "GET",
 				// success: function (result) {
 				// 	let cityData = result.extend.citySelected;
