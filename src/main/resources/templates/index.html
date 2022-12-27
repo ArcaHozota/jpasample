@@ -68,10 +68,10 @@
 							<td th:text="${pg.getDistrict()}" class="text-center"></td>
 							<td th:text="${pg.getPopulation()}" class="text-center"></td>
 							<td class='text-center'>
-								<button class="btn btn-primary btn-sm" id="editBtn">
+								<button class="btn btn-primary btn-sm edit_btn" th:id="${pg.getId()}">
 									<span class="glyphicon glyphicon-pencil"></span>編集
 								</button>
-								<button class="btn btn-danger btn-sm">
+								<button class="btn btn-danger btn-sm delete_btn" th:id="${pg.getId()}">
 									<span class="glyphicon glyphicon-trash"></span>削除
 								</button>
 							</td>
@@ -226,7 +226,7 @@
 		</div>
 	</div>
 	<script type="text/javascript" th:inline="javascript">
-		let pageNum = /*[[${pageInfo.getCurrent()+1}]]*/{};
+		let pageNum = /*[[${pageInfo.getCurrent()}]]*/{};
 		$("#searchBtn").on('click', function() {
 			let keyword = $("#keywordInput").val().trim().toString();
 			$.ajax({
@@ -238,7 +238,7 @@
 				}
 			});
 		});
-		$("#editBtn").on('click',function(){
+		$(document).on("click", ".edit_btn", function () {
 			formReset("#cityEditModal form");
 			getCityInfo($(this).attr("editId"));
 			$("#changeBtn").attr("editId", $(this).attr("editId"));
