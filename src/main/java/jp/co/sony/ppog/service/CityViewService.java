@@ -1,6 +1,7 @@
 package jp.co.sony.ppog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import jp.co.sony.ppog.entity.CityView;
 
 import java.util.List;
 

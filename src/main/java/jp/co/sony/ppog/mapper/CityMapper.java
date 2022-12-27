@@ -1,7 +1,7 @@
 package jp.co.sony.ppog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import jp.co.sony.ppog.bean.City;
+import jp.co.sony.ppog.entity.City;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

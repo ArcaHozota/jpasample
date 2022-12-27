@@ -3,10 +3,13 @@ package jp.co.sony.ppog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jp.co.toshiba.ppok.mapper.CityMapper;
-import jp.co.toshiba.ppok.mapper.CityViewMapper;
-import jp.co.toshiba.ppok.mapper.CountryMapper;
-import jp.co.toshiba.ppok.service.CityViewService;
+import jp.co.sony.ppog.entity.City;
+import jp.co.sony.ppog.entity.CityView;
+import jp.co.sony.ppog.entity.Country;
+import jp.co.sony.ppog.mapper.CityMapper;
+import jp.co.sony.ppog.mapper.CityViewMapper;
+import jp.co.sony.ppog.mapper.CountryMapper;
+import jp.co.sony.ppog.service.CityViewService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
