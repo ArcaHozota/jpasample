@@ -98,7 +98,7 @@
 					<li th:each="i:${#numbers.sequence(pageFirstIndex,pageLastIndex)}"
 						th:class="${pageInfo.getCurrent()} eq ${i} ? 'active' : 'enable'">
 						<a th:text="${i}"
-						   th:href="@{'/jpassmcrud/city?pageNum='+${i+1}+'&keyword='+${keyword eq null ? '' : keyword}}"></a>
+						   th:href="@{'/jpassmcrud/city?pageNum='+${i}+'&keyword='+${keyword eq null ? '' : keyword}}"></a>
 					</li>
 					<li><a
 						th:href="@{'/jpassmcrud/city?pageNum='+${nextPage > totalPg ? totalPg : nextPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
