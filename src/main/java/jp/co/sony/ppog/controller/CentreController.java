@@ -41,11 +41,43 @@ public class CentreController {
         // 検索条件コンストラクタを宣言する；
         final LambdaQueryWrapper<CityView> queryWrapper = Wrappers.lambdaQuery(new CityView());
         // フィルター条件を設定する；
-        queryWrapper.like(StringUtils.isNotEmpty(keyword), CityView::getName, keyword);
+        queryWrapper.eq(CityView::getNation, keyword);
         // ソート条件を設定する；
         queryWrapper.orderByAsc(CityView::getName);
-        // ページング検索；
-        this.cityViewService.page(pageInfo, queryWrapper);
+        // 国を検索する；
+        final List<CityView> list = this.cityViewService.list(queryWrapper);
+        // キーワードの属性を判断する；
+        if (list.size() != 0) {
+            // ページング検索；
+            this.cityViewService.page(pageInfo, queryWrapper);
+        } else if ("min(pop)".equals(keyword)) {
+            // 検索条件コンストラクタを宣言する；
+            final LambdaQueryWrapper<CityView> queryWrapper1 = Wrappers.lambdaQuery(new CityView());
+            // フィルター条件を設定する；
+            queryWrapper1.orderByAsc(CityView::getPopulation);
+            // ページング検索；
+            this.cityViewService.page(pageInfo, queryWrapper);
+            // 最初の25個記録を取得する；
+            pageInfo.setSize(25);
+        } else if ("max(pop)".equals(keyword)) {
+            // 検索条件コンストラクタを宣言する；
+            final LambdaQueryWrapper<CityView> queryWrapper1 = Wrappers.lambdaQuery(new CityView());
+            // フィルター条件を設定する；
+            queryWrapper1.orderByDesc(CityView::getPopulation);
+            // ページング検索；
+            this.cityViewService.page(pageInfo, queryWrapper);
+            // 最初の25個記録を取得する；
+            pageInfo.setSize(25);
+        } else {
+            // 検索条件コンストラクタを宣言する；
+            final LambdaQueryWrapper<CityView> queryWrapper2 = Wrappers.lambdaQuery(new CityView());
+            // フィルター条件を設定する；
+            queryWrapper2.like(StringUtils.isNotEmpty(keyword), CityView::getName, keyword);
+            // ソート条件を設定する；
+            queryWrapper2.orderByAsc(CityView::getName);
+            // ページング検索；
+            this.cityViewService.page(pageInfo, queryWrapper2);
+        }
         // modelAndViewオブジェクトを宣言する；
         final ModelAndView mav = new ModelAndView("index");
         // 前のページを取得する；
