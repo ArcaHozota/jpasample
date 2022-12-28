@@ -172,52 +172,51 @@
 	<!-- データ編集モーダル -->
 	<div th:class="'modal fade'" th:id="'cityEditModal'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div th:class="'modal-dialog'" th:role="'document'">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
+			<div th:class="'modal-content'">
+				<div th:class="'modal-header'">
+					<button th:type="'button'" th:class="'close'" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
-					<h4 class="modal-title">都市情報修正</h4>
+					<h4 th:class="'modal-title'">都市情報修正</h4>
 				</div>
-				<div class="modal-body">
-					<form class="form-horizontal">
-						<div class="form-group">
-							<label class="col-sm-2 control-label">都市名</label>
-							<div class="col-sm-10">
-								<p id="cityName" class="form-control-static"></p>
+				<div th:class="'modal-body'">
+					<form th:class="'form-horizontal'">
+						<div th:class="'form-group'">
+							<label th:class="'col-sm-2 control-label'">都市名</label>
+							<div th:class="'col-sm-10'">
+								<p th:id="'cityEdit'" th:class="'form-control-static'"></p>
 							</div>
 						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">大陸</label>
-							<div class="col-sm-5">
-								<p id="continentName" class="form-control-static"></p>
+						<div th:class="'form-group'">
+							<label th:class="'col-sm-2 control-label'">大陸</label>
+							<div th:class="'col-sm-5'">
+								<p th:id="'continentEdit'" th:class="'form-control-static'"></p>
 							</div>
 						</div>
-						<div class="form-group">
-							<label for="nationEdit" class="col-sm-2 control-label">国家</label>
-							<div class="col-sm-5">
-								<select id="nationEdit" class="form-control" name="nation"></select>
+						<div th:class="'form-group'">
+							<label th:for="'nationEdit'" th:class="'col-sm-2 control-label'">国家</label>
+							<div th:class="'col-sm-5'">
+								<select th:id="'nationEdit'" th:class="'form-control'" th:name="'nation'"></select>
 							</div>
 						</div>
-						<div class="form-group">
-							<label for="districtEdit" class="col-sm-2 control-label">地域</label>
-							<div class="col-sm-10">
-								<input type="text" name="district" class="form-control"
-									id="districtEdit"> <span class="help-block"></span>
+						<div th:class="'form-group'">
+							<label th:for="'districtEdit'" th:class="'col-sm-2 control-label'">地域</label>
+							<div th:class="'col-sm-10'">
+								<input th:type="'text'" th:name="'district'" th:class="'form-control'"
+									th:id="'districtEdit'"> <span th:class="'help-block'"></span>
 							</div>
 						</div>
-						<div class="form-group">
-							<label for="populationEdit" class="col-sm-2 control-label">人口数量</label>
-							<div class="col-sm-10">
-								<input type="text" name="population" class="form-control"
-									id="populationEdit"> <span class="help-block"></span>
+						<div th:class="'form-group'">
+							<label th:for="'populationEdit'" th:class="'col-sm-2 control-label'">人口数量</label>
+							<div th:class="'col-sm-10'">
+								<input th:type="'text'" th:name="'population'" th:class="'form-control'"
+									th:id="'populationEdit'"> <span th:class="'help-block'"></span>
 							</div>
 						</div>
 					</form>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-info" id="infoChangeBtn">変更</button>
+				<div th:class="'modal-footer'">
+					<button th:type="'button'" th:class="'btn btn-info'" th:id="'infoChangeBtn'">変更</button>
 				</div>
 			</div>
 		</div>
@@ -250,7 +249,7 @@
 			$(element).find(".help-block").text("");
 		}
 		function getCityInfo(id) {
-			let vector = $("#continentName");
+			let vector = $("#continentName").text();
 			$.ajax({
 				url: '/ssmcrud/city/' + id,
 				type: "GET",
