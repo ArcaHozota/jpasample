@@ -5,13 +5,17 @@ import javax.annotation.Resource;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Lists;
 import jp.co.sony.ppog.entity.CityView;
+import jp.co.sony.ppog.entity.Country;
 import jp.co.sony.ppog.service.CityViewService;
 import jp.co.sony.ppog.utils.RestMsg;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 /**
  * 中央処理コントローラ
@@ -70,5 +74,22 @@ public class CentreController {
     public RestMsg getCityInfo(@PathVariable("id") final Long id) {
         final CityView cityInfo = this.cityViewService.getById(id);
         return RestMsg.success().add("citySelected", cityInfo);
+    }
+
+    @GetMapping(value = "/nations/{id}")
+    @ResponseBody
+    public RestMsg getListOfNationsById(@PathVariable("id") final Long id) {
+        final List<String> list = Lists.newArrayList();
+        final CityView cityView = this.cityViewService.getById(id);
+        final String nationName = cityView.getNation();
+        list.add(nationName);
+        final String continent = cityView.getContinent();
+        final List<CityView> nations = this.cityViewService.getNations(continent);
+        nations.forEach(item -> {
+            if (!nationName.equals(item.getNation())) {
+                list.add(item.getNation());
+            }
+        });
+        return RestMsg.success().add("nationsWithName", list);
     }
 }
