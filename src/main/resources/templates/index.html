@@ -221,7 +221,7 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" th:inline="javascript">
+	<script th:type="'text/javascript'" th:inline="javascript">
 		let pageNum = /*[[${pageInfo.getCurrent()}]]*/{};
 		$("#searchBtn").on('click', function() {
 			let keyword = $("#keywordInput").val().trim().toString();
