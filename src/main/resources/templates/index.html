@@ -61,18 +61,18 @@
 					</thead>
 					<tbody>
 						<tr th:each="pg:${pageInfo.getRecords()}">
-							<td th:text="${pg.getId()}" class="text-center"></td>
-							<td th:text="${pg.getName()}" class="text-center"></td>
-							<td th:text="${pg.getContinent()}" class="text-center"></td>
-							<td th:text="${pg.getNation()}" class="text-center"></td>
-							<td th:text="${pg.getDistrict()}" class="text-center"></td>
-							<td th:text="${pg.getPopulation()}" class="text-center"></td>
+							<td th:text="${pg.getId()}" th:class="'text-center'"></td>
+							<td th:text="${pg.getName()}" th:class="'text-center'"></td>
+							<td th:text="${pg.getContinent()}" th:class="'text-center'"></td>
+							<td th:text="${pg.getNation()}" th:class="'text-center'"></td>
+							<td th:text="${pg.getDistrict()}" th:class="'text-center'"></td>
+							<td th:text="${pg.getPopulation()}" th:class="'text-center'"></td>
 							<td class='text-center'>
-								<button class="btn btn-primary btn-sm edit_btn" th:id="${pg.getId()}">
-									<span class="glyphicon glyphicon-pencil"></span>編集
+								<button th:class="'btn btn-primary btn-sm edit_btn'" th:id="*{pg.getId()}">
+									<span th:class="'glyphicon glyphicon-pencil'"></span>編集
 								</button>
-								<button class="btn btn-danger btn-sm delete_btn" th:id="${pg.getId()}">
-									<span class="glyphicon glyphicon-trash"></span>削除
+								<button th:class="'btn btn-danger btn-sm delete_btn'" th:id="*{pg.getId()}">
+									<span th:class="'glyphicon glyphicon-trash'"></span>削除
 								</button>
 							</td>
 						</tr>
@@ -85,8 +85,8 @@
 			<div class="col-lg-5"
 				th:text="|The ${pageInfo.getCurrent()} page in ${pageInfo.getPages()} pages, ${pageInfo.getTotal()} records found.|"></div>
 			<nav class="col-lg-7"
-				th:with="previousPage=${pageInfo.getCurrent()-1},nextPage=${pageInfo.getCurrent()+1},totalPg=${pageInfo.getTotal()}">
-				<ul class="pagination">
+				th:with="previousPage=${pageInfo.getCurrent()-1},nextPage=${pageInfo.getCurrent()+1},totalPg=${pageInfo.getPages()}">
+				<ul th:class="'pagination'">
 					<li><a
 						th:href="@{'/ssmcrud/city?pageNum=1&keyword='+${keyword eq null ? '' : keyword}}"
 						th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">最初のページへ</a>
@@ -105,7 +105,7 @@
 						th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">&raquo;</a>
 					</li>
 					<li><a
-						th:href="@{'/ssmcrud/city?pageNum='+${pageInfo.getPages()}+'&keyword='+${keyword eq null ? '' : keyword}}"
+						th:href="@{'/ssmcrud/city?pageNum='+${totalPg}+'&keyword='+${keyword eq null ? '' : keyword}}"
 						th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">最後のページへ</a>
 					</li>
 				</ul>
@@ -113,13 +113,11 @@
 		</div>
 	</div>
 	<!-- データ追加モーダル -->
-	<div class="modal fade" id="cityAddModal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel">
+	<div class="modal fade" id="cityAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">×</span>
 					</button>
 					<h4 class="modal-title">都市情報追加</h4>
@@ -166,7 +164,7 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="cityInfoSaveBtn">保存</button>
+					<button type="button" class="btn btn-primary" id="infoSaveBtn">保存</button>
 				</div>
 			</div>
 		</div>
@@ -220,7 +218,7 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-info" id="cityInfoChangeBtn">変更</button>
+					<button type="button" class="btn btn-info" id="infoChangeBtn">変更</button>
 				</div>
 			</div>
 		</div>
@@ -239,11 +237,13 @@
 			});
 		});
 		$(document).on("click", ".edit_btn", function () {
+			let id = $(this).id;
+            alert(id);
 			formReset("#cityEditModal form");
-			getCityInfo($(this).attr("editId"));
-			$("#changeBtn").attr("editId", $(this).attr("editId"));
+			getCityInfo(id);
+			$("#changeBtn").attr("editId", editId);
 			$("#cityEditModal").modal({
-				backdrop: "static"
+				backdrop: 'static'
 			});
 		});
 		function formReset(element) {
