@@ -42,12 +42,12 @@ public class CentreController {
         final LambdaQueryWrapper<CityView> queryWrapper = Wrappers.lambdaQuery(new CityView());
         // フィルター条件を設定する；
         queryWrapper.eq(CityView::getNation, keyword);
-        // ソート条件を設定する；
-        queryWrapper.orderByAsc(CityView::getName);
         // 国を検索する；
         final List<CityView> list = this.cityViewService.list(queryWrapper);
         // キーワードの属性を判断する；
         if (list.size() != 0) {
+            // ソート条件を設定する；
+            queryWrapper.orderByAsc(CityView::getName);
             // ページング検索；
             this.cityViewService.page(pageInfo, queryWrapper);
         } else if ("min(pop)".equals(keyword)) {
@@ -55,19 +55,19 @@ public class CentreController {
             final LambdaQueryWrapper<CityView> queryWrapper1 = Wrappers.lambdaQuery(new CityView());
             // フィルター条件を設定する；
             queryWrapper1.orderByAsc(CityView::getPopulation);
-            // ページング検索；
-            this.cityViewService.page(pageInfo, queryWrapper);
             // 最初の25個記録を取得する；
-            pageInfo.setSize(25);
+            queryWrapper1.last("limit 25");
+            // ページング検索；
+            this.cityViewService.page(pageInfo, queryWrapper1);
         } else if ("max(pop)".equals(keyword)) {
             // 検索条件コンストラクタを宣言する；
-            final LambdaQueryWrapper<CityView> queryWrapper1 = Wrappers.lambdaQuery(new CityView());
+            final LambdaQueryWrapper<CityView> queryWrapper2 = Wrappers.lambdaQuery(new CityView());
             // フィルター条件を設定する；
-            queryWrapper1.orderByDesc(CityView::getPopulation);
-            // ページング検索；
-            this.cityViewService.page(pageInfo, queryWrapper);
+            queryWrapper2.orderByDesc(CityView::getPopulation);
             // 最初の25個記録を取得する；
-            pageInfo.setSize(25);
+            queryWrapper2.last("limit 25");
+            // ページング検索；
+            this.cityViewService.page(pageInfo, queryWrapper2);
         } else {
             // 検索条件コンストラクタを宣言する；
             final LambdaQueryWrapper<CityView> queryWrapper2 = Wrappers.lambdaQuery(new CityView());
