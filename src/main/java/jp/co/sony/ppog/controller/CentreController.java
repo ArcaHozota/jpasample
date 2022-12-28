@@ -43,7 +43,7 @@ public class CentreController {
         // フィルター条件を設定する；
         queryWrapper.like(StringUtils.isNotEmpty(keyword), CityView::getName, keyword);
         // ソート条件を設定する；
-        queryWrapper.orderByAsc(CityView::getId);
+        queryWrapper.orderByAsc(CityView::getName);
         // ページング検索；
         this.cityViewService.page(pageInfo, queryWrapper);
         // modelAndViewオブジェクトを宣言する；
