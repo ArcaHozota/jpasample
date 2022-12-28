@@ -268,6 +268,7 @@
 			$.ajax({
 				url: '/ssmcrud/nations/' + id,
 				type: 'GET',
+				dataType: 'json',
 				success: function (result) {
 					$.each(result.extend.nationsWithName, function () {
 						let optionElement = $("<option></option>")
