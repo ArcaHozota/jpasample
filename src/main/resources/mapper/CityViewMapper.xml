@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="jp.co.sony.ppog.mapper.CityViewMapper">
     <resultMap id="ResultMap" type="jp.co.sony.ppog.entity.CityView">
-        <id column="ID" jdbcType="NUMERIC" property="id"/>
-        <result column="NAME" jdbcType="NCHAR" property="name"/>
-        <result column="CONTINENT" jdbcType="NCHAR" property="continent"/>
-        <result column="NATION" jdbcType="NCHAR" property="nation"/>
-        <result column="DISTRICT" jdbcType="NCHAR" property="district"/>
-        <result column="POPULATION" jdbcType="NUMERIC" property="population"/>
+        <id column="ID" jdbcType="SMALLINT" property="id"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="CONTINENT" jdbcType="VARCHAR" property="continent"/>
+        <result column="NATION" jdbcType="VARCHAR" property="nation"/>
+        <result column="DISTRICT" jdbcType="VARCHAR" property="district"/>
+        <result column="POPULATION" jdbcType="INTEGER" property="population"/>
     </resultMap>
     <select id="selectContinents" resultMap="ResultMap">
         select distinct CONTINENT
@@ -17,7 +17,7 @@
     <select id="selectNations" parameterType="java.lang.String" resultMap="ResultMap">
         select distinct NATION
         from WORLD_CITY_VIEW
-        where CONTINENT = #{continent,jdbcType=NCHAR}
+        where CONTINENT = #{continent,jdbcType=VARCHAR}
         order by NATION asc
     </select>
 </mapper>

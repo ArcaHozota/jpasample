@@ -170,9 +170,8 @@
 		</div>
 	</div>
 	<!-- データ編集モーダル -->
-	<div class="modal fade" id="cityEditModal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document">
+	<div th:class="'modal fade'" th:id="'cityEditModal'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div th:class="'modal-dialog'" th:role="'document'">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
@@ -237,11 +236,10 @@
 			});
 		});
 		$(document).on("click", ".edit_btn", function () {
-			let id = $(this).id;
-            alert(id);
+			let id = $(this).attr("id");
 			formReset("#cityEditModal form");
 			getCityInfo(id);
-			$("#changeBtn").attr("editId", editId);
+			$("#infoChangeBtn").attr("editId", id);
 			$("#cityEditModal").modal({
 				backdrop: 'static'
 			});
