@@ -70,7 +70,8 @@ public class CentreController {
 
     /**
      * 指定された都市の情報を取得する
-     * @param id　都市ID
+     *
+     * @param id 　都市ID
      * @return 都市情報
      */
     @GetMapping(value = "/city/{id}")
@@ -80,6 +81,12 @@ public class CentreController {
         return RestMsg.success().add("citySelected", cityInfo);
     }
 
+    /**
+     * 指定された都市の大陸に位置するすべての国を取得する
+     *
+     * @param id 都市ID
+     * @return 国のリスト
+     */
     @GetMapping(value = "/nations/{id}")
     @ResponseBody
     public RestMsg getListOfNationsById(@PathVariable("id") final Long id) {
