@@ -55,19 +55,23 @@ public class CentreController {
             final LambdaQueryWrapper<CityView> queryWrapper1 = Wrappers.lambdaQuery(new CityView());
             // フィルター条件を設定する；
             queryWrapper1.orderByAsc(CityView::getPopulation);
-            // 最初の25個記録を取得する；
-            queryWrapper1.last("limit 25");
+            // 最初の10個記録を取得する；
+            queryWrapper1.last("limit 10");
             // ページング検索；
-            this.cityViewService.page(pageInfo, queryWrapper1);
+            final List<CityView> list1 = this.cityViewService.list(queryWrapper1);
+            pageInfo.setRecords(list1);
+            pageInfo.setTotal(list1.size());
         } else if ("max(pop)".equals(keyword)) {
             // 検索条件コンストラクタを宣言する；
             final LambdaQueryWrapper<CityView> queryWrapper2 = Wrappers.lambdaQuery(new CityView());
             // フィルター条件を設定する；
             queryWrapper2.orderByDesc(CityView::getPopulation);
-            // 最初の25個記録を取得する；
-            queryWrapper2.last("limit 25");
+            // 最初の10個記録を取得する；
+            queryWrapper2.last("limit 10");
             // ページング検索；
-            this.cityViewService.page(pageInfo, queryWrapper2);
+            final List<CityView> list2 = this.cityViewService.list(queryWrapper2);
+            pageInfo.setRecords(list2);
+            pageInfo.setTotal(list2.size());
         } else {
             // 検索条件コンストラクタを宣言する；
             final LambdaQueryWrapper<CityView> queryWrapper3 = Wrappers.lambdaQuery(new CityView());
