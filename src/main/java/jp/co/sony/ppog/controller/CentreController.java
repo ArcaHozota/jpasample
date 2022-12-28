@@ -7,11 +7,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import jp.co.sony.ppog.entity.CityView;
 import jp.co.sony.ppog.service.CityViewService;
+import jp.co.sony.ppog.utils.RestMsg;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -64,5 +63,12 @@ public class CentreController {
         mav.addObject("pageLastIndex", pageLastIndex);
         mav.addObject("title", "CityList");
         return mav;
+    }
+
+    @GetMapping(value = "/city/{id}")
+    @ResponseBody
+    public RestMsg getCityInfo(@PathVariable("id") final Long id) {
+        final CityView cityInfo = this.cityViewService.getById(id);
+        return RestMsg.success().add("citySelected", cityInfo);
     }
 }
