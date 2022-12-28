@@ -81,10 +81,10 @@
 			</div>
 		</div>
 		<!-- ページナビ -->
-		<div class="row">
-			<div class="col-lg-5"
+		<div th:class="'row'">
+			<div th:class="'col-lg-5'"
 				th:text="|The ${pageInfo.getCurrent()} page in ${pageInfo.getPages()} pages, ${pageInfo.getTotal()} records found.|"></div>
-			<nav class="col-lg-7"
+			<nav th:class="'col-lg-7'"
 				th:with="previousPage=${pageInfo.getCurrent()-1},nextPage=${pageInfo.getCurrent()+1},totalPg=${pageInfo.getPages()}">
 				<ul th:class="'pagination'">
 					<li><a
