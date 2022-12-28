@@ -15,9 +15,9 @@
         order by continent asc
     </select>
     <select id="selectNations" parameterType="java.lang.String" resultMap="ResultMap">
-        select distinct NATION
+        select distinct nation
         from city_view
-        where CONTINENT = #{continent,jdbcType=VARCHAR}
-        order by NATION asc
+        where continent = #{continent,jdbcType=VARCHAR}
+        order by nation asc
     </select>
 </mapper>
