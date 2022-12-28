@@ -70,13 +70,13 @@ public class CentreController {
             this.cityViewService.page(pageInfo, queryWrapper2);
         } else {
             // 検索条件コンストラクタを宣言する；
-            final LambdaQueryWrapper<CityView> queryWrapper2 = Wrappers.lambdaQuery(new CityView());
+            final LambdaQueryWrapper<CityView> queryWrapper3 = Wrappers.lambdaQuery(new CityView());
             // フィルター条件を設定する；
-            queryWrapper2.like(StringUtils.isNotEmpty(keyword), CityView::getName, keyword);
+            queryWrapper3.like(StringUtils.isNotEmpty(keyword), CityView::getName, keyword);
             // ソート条件を設定する；
-            queryWrapper2.orderByAsc(CityView::getName);
+            queryWrapper3.orderByAsc(CityView::getName);
             // ページング検索；
-            this.cityViewService.page(pageInfo, queryWrapper2);
+            this.cityViewService.page(pageInfo, queryWrapper3);
         }
         // modelAndViewオブジェクトを宣言する；
         final ModelAndView mav = new ModelAndView("index");
