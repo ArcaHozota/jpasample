@@ -249,18 +249,19 @@
 			$(element).find(".help-block").text("");
 		}
 		function getCityInfo(id) {
-			let vector = $("#continentName").text();
+			let vector = $("#continentEdit");
 			$.ajax({
 				url: '/ssmcrud/city/' + id,
-				type: "GET",
-				// success: function (result) {
-				// 	let cityData = result.extend.citySelected;
-				// 	$("#displayedCityName").text(cityData.name);
-				// 	vector.text(cityData.continent);
-				// 	$("#districtEdit").val(cityData.district);
-				// 	$("#populationEdit").val(cityData.population);
-				// 	getNationsById("#nationEdit", id);
-				// }
+				type: 'GET',
+                dataType: 'json',
+                success: function (result) {
+                    let cityData = result.extend.citySelected;
+                    $("#cityEdit").text(cityData.name);
+                    vector.text(cityData.continent);
+                    $("#districtEdit").val(cityData.district);
+                    $("#populationEdit").val(cityData.population);
+                    getNationsById("#nationEdit", id);
+                }
 			});
 		}
 	</script>
