@@ -249,7 +249,6 @@
 			$(element).find(".help-block").text("");
 		}
 		function getCityInfo(id) {
-			let vector = $("#continentEdit");
 			$.ajax({
 				url: '/ssmcrud/city/' + id,
 				type: 'GET',
@@ -257,10 +256,10 @@
                 success: function (result) {
                     let cityData = result.extend.citySelected;
                     $("#cityEdit").text(cityData.name);
-                    vector.text(cityData.continent);
+					$("#continentEdit").text(cityData.continent);
                     $("#districtEdit").val(cityData.district);
                     $("#populationEdit").val(cityData.population);
-                    getNationsById("#nationEdit", id);
+                    // getNationsById("#nationEdit", id);
                 }
 			});
 		}
