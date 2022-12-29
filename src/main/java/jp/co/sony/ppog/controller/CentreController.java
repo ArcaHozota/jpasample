@@ -139,4 +139,16 @@ public class CentreController {
         });
         return RestMsg.success().add("nationsWithName", list);
     }
+
+    /**
+     * 入力した都市情報を変更する
+     *
+     * @param cityView 　都市情報エンティティ
+     * @return 処理成功のメッセージ
+     */
+    @PutMapping(value = "/city/{id}")
+    public RestMsg updateCityInfo(@RequestBody final CityView cityView) {
+        this.cityViewService.updateCityInfo(cityView);
+        return RestMsg.success();
+    }
 }
