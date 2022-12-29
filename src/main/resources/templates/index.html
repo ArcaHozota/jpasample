@@ -1,351 +1,359 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title th:text="${title}">Default</title>
-<!--フレームワークjQueryを導入-->
-<script th:type="'text/javascript'" th:src="@{/jquery/jquery-3.6.2.min.js}"></script>
-<!--フレームワークBootstrapを導入-->
-<link th:rel="'shortcut icon'" th:type="'image/png'" href="../static/favicon.png">
-<link th:rel="'stylesheet'" th:type="'text/css'"
-	th:href="@{/bootstrap-3.4.1-dist/css/bootstrap.min.css}">
-<script th:type="'text/javascript'"
-	th:src="@{/bootstrap-3.4.1-dist/js/bootstrap.min.js}"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title}">Default</title>
+    <!--フレームワークjQueryを導入-->
+    <script th:type="'text/javascript'" th:src="@{/jquery/jquery-3.6.2.min.js}"></script>
+    <!--フレームワークBootstrapを導入-->
+    <link th:rel="'shortcut icon'" th:type="'image/png'" href="../static/favicon.png">
+    <link th:rel="'stylesheet'" th:type="'text/css'"
+          th:href="@{/bootstrap-3.4.1-dist/css/bootstrap.min.css}">
+    <script th:type="'text/javascript'"
+            th:src="@{/bootstrap-3.4.1-dist/js/bootstrap.min.js}"></script>
 </head>
 <body>
-	<!-- ウェブページを構築する -->
-	<div class="container">
-		<!-- タイトル -->
-		<div class="row">
-			<div class="col-lg-12">
-				<h1>グローバル都市一覧</h1>
-			</div>
-		</div>
-		<!-- 検索バーとボタン -->
-		<div class="row">
-			<form class="form-inline col-lg-7" role="form">
-				<div class="form-group has-feedback" style="width: 50%">
-					<div class="input-group" style="width: 100%">
-						<label for="keywordInput" class="input-group-addon">@</label> <input
-							id="keywordInput" class="form-control has-success" type="text"
-							th:value="*{keyword}" placeholder="検索条件を入力してください">
-					</div>
-				</div>
-				<button type="button" class="btn btn-warning" id="searchBtn">
-					<span class="glyphicon glyphicon-search"></span>検索
-				</button>
-			</form>
-			<div class="col-lg-2 col-lg-offset-3">
-				<button id="cityAddModalBtn" class="btn btn-success"
-					data-toggle="modal" data-target="#cityAddModal">
-					<span class="glyphicon glyphicon-pawn"></span>情報追加
-				</button>
-			</div>
-		</div>
-		<!-- データ -->
-		<div class="row">
-			<div class="col-lg-12">
-				<table th:id="'cityTable'" th:class="'table table-condensed'">
-					<thead>
-						<tr class="danger">
-							<th scope="col" th:class="'text-center'" th:style="'width:70px;'">都市ID</th>
-							<th scope="col" th:class="'text-center'" th:style="'width:120px;'">都市名</th>
-							<th scope="col" th:class="'text-center'" th:style="'width:100px;'">大陸</th>
-							<th scope="col" th:class="'text-center'" th:style="'width:100px;'">国家</th>
-							<th scope="col" th:class="'text-center'" th:style="'width:120px;'">地域</th>
-							<th scope="col" th:class="'text-center'" th:style="'width:70px;'">人口数量</th>
-							<th scope="col" th:class="'text-center'" th:style="'width:120px;'">操作</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="pg:${pageInfo.getRecords()}">
-							<td th:text="${pg.getId()}" th:class="'text-center'" th:style="'width:70px;'"></td>
-							<td th:text="${pg.getName()}" th:class="'text-center'"
-								th:style="${pg.getName().trim().length() gt 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}"></td>
-							<td th:text="${pg.getContinent()}" th:class="'text-center'" th:style="'width:100px;'"></td>
-							<td th:text="${pg.getNation()}" th:class="'text-center'"
-								th:style="${pg.getNation().trim().length() gt 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}"></td>
-							<td th:text="${pg.getDistrict()}" th:class="'text-center'"
-								th:style="${pg.getDistrict().trim().length() gt 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}"></td>
-							<td th:text="${pg.getPopulation()}" th:class="'text-center'" th:style="'width:70px;'"></td>
-							<td th:class="'text-center'" th:style="'width:120px;'">
-								<button th:class="'btn btn-primary btn-sm edit_btn'" th:id="*{pg.getId()}">
-									<span th:class="'glyphicon glyphicon-pencil'"></span>編集
-								</button>
-								<button th:class="'btn btn-danger btn-sm delete_btn'" th:id="*{pg.getName()}">
-									<span th:class="'glyphicon glyphicon-trash'"></span>削除
-								</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-		<!-- ページナビ -->
-		<div th:class="'row'">
-			<div th:class="'col-lg-5'"
-				th:text="|The ${pageInfo.getCurrent()} page in ${pageInfo.getPages()} pages, ${pageInfo.getTotal()} records found.|"></div>
-			<nav th:class="'col-lg-7'"
-				th:with="previousPage=${pageInfo.getCurrent()-1},nextPage=${pageInfo.getCurrent()+1},totalPg=${pageInfo.getPages()}">
-				<ul th:class="'pagination'">
-					<li><a
-						th:href="@{'/ssmcrud/city?pageNum=1&keyword='+${keyword eq null ? '' : keyword}}"
-						th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">最初のページへ</a>
-					</li>
-					<li><a
-						th:href="@{'/ssmcrud/city?pageNum='+${previousPage < 1 ? 1 : previousPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
-						th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">&laquo;</a>
-					</li>
-					<li th:each="i:${#numbers.sequence(pageFirstIndex,pageLastIndex)}"
-						th:class="${pageInfo.getCurrent()} eq ${i} ? 'active' : 'enable'">
-						<a th:text="${i}"
-						   th:href="@{'/ssmcrud/city?pageNum='+${i}+'&keyword='+${keyword eq null ? '' : keyword}}"></a>
-					</li>
-					<li><a
-						th:href="@{'/ssmcrud/city?pageNum='+${nextPage > totalPg ? totalPg : nextPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
-						th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">&raquo;</a>
-					</li>
-					<li><a
-						th:href="@{'/ssmcrud/city?pageNum='+${totalPg}+'&keyword='+${keyword eq null ? '' : keyword}}"
-						th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">最後のページへ</a>
-					</li>
-				</ul>
-			</nav>
-		</div>
-	</div>
-	<!-- データ追加モーダル -->
-	<div class="modal fade" id="cityAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-					<h4 class="modal-title">都市情報追加</h4>
-				</div>
-				<div class="modal-body">
-					<form class="form-horizontal">
-						<div class="form-group">
-							<label for="nameInput" class="col-sm-2 control-label">都市名</label>
-							<div class="col-sm-10">
-								<input type="text" name="name" class="form-control"
-									id="nameInput" placeholder="都市の正式的な名称"> <span
-									class="help-block"></span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="continentInput" class="col-sm-2 control-label">大陸</label>
-							<div class="col-sm-5">
-								<select id="continentInput" class="form-control"
-									name="continent"></select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="nationInput" class="col-sm-2 control-label">国家</label>
-							<div class="col-sm-5">
-								<select id="nationInput" class="form-control" name="nation"></select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="districtInput" class="col-sm-2 control-label">地域</label>
-							<div class="col-sm-10">
-								<input type="text" name="district" class="form-control"
-									id="districtInput" placeholder="都市の地域"> <span
-									class="help-block"></span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="populationInput" class="col-sm-2 control-label">人口数量</label>
-							<div class="col-sm-10">
-								<input type="text" name="population" class="form-control"
-									id="populationInput" placeholder="都市の人口数量"> <span
-									class="help-block"></span>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="infoSaveBtn">保存</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- データ編集モーダル -->
-	<div th:class="'modal fade'" th:id="'cityEditModal'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div th:class="'modal-dialog'" th:role="'document'">
-			<div th:class="'modal-content'">
-				<div th:class="'modal-header'">
-					<button th:type="'button'" th:class="'close'" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-					<h4 th:class="'modal-title'">都市情報修正</h4>
-				</div>
-				<div th:class="'modal-body'">
-					<form th:class="'form-horizontal'">
-						<div th:class="'form-group'">
-							<label th:class="'col-sm-2 control-label'">都市名</label>
-							<div th:class="'col-sm-10'">
-								<p th:id="'cityEdit'" th:class="'form-control-static'"></p>
-							</div>
-						</div>
-						<div th:class="'form-group'">
-							<label th:class="'col-sm-2 control-label'">大陸</label>
-							<div th:class="'col-sm-5'">
-								<p th:id="'continentEdit'" th:class="'form-control-static'"></p>
-							</div>
-						</div>
-						<div th:class="'form-group'">
-							<label th:for="'nationEdit'" th:class="'col-sm-2 control-label'">国家</label>
-							<div th:class="'col-sm-5'">
-								<select th:id="'nationEdit'" th:class="'form-control'" th:name="'nation'"></select>
-							</div>
-						</div>
-						<div th:class="'form-group'">
-							<label th:for="'districtEdit'" th:class="'col-sm-2 control-label'">地域</label>
-							<div th:class="'col-sm-10'">
-								<input th:type="'text'" th:name="'district'" th:class="'form-control'"
-									th:id="'districtEdit'"> <span th:class="'help-block'"></span>
-							</div>
-						</div>
-						<div th:class="'form-group'">
-							<label th:for="'populationEdit'" th:class="'col-sm-2 control-label'">人口数量</label>
-							<div th:class="'col-sm-10'">
-								<input th:type="'text'" th:name="'population'" th:class="'form-control'"
-									th:id="'populationEdit'"> <span th:class="'help-block'"></span>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div th:class="'modal-footer'">
-					<button th:type="'button'" th:class="'btn btn-info'" th:id="'infoChangeBtn'">変更</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<script th:type="'text/javascript'" th:inline="javascript">
-		let pageNum = /*[[${pageInfo.getCurrent()}]]*/{};
-		$("#searchBtn").on('click', function() {
-			let keyword = $("#keywordInput").val().trim().toString();
-			$.ajax({
-				url : '/ssmcrud/city?pageNum=' + pageNum + '&keyword=' + keyword,
-				type : 'GET',
-				dataType : 'html',
-				success : function() {
-					window.location.replace("/ssmcrud/city?pageNum=1&keyword=" + keyword);
-				}
-			});
-		});
-		$(document).on("click", ".edit_btn", function () {
-			let id = $(this).attr("id");
-			formReset("#cityEditModal form");
-			getCityInfo(id);
-			$("#infoChangeBtn").attr("editId", id);
-			$("#cityEditModal").modal({
-				backdrop: 'static'
-			});
-		});
-		function getCityInfo(id) {
-			$.ajax({
-				url: '/ssmcrud/city/' + id,
-				type: 'GET',
+<!-- ウェブページを構築する -->
+<div class="container">
+    <!-- タイトル -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1>グローバル都市一覧</h1>
+        </div>
+    </div>
+    <!-- 検索バーとボタン -->
+    <div class="row">
+        <form class="form-inline col-lg-7" role="form">
+            <div class="form-group has-feedback" style="width: 50%">
+                <div class="input-group" style="width: 100%">
+                    <label for="keywordInput" class="input-group-addon">@</label> <input
+                        id="keywordInput" class="form-control has-success" type="text"
+                        th:value="*{keyword}" placeholder="検索条件を入力してください">
+                </div>
+            </div>
+            <button type="button" class="btn btn-warning" id="searchBtn">
+                <span class="glyphicon glyphicon-search"></span>検索
+            </button>
+        </form>
+        <div class="col-lg-2 col-lg-offset-3">
+            <button id="cityAddModalBtn" class="btn btn-success"
+                    data-toggle="modal" data-target="#cityAddModal">
+                <span class="glyphicon glyphicon-pawn"></span>情報追加
+            </button>
+        </div>
+    </div>
+    <!-- データ -->
+    <div class="row">
+        <div class="col-lg-12">
+            <table th:id="'cityTable'" th:class="'table table-condensed'">
+                <thead>
+                <tr class="danger">
+                    <th scope="col" th:class="'text-center'" th:style="'width:70px;'">都市ID</th>
+                    <th scope="col" th:class="'text-center'" th:style="'width:120px;'">都市名</th>
+                    <th scope="col" th:class="'text-center'" th:style="'width:100px;'">大陸</th>
+                    <th scope="col" th:class="'text-center'" th:style="'width:100px;'">国家</th>
+                    <th scope="col" th:class="'text-center'" th:style="'width:120px;'">地域</th>
+                    <th scope="col" th:class="'text-center'" th:style="'width:70px;'">人口数量</th>
+                    <th scope="col" th:class="'text-center'" th:style="'width:120px;'">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="pg:${pageInfo.getRecords()}">
+                    <td th:text="${pg.getId()}" th:class="'text-center'" th:style="'width:70px;'"></td>
+                    <td th:text="${pg.getName()}" th:class="'text-center'"
+                        th:style="${pg.getName().trim().length() gt 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}"></td>
+                    <td th:text="${pg.getContinent()}" th:class="'text-center'" th:style="'width:100px;'"></td>
+                    <td th:text="${pg.getNation()}" th:class="'text-center'"
+                        th:style="${pg.getNation().trim().length() gt 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}"></td>
+                    <td th:text="${pg.getDistrict()}" th:class="'text-center'"
+                        th:style="${pg.getDistrict().trim().length() gt 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}"></td>
+                    <td th:text="${pg.getPopulation()}" th:class="'text-center'" th:style="'width:70px;'"></td>
+                    <td th:class="'text-center'" th:style="'width:120px;'">
+                        <button th:class="'btn btn-primary btn-sm edit_btn'" th:id="*{pg.getId()}">
+                            <span th:class="'glyphicon glyphicon-pencil'"></span>編集
+                        </button>
+                        <button th:class="'btn btn-danger btn-sm delete_btn'" th:id="*{pg.getName()}">
+                            <span th:class="'glyphicon glyphicon-trash'"></span>削除
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- ページナビ -->
+    <div th:class="'row'">
+        <div th:class="'col-lg-5'"
+             th:text="|The ${pageInfo.getCurrent()} page in ${pageInfo.getPages()} pages, ${pageInfo.getTotal()} records found.|"></div>
+        <nav th:class="'col-lg-7'"
+             th:with="previousPage=${pageInfo.getCurrent()-1},nextPage=${pageInfo.getCurrent()+1},totalPg=${pageInfo.getPages()}">
+            <ul th:class="'pagination'">
+                <li><a
+                        th:href="@{'/ssmcrud/city?pageNum=1&keyword='+${keyword eq null ? '' : keyword}}"
+                        th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">最初のページへ</a>
+                </li>
+                <li><a
+                        th:href="@{'/ssmcrud/city?pageNum='+${previousPage < 1 ? 1 : previousPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
+                        th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">&laquo;</a>
+                </li>
+                <li th:each="i:${#numbers.sequence(pageFirstIndex,pageLastIndex)}"
+                    th:class="${pageInfo.getCurrent()} eq ${i} ? 'active' : 'enable'">
+                    <a th:text="${i}"
+                       th:href="@{'/ssmcrud/city?pageNum='+${i}+'&keyword='+${keyword eq null ? '' : keyword}}"></a>
+                </li>
+                <li><a
+                        th:href="@{'/ssmcrud/city?pageNum='+${nextPage > totalPg ? totalPg : nextPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
+                        th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">&raquo;</a>
+                </li>
+                <li><a
+                        th:href="@{'/ssmcrud/city?pageNum='+${totalPg}+'&keyword='+${keyword eq null ? '' : keyword}}"
+                        th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">最後のページへ</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<!-- データ追加モーダル -->
+<div class="modal fade" id="cityAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">都市情報追加</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="nameInput" class="col-sm-2 control-label">都市名</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="name" class="form-control"
+                                   id="nameInput" placeholder="都市の正式的な名称"> <span
+                                class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="continentInput" class="col-sm-2 control-label">大陸</label>
+                        <div class="col-sm-5">
+                            <select id="continentInput" class="form-control"
+                                    name="continent"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nationInput" class="col-sm-2 control-label">国家</label>
+                        <div class="col-sm-5">
+                            <select id="nationInput" class="form-control" name="nation"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="districtInput" class="col-sm-2 control-label">地域</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="district" class="form-control"
+                                   id="districtInput" placeholder="都市の地域"> <span
+                                class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="populationInput" class="col-sm-2 control-label">人口数量</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="population" class="form-control"
+                                   id="populationInput" placeholder="都市の人口数量"> <span
+                                class="help-block"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="infoSaveBtn">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- データ編集モーダル -->
+<div th:class="'modal fade'" th:id="'cityEditModal'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div th:class="'modal-dialog'" th:role="'document'">
+        <div th:class="'modal-content'">
+            <div th:class="'modal-header'">
+                <button th:type="'button'" th:class="'close'" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 th:class="'modal-title'">都市情報修正</h4>
+            </div>
+            <div th:class="'modal-body'">
+                <form th:class="'form-horizontal'">
+                    <div th:class="'form-group'">
+                        <label th:class="'col-sm-2 control-label'">都市名</label>
+                        <div th:class="'col-sm-10'">
+                            <p th:id="'cityEdit'" th:class="'form-control-static'"></p>
+                        </div>
+                    </div>
+                    <div th:class="'form-group'">
+                        <label th:class="'col-sm-2 control-label'">大陸</label>
+                        <div th:class="'col-sm-5'">
+                            <p th:id="'continentEdit'" th:class="'form-control-static'"></p>
+                        </div>
+                    </div>
+                    <div th:class="'form-group'">
+                        <label th:for="'nationEdit'" th:class="'col-sm-2 control-label'">国家</label>
+                        <div th:class="'col-sm-5'">
+                            <select th:id="'nationEdit'" th:class="'form-control'" th:name="'nation'"></select>
+                        </div>
+                    </div>
+                    <div th:class="'form-group'">
+                        <label th:for="'districtEdit'" th:class="'col-sm-2 control-label'">地域</label>
+                        <div th:class="'col-sm-10'">
+                            <input th:type="'text'" th:name="'district'" th:class="'form-control'"
+                                   th:id="'districtEdit'"> <span th:class="'help-block'"></span>
+                        </div>
+                    </div>
+                    <div th:class="'form-group'">
+                        <label th:for="'populationEdit'" th:class="'col-sm-2 control-label'">人口数量</label>
+                        <div th:class="'col-sm-10'">
+                            <input th:type="'text'" th:name="'population'" th:class="'form-control'"
+                                   th:id="'populationEdit'"> <span th:class="'help-block'"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div th:class="'modal-footer'">
+                <button th:type="'button'" th:class="'btn btn-info'" th:id="'infoChangeBtn'">変更</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:type="'text/javascript'" th:inline="javascript">
+    let pageNum = /*[[${pageInfo.getCurrent()}]]*/{};
+    $("#searchBtn").on('click', function () {
+        let keyword = $("#keywordInput").val().trim().toString();
+        $.ajax({
+            url: '/ssmcrud/city?pageNum=' + pageNum + '&keyword=' + keyword,
+            type: 'GET',
+            dataType: 'html',
+            success: function () {
+                window.location.replace("/ssmcrud/city?pageNum=1&keyword=" + keyword);
+            }
+        });
+    });
+    $(document).on("click", ".edit_btn", function () {
+        let id = $(this).attr("id");
+        formReset("#cityEditModal form");
+        getCityInfo(id);
+        $("#infoChangeBtn").attr("editId", id);
+        $("#cityEditModal").modal({
+            backdrop: 'static'
+        });
+    });
+
+    function getCityInfo(id) {
+        $.ajax({
+            url: '/ssmcrud/city/' + id,
+            type: 'GET',
+            dataType: 'json',
+            success: function (result) {
+                let cityData = result.extend.citySelected;
+                $("#cityEdit").text(cityData.name);
+                $("#continentEdit").text(cityData.continent);
+                $("#districtEdit").val(cityData.district);
+                $("#populationEdit").val(cityData.population);
+                getNationsById("#nationEdit", id);
+            }
+        });
+    }
+
+    function getNationsById(element, id) {
+        $(element).empty();
+        $.ajax({
+            url: '/ssmcrud/nations/' + id,
+            type: 'GET',
+            dataType: 'json',
+            success: function (result) {
+                $.each(result.extend.nationsWithName, function () {
+                    let optionElement = $("<option></option>")
+                        .append(this).attr("value", this);
+                    optionElement.appendTo(element);
+                });
+            }
+        });
+    }
+
+    $("#infoChangeBtn").on('click', function () {
+        let editId = $(this).attr("editId");
+        let inputDistrict = $("#districtEdit").val().trim().toString();
+        let inputPopulation = $("#populationEdit").val().trim().toString();
+        let regularDistrict = /^[a-zA-Z_-]{2,33}$/;
+        let regularPopulation = /^[0-9]{4,18}$/;
+        if (!regularDistrict.test(inputDistrict)
+            && !regularPopulation.test(inputPopulation)) {
+            showValidationMsg("#districtEdit", "error", "Districts' name should be in 2~33 Latin alphabets.");
+            showValidationMsg("#populationEdit", "error", "Population should be in 4~18 numbers.");
+            return false;
+        }
+        if (!regularDistrict.test(inputDistrict)
+            && regularPopulation.test(inputPopulation)) {
+            showValidationMsg("#districtEdit", "error", "Districts' name should be in 2~33 Latin alphabets.");
+            showValidationMsg("#populationEdit", "success", "√");
+            return false;
+        }
+        if (regularDistrict.test(inputDistrict)
+            && !regularPopulation.test(inputPopulation)) {
+            showValidationMsg("#districtEdit", "success", "√");
+            showValidationMsg("#populationEdit", "error", "Population should be in 4~18 numbers.");
+            return false;
+        }
+        showValidationMsg("#districtEdit", "success", "√");
+        showValidationMsg("#populationEdit", "success", "√");
+        $.ajax({
+            url: '/ssmcrud/city/' + editId,
+            type: 'PUT',
+            dataType: 'json',
+            data: JSON.stringify({
+                'id': editId,
+                'name': $("#cityEdit").text().toString(),
+                'continent': $("#continentEdit").text().toString(),
+                'nation': $("#nationEdit option:selected").val().toString(),
+                'district': inputDistrict,
+                'population': inputPopulation
+            }),
+            contentType: 'application/json;charset=UTF-8',
+            success: function () {
+                $("#cityEditModal").modal('hide');
+                window.location.replace('/ssmcrud/city?pageNum=' + pageNum + '&keyword=');
+            }
+        });
+    });
+    $(document).on("click", ".delete_btn", function () {
+        let cityName = $(this).attr("id");
+        if (confirm("この" + cityName + "という都市の情報を削除する、よろしいでしょうか。")) {
+            $.ajax({
+                url: '/ssmcrud/nations/' + id,
+                type: 'DELETE',
                 dataType: 'json',
                 success: function (result) {
-                    let cityData = result.extend.citySelected;
-                    $("#cityEdit").text(cityData.name);
-					$("#continentEdit").text(cityData.continent);
-                    $("#districtEdit").val(cityData.district);
-                    $("#populationEdit").val(cityData.population);
-                    getNationsById("#nationEdit", id);
                 }
-			});
-		}
-		function getNationsById(element, id) {
-			$(element).empty();
-			$.ajax({
-				url: '/ssmcrud/nations/' + id,
-				type: 'GET',
-				dataType: 'json',
-				success: function (result) {
-					$.each(result.extend.nationsWithName, function () {
-						let optionElement = $("<option></option>")
-								.append(this).attr("value", this);
-						optionElement.appendTo(element);
-					});
-				}
-			});
-		}
-		$("#infoChangeBtn").on('click', function() {
-			let editId = $(this).attr("editId");
-			let inputDistrict = $("#districtEdit").val().trim().toString();
-			let inputPopulation = $("#populationEdit").val().trim().toString();
-			let regularDistrict = /^[a-zA-Z_-]{2,33}$/;
-			let regularPopulation = /^[0-9]{4,18}$/;
-			if (!regularDistrict.test(inputDistrict)
-					&& !regularPopulation.test(inputPopulation)) {
-				showValidationMsg("#districtEdit", "error", "Districts' name should be in 2~33 Latin alphabets.");
-				showValidationMsg("#populationEdit", "error", "Population should be in 4~18 numbers.");
-				return false;
-			}
-			if (!regularDistrict.test(inputDistrict)
-					&& regularPopulation.test(inputPopulation)) {
-				showValidationMsg("#districtEdit", "error", "Districts' name should be in 2~33 Latin alphabets.");
-				showValidationMsg("#populationEdit", "success", "√");
-				return false;
-			}
-			if (regularDistrict.test(inputDistrict)
-					&& !regularPopulation.test(inputPopulation)) {
-				showValidationMsg("#districtEdit", "success", "√");
-				showValidationMsg("#populationEdit", "error", "Population should be in 4~18 numbers.");
-				return false;
-			}
-			showValidationMsg("#districtEdit", "success", "√");
-			showValidationMsg("#populationEdit", "success", "√");
-			$.ajax({
-				url: '/ssmcrud/city/' + editId,
-				type: 'PUT',
-				dataType: 'json',
-				data: JSON.stringify({
-					'id': editId,
-					'name': $("#cityEdit").text().toString(),
-					'continent': $("#continentEdit").text().toString(),
-					'nation': $("#nationEdit option:selected").val().toString(),
-					'district': inputDistrict,
-					'population': inputPopulation
-				}),
-				contentType: 'application/json;charset=UTF-8',
-				success: function () {
-					$("#cityEditModal").modal('hide');
-					window.location.replace('/ssmcrud/city?pageNum=' + pageNum + '&keyword=');
-				}
-			});
-		});
-		$(document).on("click", ".delete_btn", function () {
-			$.ajax({
-				url: '/ssmcrud/nations/' + id,
-				type: 'DELETE',
-				dataType: 'json',
-				success: function (result) {
-				}
-			});
-		});
-		function formReset(element) {
-			$(element)[0].reset();
-			$(element).find("*").removeClass("has-error has-success");
-			$(element).find(".help-block").text("");
-		}
-        function showValidationMsg(element, status, msg) {
-            $(element).parent().removeClass("has-success has-error");
-            $(element).next("span").text("");
-            if (status === "success") {
-                $(element).parent().addClass("has-success");
-                $(element).next("span").text(msg);
-            } else if (status === "error") {
-                $(element).parent().addClass("has-error");
-                $(element).next("span").text(msg);
-            }
+            });
         }
-	</script>
+    });
+
+    function formReset(element) {
+        $(element)[0].reset();
+        $(element).find("*").removeClass("has-error has-success");
+        $(element).find(".help-block").text("");
+    }
+
+    function showValidationMsg(element, status, msg) {
+        $(element).parent().removeClass("has-success has-error");
+        $(element).next("span").text("");
+        if (status === "success") {
+            $(element).parent().addClass("has-success");
+            $(element).next("span").text(msg);
+        } else if (status === "error") {
+            $(element).parent().addClass("has-error");
+            $(element).next("span").text(msg);
+        }
+    }
+</script>
 </body>
 </html>
