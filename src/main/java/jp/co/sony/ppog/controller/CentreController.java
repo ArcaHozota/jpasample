@@ -162,7 +162,7 @@ public class CentreController {
      */
     @DeleteMapping(value = "/city/{id}")
     @ResponseBody
-    public RestMsg deleteCityInfo(@PathVariable final Long id) {
+    public RestMsg deleteCityInfo(@PathVariable("id") final Long id) {
         this.cityViewService.deleteCityInfo(id);
         return RestMsg.success();
     }
