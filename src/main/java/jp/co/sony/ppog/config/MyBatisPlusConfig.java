@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 public class MyBatisPlusConfig {
 
 	/**
-	 * configuration for MBPlus intercepter
+	 * configuration of MBPlus pagination interceptor
 	 *
 	 * @return mybatisPlusInterceptor
 	 */
