@@ -147,6 +147,7 @@ public class CentreController {
      * @return 処理成功のメッセージ
      */
     @PutMapping(value = "/city/{id}")
+    @ResponseBody
     public RestMsg updateCityInfo(@RequestBody final CityView cityView) {
         this.cityViewService.updateCityInfo(cityView);
         return RestMsg.success();
