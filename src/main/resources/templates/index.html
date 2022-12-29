@@ -246,11 +246,6 @@
 				backdrop: 'static'
 			});
 		});
-		function formReset(element) {
-			$(element)[0].reset();
-			$(element).find("*").removeClass("has-error has-success");
-			$(element).find(".help-block").text("");
-		}
 		function getCityInfo(id) {
 			$.ajax({
 				url: '/ssmcrud/city/' + id,
@@ -281,6 +276,50 @@
 				}
 			});
 		}
+		$("#infoChangeBtn").on('click',function(){
+			let editId = $(this).attr("editId");
+			let inputDistrict = $("#districtEdit").val().trim().toString();
+			let inputPopulation = $("#populationEdit").val().trim().toString();
+			let regularDistrict = /^[a-zA-Z_-]{2,33}$/;
+			let regularPopulation = /^[0-9]{4,18}$/;
+			if (!regularDistrict.test(inputDistrict)
+					&& !regularPopulation.test(inputPopulation)) {
+				showValidationMsg("#districtEdit", "error", "Districts' name should be in 2~33 Latin alphabets.");
+				showValidationMsg("#populationEdit", "error", "Population should be in 4~18 numbers.");
+				return false;
+			}
+			if (!regularDistrict.test(inputDistrict)
+					&& regularPopulation.test(inputPopulation)) {
+				showValidationMsg("#districtEdit", "error", "Districts' name should be in 2~33 Latin alphabets.");
+				showValidationMsg("#populationEdit", "success", "√");
+				return false;
+			}
+			if (regularDistrict.test(inputDistrict)
+					&& !regularPopulation.test(inputPopulation)) {
+				showValidationMsg("#districtEdit", "success", "√");
+				showValidationMsg("#populationEdit", "error", "Population should be in 4~18 numbers.");
+				return false;
+			}
+			showValidationMsg("#districtEdit", "success", "√");
+			showValidationMsg("#populationEdit", "success", "√");
+			$.ajax({
+				url: '/ssmcrud/city/' + editId,
+				type: 'PUT',
+				dataType: 'json',
+				data: {
+					'id': editId,
+					'name': $("#displayedCityName").text().toString(),
+					'continent': $("#continentName").text().toString(),
+					'nation': $("#nationEdit option:selected").val().toString(),
+					'district': inputDistrict,
+					'population': inputPopulation
+				},
+				success: function () {
+					$("#cityEditModal").modal('hide');
+					window.location.replace('/ssmcrud/city?pageNum=' + pageNum + '&keyword=');
+				}
+			});
+		});
 		$(document).on("click", ".delete_btn", function () {
 			$.ajax({
 				url: '/ssmcrud/nations/' + id,
@@ -290,6 +329,22 @@
 				}
 			});
 		});
+		function formReset(element) {
+			$(element)[0].reset();
+			$(element).find("*").removeClass("has-error has-success");
+			$(element).find(".help-block").text("");
+		}
+        function showValidationMsg(element, status, msg) {
+            $(element).parent().removeClass("has-success has-error");
+            $(element).next("span").text("");
+            if (status === "success") {
+                $(element).parent().addClass("has-success");
+                $(element).next("span").text(msg);
+            } else if (status === "error") {
+                $(element).parent().addClass("has-error");
+                $(element).next("span").text(msg);
+            }
+        }
 	</script>
 </body>
 </html>
