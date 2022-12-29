@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
+import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.entity.CityView;
 import jp.co.sony.ppog.service.CityViewService;
 import jp.co.sony.ppog.utils.RestMsg;
@@ -150,6 +151,22 @@ public class CentreController {
     @ResponseBody
     public RestMsg updateCityInfo(@RequestBody final CityView cityView) {
         this.cityViewService.updateCityInfo(cityView);
+        return RestMsg.success();
+    }
+
+    /**
+     * 選択された都市情報を削除する
+     *
+     * @param name 都市名称
+     * @return 処理成功のメッセージ
+     */
+    @DeleteMapping(value = "/city/{name}")
+    @ResponseBody
+    public RestMsg deleteCityInfo(@PathVariable final String name) {
+        final LambdaQueryWrapper<CityView> queryWrapper = Wrappers.lambdaQuery(new CityView());
+        queryWrapper.eq(CityView::getName, name);
+        final CityView cityView = cityViewService.getOne(queryWrapper);
+        this.cityViewService.deleteCityInfo(cityView.getId());
         return RestMsg.success();
     }
 }

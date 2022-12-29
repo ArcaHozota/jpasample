@@ -324,14 +324,16 @@
             }
         });
     });
+
     $(document).on("click", ".delete_btn", function () {
         let cityName = $(this).attr("id");
         if (confirm("この" + cityName + "という都市の情報を削除する、よろしいでしょうか。")) {
             $.ajax({
-                url: '/ssmcrud/nations/' + id,
-                type: 'DELETE',
+                url: '/ssmcrud/city/' + cityName,
+                type: 'delete',
                 dataType: 'json',
                 success: function (result) {
+                    window.location.replace('/ssmcrud/city?pageNum=' + pageNum + '&keyword=');
                 }
             });
         }
