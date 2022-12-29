@@ -62,7 +62,8 @@
 					<tbody>
 						<tr th:each="pg:${pageInfo.getRecords()}">
 							<td th:text="${pg.getId()}" th:class="'text-center'" th:style="'width:70px;'"></td>
-							<td th:text="${pg.getName()}" th:class="'text-center'" th:style="'width:120px;'"></td>
+							<td th:text="${pg.getName()}" th:class="'text-center'"
+								th:style="${pg.getName().length() gt 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}"></td>
 							<td th:text="${pg.getContinent()}" th:class="'text-center'" th:style="'width:100px;'"></td>
 							<td th:text="${pg.getNation()}" th:class="'text-center'" th:style="'width:100px;'"></td>
 							<td th:text="${pg.getDistrict()}" th:class="'text-center'" th:style="'width:120px;'"></td>
