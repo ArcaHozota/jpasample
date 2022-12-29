@@ -157,17 +157,13 @@ public class CentreController {
     /**
      * 選択された都市情報を削除する
      *
-     * @param name 都市名称
+     * @param id 都市ID
      * @return 処理成功のメッセージ
      */
-    @DeleteMapping(value = "/city/{name}")
+    @DeleteMapping(value = "/city/{id}")
     @ResponseBody
-    public RestMsg deleteCityInfo(@PathVariable final String name) {
-        final LambdaQueryWrapper<CityView> queryWrapper = Wrappers.lambdaQuery(new CityView());
-        queryWrapper.eq(CityView::getName, name);
-        queryWrapper.last("LIMIT 1");
-        final CityView cityView = cityViewService.getOne(queryWrapper);
-        this.cityViewService.deleteCityInfo(cityView.getId());
+    public RestMsg deleteCityInfo(@PathVariable final Long id) {
+        this.cityViewService.deleteCityInfo(id);
         return RestMsg.success();
     }
 }
