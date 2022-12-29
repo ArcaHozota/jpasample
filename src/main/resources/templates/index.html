@@ -281,6 +281,15 @@
 				}
 			});
 		}
+		$(document).on("click", ".delete_btn", function () {
+			$.ajax({
+				url: '/ssmcrud/nations/' + id,
+				type: 'DELETE',
+				dataType: 'json',
+				success: function (result) {
+				}
+			});
+		});
 	</script>
 </body>
 </html>
