@@ -47,27 +47,27 @@
 		<!-- データ -->
 		<div class="row">
 			<div class="col-lg-12">
-				<table id="cityTable" class="table table-condensed">
+				<table th:id="'cityTable'" th:class="'table table-condensed'">
 					<thead>
 						<tr class="danger">
-							<th scope="col" class="text-center" style="width:70px;">都市ID</th>
-							<th scope="col" class="text-center" style="width:120px;">都市名</th>
-							<th scope="col" class="text-center" style="width:100px;">大陸</th>
-							<th scope="col" class="text-center" style="width:100px;">国家</th>
-							<th scope="col" class="text-center" style="width:120px;">地域</th>
-							<th scope="col" class="text-center" style="width:70px;">人口数量</th>
-							<th scope="col" class="text-center" style="width:120px;">操作</th>
+							<th scope="col" th:class="'text-center'" th:style="'width:70px;'">都市ID</th>
+							<th scope="col" th:class="'text-center'" th:style="'width:120px;'">都市名</th>
+							<th scope="col" th:class="'text-center'" th:style="'width:100px;'">大陸</th>
+							<th scope="col" th:class="'text-center'" th:style="'width:100px;'">国家</th>
+							<th scope="col" th:class="'text-center'" th:style="'width:120px;'">地域</th>
+							<th scope="col" th:class="'text-center'" th:style="'width:70px;'">人口数量</th>
+							<th scope="col" th:class="'text-center'" th:style="'width:120px;'">操作</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="pg:${pageInfo.getRecords()}">
-							<td th:text="${pg.getId()}" th:class="'text-center'"></td>
-							<td th:text="${pg.getName()}" th:class="'text-center'"></td>
-							<td th:text="${pg.getContinent()}" th:class="'text-center'"></td>
-							<td th:text="${pg.getNation()}" th:class="'text-center'"></td>
-							<td th:text="${pg.getDistrict()}" th:class="'text-center'"></td>
-							<td th:text="${pg.getPopulation()}" th:class="'text-center'"></td>
-							<td class='text-center'>
+							<td th:text="${pg.getId()}" th:class="'text-center'" th:style="'width:70px;'"></td>
+							<td th:text="${pg.getName()}" th:class="'text-center'" th:style="'width:120px;'"></td>
+							<td th:text="${pg.getContinent()}" th:class="'text-center'" th:style="'width:100px;'"></td>
+							<td th:text="${pg.getNation()}" th:class="'text-center'" th:style="'width:100px;'"></td>
+							<td th:text="${pg.getDistrict()}" th:class="'text-center'" th:style="'width:120px;'"></td>
+							<td th:text="${pg.getPopulation()}" th:class="'text-center'" th:style="'width:70px;'"></td>
+							<td th:class="'text-center'" th:style="'width:120px;'">
 								<button th:class="'btn btn-primary btn-sm edit_btn'" th:id="*{pg.getId()}">
 									<span th:class="'glyphicon glyphicon-pencil'"></span>編集
 								</button>
