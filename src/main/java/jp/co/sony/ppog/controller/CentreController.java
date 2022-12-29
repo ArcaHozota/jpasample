@@ -78,7 +78,7 @@ public class CentreController {
             // フィルター条件を設定する；
             queryWrapper3.like(StringUtils.isNotEmpty(keyword), CityView::getName, keyword);
             // ソート条件を設定する；
-            queryWrapper3.orderByAsc(CityView::getName);
+            queryWrapper3.orderByAsc(CityView::getId);
             // ページング検索；
             this.cityViewService.page(pageInfo, queryWrapper3);
         }
