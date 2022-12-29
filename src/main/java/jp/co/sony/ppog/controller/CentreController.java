@@ -165,6 +165,7 @@ public class CentreController {
     public RestMsg deleteCityInfo(@PathVariable final String name) {
         final LambdaQueryWrapper<CityView> queryWrapper = Wrappers.lambdaQuery(new CityView());
         queryWrapper.eq(CityView::getName, name);
+        queryWrapper.last("limit 1");
         final CityView cityView = cityViewService.getOne(queryWrapper);
         this.cityViewService.deleteCityInfo(cityView.getId());
         return RestMsg.success();
