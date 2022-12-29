@@ -306,14 +306,15 @@
 				url: '/ssmcrud/city/' + editId,
 				type: 'PUT',
 				dataType: 'json',
-				data: {
+				data: JSON.stringify({
 					'id': editId,
 					'name': $("#displayedCityName").text().toString(),
 					'continent': $("#continentName").text().toString(),
 					'nation': $("#nationEdit option:selected").val().toString(),
 					'district': inputDistrict,
 					'population': inputPopulation
-				},
+				}),
+				contentType: 'application/json;charset=UTF-8',
 				success: function () {
 					$("#cityEditModal").modal('hide');
 					window.location.replace('/ssmcrud/city?pageNum=' + pageNum + '&keyword=');
