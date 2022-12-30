@@ -1,12 +1,14 @@
 package jp.co.sony.ppog.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * 判断ツールクラス
  *
  * @author Administrator
  * @date 2022-11-07
  */
-public class ComparisonUtils {
+public class ComparisonUtils extends StringUtils {
 
 	/**
 	 * イコール
