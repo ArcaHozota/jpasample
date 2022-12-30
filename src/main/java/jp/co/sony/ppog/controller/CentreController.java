@@ -233,7 +233,7 @@ public class CentreController {
 				return RestMsg.success();
 			}
 		} else {
-			return RestMsg.failure().add("validatedMsg", "入力した都市名が全部ローマ字にしなければなりません。");
+			return RestMsg.failure().add("validatedMsg", "入力した都市名は4桁から23桁までのローマ字にしなければなりません。");
 		}
 	}
 }
