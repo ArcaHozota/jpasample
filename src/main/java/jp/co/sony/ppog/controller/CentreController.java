@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import jp.co.sony.ppog.utils.ComparisonUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +22,7 @@ import com.google.common.collect.Lists;
 
 import jp.co.sony.ppog.entity.CityView;
 import jp.co.sony.ppog.service.CityViewService;
+import jp.co.sony.ppog.utils.ComparisonUtils;
 import jp.co.sony.ppog.utils.RestMsg;
 
 /**
@@ -86,7 +85,7 @@ public class CentreController {
 			// 検索条件コンストラクタを宣言する；
 			final LambdaQueryWrapper<CityView> queryWrapper3 = Wrappers.lambdaQuery(new CityView());
 			// フィルター条件を設定する；
-			queryWrapper3.like(StringUtils.isNotEmpty(keyword), CityView::getName, keyword);
+			queryWrapper3.like(ComparisonUtils.isNotEmpty(keyword), CityView::getName, keyword);
 			// ソート条件を設定する；
 			queryWrapper3.orderByAsc(CityView::getId);
 			// ページング検索；
