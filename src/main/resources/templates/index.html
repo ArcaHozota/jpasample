@@ -301,6 +301,65 @@
 			}
 		});
 	}
+	$("#nameInput").change(function () {
+		const cityName = this.value;
+		$.ajax({
+			url: '/ssmcrud/check',
+			data: 'cityName=' + cityName,
+			type: 'GET',
+			success: function (result) {
+				if (result.code === 200) {
+					showValidationMsg("#nameInput", "success", "");
+					$("#infoSaveBtn").attr("ajax-va", "success");
+				} else {
+					showValidationMsg("#nameInput", "error", result.extend.validatedMsg);
+					$("#infoSaveBtn").attr("ajax-va", "error");
+				}
+			}
+		});
+	});
+	$("#infoSaveBtn").on('click', function() {
+		let inputDistrict = $("#districtInput").val();
+		let inputPopulation = $("#populationInput").val();
+		let regularDistrict = /^[a-zA-Z_-]{2,33}$/;
+		let regularPopulation = /^[0-9]{4,18}$/;
+		if ($(this).attr("ajax-va") === "error") {
+			return false;
+		} else if (!regularDistrict.test(inputDistrict)
+				&& !regularPopulation.test(inputPopulation)) {
+			showValidationMsg("#districtInput", "error", "Districts' name should be in 2~33 Latin alphabets.");
+			showValidationMsg("#populationInput", "error", "Population should be in 4~18 numbers.");
+			return false;
+		} else if (!regularDistrict.test(inputDistrict)
+				&& regularPopulation.test(inputPopulation)) {
+			showValidationMsg("#districtInput", "error", "Districts' name should be in 2~33 Latin alphabets.");
+			showValidationMsg("#populationInput", "success", "√");
+			return false;
+		} else if (regularDistrict.test(inputDistrict)
+				&& !regularPopulation.test(inputPopulation)) {
+			showValidationMsg("#districtInput", "success", "√");
+			showValidationMsg("#populationInput", "error", "Population should be in 4~18 numbers.");
+			return false;
+		} else {
+			showValidationMsg("#districtInput", "success", "√");
+			showValidationMsg("#populationInput", "success", "√");
+			//Send an ajax request to commit save options.
+			$.ajax({
+				url: pathdeApp + "/city",
+				type: "POST",
+				data: $("#cityAddModal form").serialize(),
+				success: function (result) {
+					if (result.code === 200) {
+						$("#cityAddModal").modal('hide');
+						//To last page.
+						toSelectedPg(totalRecord, searchName);
+					} else if (undefined !== result.extend.errorFields.name) {
+						showValidationMsg("#nameInput", "error", result.extend.errorFields.name);
+					}
+				}
+			});
+		}
+	});
     $(document).on("click", ".edit_btn", function () {
         let id = $(this).attr("id");
         formReset("#cityEditModal form");

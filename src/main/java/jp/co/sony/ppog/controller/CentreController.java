@@ -1,6 +1,7 @@
 package jp.co.sony.ppog.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 
@@ -198,5 +199,26 @@ public class CentreController {
 	public RestMsg getListOfNationsById(@RequestParam("continentVal") final String continentVal) {
 		final List<String> nations = this.cityViewService.getNations(continentVal);
 		return RestMsg.success().add("nationList", nations);
+	}
+
+	/**
+	 * 入力した都市名を重複かどうかをチェックする
+	 *
+	 * @param cityName 都市名称
+	 * @return 処理成功のメッセージ
+	 */
+	@GetMapping(value = "/check")
+	@ResponseBody
+	public RestMsg checkName(@RequestParam("cityName") final String cityName) {
+		final String regex = "^[a-zA-Z_-]{4,17}$";
+		if (cityName.matches(regex)) {
+			final boolean duplicated = this.cityViewService.checkDuplicated(cityName);
+			if (duplicated) {
+				return RestMsg.failure().add("validatedMsg", "City name is duplicate.");
+			} else {
+				return RestMsg.success();
+			}
+		} else {
+			return RestMsg.failure().add("validatedMsg", "Name of cities should be in 4~17 Latin alphabets.");
 	}
 }
