@@ -43,7 +43,7 @@ public class CentreController {
 	 * @return modelAndView
 	 */
 	@GetMapping(value = "/city")
-	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
+	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Long pageNum,
 			@RequestParam(value = "keyword", defaultValue = "") final String keyword) {
 		// ページングコンストラクタを宣言する；
 		final Page<CityView> pageInfo = Page.of(pageNum, 17);
