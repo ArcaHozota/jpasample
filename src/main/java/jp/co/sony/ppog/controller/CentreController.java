@@ -224,7 +224,7 @@ public class CentreController {
 	@GetMapping(value = "/check")
 	@ResponseBody
 	public RestMsg checkName(@RequestParam("cityName") final String cityName) {
-		final String regex = "^[ a-zA-Z_-]{4,17}$";
+		final String regex = "^[a-zA-Z-\s]{4,17}$";
 		if (cityName.matches(regex)) {
 			final boolean duplicated = this.cityViewService.checkDuplicated(cityName);
 			if (duplicated) {
