@@ -24,7 +24,7 @@ public class CityView implements Serializable {
 	/**
 	 * This field corresponds to the database column WORLD_CITY_VIEW.NAME
 	 */
-	@Pattern(regexp = "^[a-zA-Z_-]{4,17}$", message = "Name of cities should be in 4~17 Latin alphabets.")
+	@Pattern(regexp = "^[ a-zA-Z_-]{4,17}$", message = "Name of cities should be in 4~17 Latin alphabets.")
 	private String name;
 
 	/**

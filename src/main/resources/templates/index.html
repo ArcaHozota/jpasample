@@ -322,24 +322,24 @@
 	$("#infoSaveBtn").on('click', function() {
 		let inputDistrict = $("#districtInput").val();
 		let inputPopulation = $("#populationInput").val();
-		let regularDistrict = /^[a-zA-Z_-]{2,33}$/;
+		let regularDistrict = /^[ a-zA-Z_-]{2,33}$/;
 		let regularPopulation = /^[0-9]{4,18}$/;
 		if ($(this).attr("ajax-va") === "error") {
 			return false;
 		} else if (!regularDistrict.test(inputDistrict)
 				&& !regularPopulation.test(inputPopulation)) {
-			showValidationMsg("#districtInput", "error", "Districts' name should be in 2~33 Latin alphabets.");
-			showValidationMsg("#populationInput", "error", "Population should be in 4~18 numbers.");
+			showValidationMsg("#districtInput", "error", "入力した地域名称が2桁から23桁までのローマ字にしなければなりません。");
+			showValidationMsg("#populationInput", "error", "入力した人口数量が4桁から18桁までの数字にしなければなりません。");
 			return false;
 		} else if (!regularDistrict.test(inputDistrict)
 				&& regularPopulation.test(inputPopulation)) {
-			showValidationMsg("#districtInput", "error", "Districts' name should be in 2~33 Latin alphabets.");
+			showValidationMsg("#districtInput", "error", "入力した地域名称が2桁から23桁までのローマ字にしなければなりません。");
 			showValidationMsg("#populationInput", "success", "√");
 			return false;
 		} else if (regularDistrict.test(inputDistrict)
 				&& !regularPopulation.test(inputPopulation)) {
 			showValidationMsg("#districtInput", "success", "√");
-			showValidationMsg("#populationInput", "error", "Population should be in 4~18 numbers.");
+			showValidationMsg("#populationInput", "error", "入力した人口数量が4桁から18桁までの数字にしなければなりません。");
 			return false;
 		} else {
 			showValidationMsg("#districtInput", "success", "√");
@@ -408,20 +408,20 @@
         let regularPopulation = /^[0-9]{4,18}$/;
         if (!regularDistrict.test(inputDistrict)
             && !regularPopulation.test(inputPopulation)) {
-            showValidationMsg("#districtEdit", "error", "Districts' name should be in 2~33 Latin alphabets.");
-            showValidationMsg("#populationEdit", "error", "Population should be in 4~18 numbers.");
+            showValidationMsg("#districtEdit", "error", "入力した地域名称が2桁から23桁までのローマ字にしなければなりません。");
+            showValidationMsg("#populationEdit", "error", "入力した人口数量が4桁から18桁までの数字にしなければなりません。");
             return false;
         }
         if (!regularDistrict.test(inputDistrict)
             && regularPopulation.test(inputPopulation)) {
-            showValidationMsg("#districtEdit", "error", "Districts' name should be in 2~33 Latin alphabets.");
+            showValidationMsg("#districtEdit", "error", "入力した地域名称が2桁から23桁までのローマ字にしなければなりません。");
             showValidationMsg("#populationEdit", "success", "√");
             return false;
         }
         if (regularDistrict.test(inputDistrict)
             && !regularPopulation.test(inputPopulation)) {
             showValidationMsg("#districtEdit", "success", "√");
-            showValidationMsg("#populationEdit", "error", "Population should be in 4~18 numbers.");
+            showValidationMsg("#populationEdit", "error", "入力した人口数量が4桁から18桁までの数字にしなければなりません。");
             return false;
         }
         showValidationMsg("#districtEdit", "success", "√");
