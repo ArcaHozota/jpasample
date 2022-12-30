@@ -16,7 +16,7 @@ public interface CityViewService extends IService<CityView> {
 	 *
 	 * @return List<CityView>
 	 */
-	List<CityView> getContinents();
+	List<String> getContinents();
 
 	/**
 	 * Search nation's name of cities.

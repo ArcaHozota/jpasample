@@ -1,8 +1,16 @@
 package jp.co.sony.ppog.service.impl;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
 import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.entity.CityView;
 import jp.co.sony.ppog.entity.Country;
@@ -10,11 +18,6 @@ import jp.co.sony.ppog.mapper.CityMapper;
 import jp.co.sony.ppog.mapper.CityViewMapper;
 import jp.co.sony.ppog.mapper.CountryMapper;
 import jp.co.sony.ppog.service.CityViewService;
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 業務処理ロジック
@@ -40,7 +43,7 @@ public class CityViewServiceImpl extends ServiceImpl<CityViewMapper, CityView> i
 	 * @return List<CityDto>
 	 */
 	@Override
-	public List<CityView> getContinents() {
+	public List<String> getContinents() {
 		return this.cityViewMapper.selectContinents();
 	}
 
