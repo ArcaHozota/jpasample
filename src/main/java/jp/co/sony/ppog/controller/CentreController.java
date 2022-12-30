@@ -176,10 +176,9 @@ public class CentreController {
 	}
 
 	/**
-	 * 選択された都市情報を削除する
+	 * 大陸情報を取得する
 	 *
-	 * @param id 都市ID
-	 * @return 処理成功のメッセージ
+	 * @return 大陸名称のリスト
 	 */
 	@GetMapping(value = "/continents")
 	@ResponseBody
