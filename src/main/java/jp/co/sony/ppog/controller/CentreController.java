@@ -140,10 +140,10 @@ public class CentreController {
 		final String nationName = cityView.getNation();
 		list.add(nationName);
 		final String continent = cityView.getContinent();
-		final List<CityView> nations = this.cityViewService.getNations(continent);
+		final List<String> nations = this.cityViewService.getNations(continent);
 		nations.forEach(item -> {
-			if (!nationName.equals(item.getNation())) {
-				list.add(item.getNation());
+			if (!nationName.equals(item)) {
+				list.add(item);
 			}
 		});
 		return RestMsg.success().add("nationsWithName", list);
