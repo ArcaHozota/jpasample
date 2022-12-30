@@ -1,10 +1,11 @@
 package jp.co.sony.ppog.config;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * MyBatisPlus Pagination
@@ -15,12 +16,12 @@ import org.springframework.context.annotation.Configuration;
 public class MyBatisPlusConfig {
 
 	/**
-	 * configuration of MBPlus pagination interceptor
+	 * configuration of MBPlus pagination intercepter
 	 *
 	 * @return mybatisPlusInterceptor
 	 */
 	@Bean
-	public MybatisPlusInterceptor mybatisPlusInterceptor() {
+	protected MybatisPlusInterceptor mybatisPlusInterceptor() {
 		final MybatisPlusInterceptor mybatisPlusInterceptor = new MybatisPlusInterceptor();
 		final PaginationInnerInterceptor innerInterceptor = new PaginationInnerInterceptor();
 		innerInterceptor.setDbType(DbType.POSTGRE_SQL);
