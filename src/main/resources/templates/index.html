@@ -320,8 +320,8 @@
 		});
 	});
 	$("#infoSaveBtn").on('click', function() {
-		let inputDistrict = $("#districtInput").val();
-		let inputPopulation = $("#populationInput").val();
+		let inputDistrict = $("#districtInput").val().trim().toString();
+		let inputPopulation = $("#populationInput").val().trim().toString();
 		let regularDistrict = /^[a-zA-Z-\s]{2,33}$/;
 		let regularPopulation = /^[0-9]{4,18}$/;
 		if ($(this).attr("ajax-va") === "error") {
@@ -350,9 +350,9 @@
 				type: 'POST',
 				dataType: 'json',
 				data: JSON.stringify({
-					'name': $("#cityInput").val().toString(),
+					'name': $("#nameInput").val().trim().toString(),
 					'continent': $("#continentInput option:selected").val().toString(),
-					'nation': $("#nationEdit option:selected").val().toString(),
+					'nation': $("#nationInput option:selected").val().toString(),
 					'district': inputDistrict,
 					'population': inputPopulation
 				}),
