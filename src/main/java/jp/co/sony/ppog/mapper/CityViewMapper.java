@@ -27,5 +27,5 @@ public interface CityViewMapper extends BaseMapper<CityView> {
 	 * @param continent name of continent which the nation located on.
 	 * @return List<CityDto>
 	 */
-	List<CityView> selectNations(String continent);
+	List<String> selectNations(String continent);
 }

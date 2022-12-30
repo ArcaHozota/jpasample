@@ -19,7 +19,7 @@
 		order by continent asc
 	</select>
 	<select id="selectNations" parameterType="java.lang.String"
-		resultMap="ResultMap">
+		resultType="java.lang.String">
 		select distinct nation
 		from city_view
 		where continent = #{continent;jdbcType=VARCHAR}
