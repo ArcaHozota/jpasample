@@ -249,6 +249,7 @@
 	</div>
 <script th:type="'text/javascript'" th:inline="javascript">
     let pageNum = /*[[${pageInfo.getCurrent()}]]*/{};
+	let pageTotal = /*[[${pageInfo.getPages()}]]*/{};
     $("#searchBtn").on('click', function () {
         let keyword = $("#keywordInput").val().trim().toString();
         $.ajax({
@@ -256,7 +257,7 @@
             type: 'GET',
             dataType: 'html',
             success: function () {
-                window.location.replace("/ssmcrud/city?pageNum=1&keyword=" + keyword);
+                window.location.replace('/ssmcrud/city?pageNum=1&keyword=' + keyword);
             }
         });
     });
@@ -345,14 +346,14 @@
 			showValidationMsg("#populationInput", "success", "√");
 			//Send an ajax request to commit save options.
 			$.ajax({
-				url: pathdeApp + "/city",
-				type: "POST",
+				url: '/ssmcrud/city',
+				type: 'POST',
 				data: $("#cityAddModal form").serialize(),
+				dataType: 'json',
 				success: function (result) {
 					if (result.code === 200) {
 						$("#cityAddModal").modal('hide');
-						//To last page.
-						toSelectedPg(totalRecord, searchName);
+						window.location.replace('/ssmcrud/city?pageNum=' + pageTotal + '&keyword=');
 					} else if (undefined !== result.extend.errorFields.name) {
 						showValidationMsg("#nameInput", "error", result.extend.errorFields.name);
 					}

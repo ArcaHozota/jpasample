@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -164,6 +165,19 @@ public class CentreController {
 	}
 
 	/**
+	 * 入力した都市情報を保存する
+	 *
+	 * @param cityView 都市情報エンティティ
+	 * @return 処理成功のメッセージ
+	 */
+	@PostMapping(value = "/city")
+	@ResponseBody
+	public RestMsg saveCityInfo(@RequestBody final CityView cityView) {
+		this.cityViewService.saveCityInfo(cityView);
+		return RestMsg.success();
+	}
+
+	/**
 	 * 選択された都市情報を削除する
 	 *
 	 * @param id 都市ID
@@ -214,11 +228,12 @@ public class CentreController {
 		if (cityName.matches(regex)) {
 			final boolean duplicated = this.cityViewService.checkDuplicated(cityName);
 			if (duplicated) {
-				return RestMsg.failure().add("validatedMsg", "City name is duplicate.");
+				return RestMsg.failure().add("validatedMsg", "入力した都市名が重複する。");
 			} else {
 				return RestMsg.success();
 			}
 		} else {
-			return RestMsg.failure().add("validatedMsg", "Name of cities should be in 4~17 Latin alphabets.");
+			return RestMsg.failure().add("validatedMsg", "入力した都市名が全部ローマ字にしなければなりません。");
+		}
 	}
 }
