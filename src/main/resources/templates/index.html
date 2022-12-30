@@ -303,7 +303,7 @@
 		});
 	}
 	$("#nameInput").change(function () {
-		const cityName = this.value;
+		let cityName = this.value;
 		$.ajax({
 			url: '/ssmcrud/check',
 			data: 'cityName=' + cityName,
@@ -348,8 +348,14 @@
 			$.ajax({
 				url: '/ssmcrud/city',
 				type: 'POST',
-				data: $("#cityAddModal form").serialize(),
 				dataType: 'json',
+				data: JSON.stringify({
+					'name': $("#cityInput").val().toString(),
+					'continent': $("#continentInput option:selected").val().toString(),
+					'nation': $("#nationEdit option:selected").val().toString(),
+					'district': inputDistrict,
+					'population': inputPopulation
+				}),
 				contentType: 'application/json;charset=UTF-8',
 				success: function (result) {
 					if (result.code === 200) {
