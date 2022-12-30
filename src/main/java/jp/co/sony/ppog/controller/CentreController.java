@@ -1,7 +1,6 @@
 package jp.co.sony.ppog.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.annotation.Resource;
 
