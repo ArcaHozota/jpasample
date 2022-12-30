@@ -184,7 +184,12 @@ public class CentreController {
 	@GetMapping(value = "/continents")
 	@ResponseBody
 	public RestMsg getContinents() {
-		final List<CityView> list = this.cityViewService.getContinents();
+		final List<String> list = Lists.newArrayList();
+		final List<CityView> continents = this.cityViewService.getContinents();
+		continents.forEach(item -> {
+			final String continent = item.getContinent();
+			list.add(continent);
+		});
 		return RestMsg.success().add("continentList", list);
 	}
 }

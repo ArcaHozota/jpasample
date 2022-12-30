@@ -1,9 +1,10 @@
 package jp.co.sony.ppog.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import jp.co.sony.ppog.entity.CityView;
-
 import java.util.List;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+
+import jp.co.sony.ppog.entity.CityView;
 
 /**
  * @author Administrator
@@ -13,7 +14,7 @@ public interface CityViewService extends IService<CityView> {
 	/**
 	 * Search continents of cities located on.
 	 *
-	 * @return List<CityDto>
+	 * @return List<CityView>
 	 */
 	List<CityView> getContinents();
 
@@ -21,7 +22,7 @@ public interface CityViewService extends IService<CityView> {
 	 * Search nation's name of cities.
 	 *
 	 * @param continent name of continent which the nation located on.
-	 * @return List<CityDto>
+	 * @return List<CityView>
 	 */
 	List<CityView> getNations(String continent);
 
@@ -29,7 +30,7 @@ public interface CityViewService extends IService<CityView> {
 	 * Search city info by id.
 	 *
 	 * @param id city id
-	 * @return List<CityDto>
+	 * @return List<CityView>
 	 */
 	CityView getCityInfo(Long id);
 
