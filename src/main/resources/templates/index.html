@@ -18,9 +18,9 @@
 </head>
 <body>
 	<!-- ウェブページを構築する -->
-	<div class="container">
+	<div th:class="'container'">
 		<!-- タイトル -->
-		<div class="row">
+		<div th:class="'row'">
 			<div th:class="'col-lg-12'">
 				<h1>グローバル都市一覧</h1>
 			</div>
@@ -266,7 +266,6 @@
             backdrop: 'static'
         });
     });
-
     function getCityInfo(id) {
         $.ajax({
             url: '/ssmcrud/city/' + id,
@@ -282,7 +281,6 @@
             }
         });
     }
-
     function getNationsById(element, id) {
         $(element).empty();
         $.ajax({
@@ -298,7 +296,6 @@
             }
         });
     }
-
     $("#infoChangeBtn").on('click', function () {
         let editId = $(this).attr("editId");
         let inputDistrict = $("#districtEdit").val().trim().toString();
@@ -344,7 +341,6 @@
             }
         });
     });
-
     $(document).on("click", ".delete_btn", function () {
         let cityName = $(this).attr("id");
         let cityId = $(this).attr("deleteId");
@@ -359,13 +355,11 @@
             });
         }
     });
-
     function formReset(element) {
         $(element)[0].reset();
         $(element).find("*").removeClass("has-error has-success");
         $(element).find(".help-block").text("");
     }
-
     function showValidationMsg(element, status, msg) {
         $(element).parent().removeClass("has-success has-error");
         $(element).next("span").text("");
