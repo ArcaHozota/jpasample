@@ -24,7 +24,7 @@ public interface CityViewService extends IService<CityView> {
 	 * @param continent name of continent which the nation located on.
 	 * @return List<CityView>
 	 */
-	List<CityView> getNations(String continent);
+	List<String> getNations(String continent);
 
 	/**
 	 * Search city info by id.

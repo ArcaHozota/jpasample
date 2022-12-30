@@ -54,7 +54,7 @@ public class CityViewServiceImpl extends ServiceImpl<CityViewMapper, CityView> i
 	 * @return List<CityDto>
 	 */
 	@Override
-	public List<CityView> getNations(final String continent) {
+	public List<String> getNations(final String continent) {
 		return this.cityViewMapper.selectNations(continent);
 	}
 
