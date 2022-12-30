@@ -186,4 +186,17 @@ public class CentreController {
 		final List<String> list = this.cityViewService.getContinents();
 		return RestMsg.success().add("continentList", list);
 	}
+
+	/**
+	 * 指定された大陸に位置するすべての国を取得する
+	 *
+	 * @param continentVal 大陸名称
+	 * @return 国のリスト
+	 */
+	@GetMapping(value = "/nations")
+	@ResponseBody
+	public RestMsg getListOfNationsById(@RequestParam("continentVal") final String continentVal) {
+		final List<String> nations = this.cityViewService.getNations(continentVal);
+		return RestMsg.success().add("nationList", nations);
+	}
 }
