@@ -13,7 +13,7 @@
 		<result column="population" jdbcType="INTEGER"
 			property="population" />
 	</resultMap>
-	<select id="selectContinents" resultMap="ResultMap">
+	<select id="selectContinents" resultType="java.lang.String">
 		select distinct continent
 		from city_view
 		order by continent asc

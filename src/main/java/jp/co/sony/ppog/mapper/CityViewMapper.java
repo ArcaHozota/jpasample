@@ -1,10 +1,12 @@
 package jp.co.sony.ppog.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import jp.co.sony.ppog.entity.CityView;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import jp.co.sony.ppog.entity.CityView;
 
 /**
  * @author Administrator
@@ -17,7 +19,7 @@ public interface CityViewMapper extends BaseMapper<CityView> {
 	 *
 	 * @return List<CityDto>
 	 */
-	List<CityView> selectContinents();
+	List<String> selectContinents();
 
 	/**
 	 * Search nation's name of cities.
