@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import jp.co.sony.ppog.utils.ComparisonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -59,7 +60,7 @@ public class CentreController {
 			queryWrapper.orderByAsc(CityView::getName);
 			// ページング検索；
 			this.cityViewService.page(pageInfo, queryWrapper);
-		} else if ("min(pop)".equals(keyword)) {
+		} else if (ComparisonUtils.isEqual("min(pop)", keyword)) {
 			// 検索条件コンストラクタを宣言する；
 			final LambdaQueryWrapper<CityView> queryWrapper1 = Wrappers.lambdaQuery(new CityView());
 			// フィルター条件を設定する；
@@ -70,7 +71,7 @@ public class CentreController {
 			final List<CityView> list1 = this.cityViewService.list(queryWrapper1);
 			pageInfo.setRecords(list1);
 			pageInfo.setTotal(list1.size());
-		} else if ("max(pop)".equals(keyword)) {
+		} else if (ComparisonUtils.isEqual("max(pop)", keyword)) {
 			// 検索条件コンストラクタを宣言する；
 			final LambdaQueryWrapper<CityView> queryWrapper2 = Wrappers.lambdaQuery(new CityView());
 			// フィルター条件を設定する；
@@ -142,7 +143,7 @@ public class CentreController {
 		final String continent = cityView.getContinent();
 		final List<String> nations = this.cityViewService.getNations(continent);
 		nations.forEach(item -> {
-			if (!nationName.equals(item)) {
+			if (ComparisonUtils.isNotEqual(nationName, item)) {
 				list.add(item);
 			}
 		});
