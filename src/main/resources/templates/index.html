@@ -322,7 +322,7 @@
 	$("#infoSaveBtn").on('click', function() {
 		let inputDistrict = $("#districtInput").val();
 		let inputPopulation = $("#populationInput").val();
-		let regularDistrict = /^[ a-zA-Z_-]{2,33}$/;
+		let regularDistrict = /^[a-zA-Z-\s]{2,33}$/;
 		let regularPopulation = /^[0-9]{4,18}$/;
 		if ($(this).attr("ajax-va") === "error") {
 			return false;
@@ -404,7 +404,7 @@
         let editId = $(this).attr("editId");
         let inputDistrict = $("#districtEdit").val().trim().toString();
         let inputPopulation = $("#populationEdit").val().trim().toString();
-        let regularDistrict = /^[a-zA-Z_-]{2,33}$/;
+        let regularDistrict = /^[a-zA-Z-\s]{2,33}$/;
         let regularPopulation = /^[0-9]{4,18}$/;
         if (!regularDistrict.test(inputDistrict)
             && !regularPopulation.test(inputPopulation)) {
