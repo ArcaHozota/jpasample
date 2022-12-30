@@ -14,15 +14,17 @@
 			property="population" />
 	</resultMap>
 	<select id="selectContinents" resultType="java.lang.String">
-		select distinct continent
-		from city_view
-		order by continent asc
+		SELECT DISTINCT
+		continent
+		FROM city_view
+		ORDER BY continent ASC
 	</select>
 	<select id="selectNations" parameterType="java.lang.String"
 		resultType="java.lang.String">
-		select distinct nation
-		from city_view
-		where continent = #{continent;jdbcType=VARCHAR}
-		order by nation asc
+		SELECT DISTINCT nation
+		FROM city_view
+		WHERE continent =
+		#{continent;jdbcType=VARCHAR}
+		ORDER BY nation ASC
 	</select>
 </mapper>
