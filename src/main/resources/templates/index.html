@@ -372,7 +372,7 @@
         if (confirm("この" + cityName + "という都市の情報を削除する、よろしいでしょうか。")) {
             $.ajax({
                 url: '/ssmcrud/city/' + cityId,
-                type: 'delete',
+                type: 'DELETE',
                 dataType: 'json',
                 success: function (result) {
                     window.location.replace('/ssmcrud/city?pageNum=' + pageNum + '&keyword=');

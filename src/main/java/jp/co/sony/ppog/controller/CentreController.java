@@ -174,4 +174,17 @@ public class CentreController {
 		this.cityViewService.deleteCityInfo(id);
 		return RestMsg.success();
 	}
+
+	/**
+	 * 選択された都市情報を削除する
+	 *
+	 * @param id 都市ID
+	 * @return 処理成功のメッセージ
+	 */
+	@GetMapping(value = "/continents")
+	@ResponseBody
+	public RestMsg getContinents() {
+		final List<CityView> list = this.cityViewService.getContinents();
+		return RestMsg.success().add("continentList", list);
+	}
 }
