@@ -260,6 +260,28 @@
             }
         });
     });
+    $("#cityAddModalBtn").on('click', function() {
+        formReset("#cityAddModal form");
+        getContinents("#continentInput");
+    	$("#cityAddModal").modal({
+            backdrop: 'static'
+        });
+    });
+    function getContinents(element) {
+    	$(element).empty();
+        $.ajax({
+            url: '/ssmcrud/continents',
+            type: 'GET',
+            dataType: 'json',
+            success: function (result) {
+                $.each(result.extend.continentList, function () {
+                    let optionElement = $("<option></option>")
+                        .append(this).attr("value", this);
+                    optionElement.appendTo(element);
+                });
+            }
+        });
+    }
     $(document).on("click", ".edit_btn", function () {
         let id = $(this).attr("id");
         formReset("#cityEditModal form");
