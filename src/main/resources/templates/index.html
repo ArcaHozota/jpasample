@@ -282,6 +282,26 @@
             }
         });
     }
+	$("#continentInput").on('change', function () {
+		let continentVal = $("#continentInput option:selected").val();
+		getNations($("#nationInput"), continentVal);
+	});
+	function getNations(element, continentVal) {
+		$(element).empty();
+		$.ajax({
+			url: '/ssmcrud/nations',
+			data: 'continentVal=' + continentVal,
+			type: 'GET',
+			dataType: 'json',
+			success: function (result) {
+				$.each(result.extend.nationList, function () {
+					let optionElement = $("<option></option>")
+							.append(this).attr("value", this);
+					optionElement.appendTo(element);
+				});
+			}
+		});
+	}
     $(document).on("click", ".edit_btn", function () {
         let id = $(this).attr("id");
         formReset("#cityEditModal form");
