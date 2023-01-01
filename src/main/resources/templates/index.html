@@ -320,8 +320,8 @@
 		});
 	});
 	$("#infoSaveBtn").on('click', function() {
-		let inputDistrict = $("#districtInput").val().trim().toString();
-		let inputPopulation = $("#populationInput").val().trim().toString();
+		let inputDistrict = $("#districtInput").val().trim();
+		let inputPopulation = $("#populationInput").val().trim();
 		let regularDistrict = /^[a-zA-Z-\s]{2,33}$/;
 		let regularPopulation = /^[0-9]{4,18}$/;
 		if ($(this).attr("ajax-va") === "error") {
@@ -350,9 +350,9 @@
 				type: 'POST',
 				dataType: 'json',
 				data: JSON.stringify({
-					'name': $("#nameInput").val().trim().toString(),
-					'continent': $("#continentInput option:selected").val().toString(),
-					'nation': $("#nationInput option:selected").val().toString(),
+					'name': $("#nameInput").val().trim(),
+					'continent': $("#continentInput option:selected").val(),
+					'nation': $("#nationInput option:selected").val(),
 					'district': inputDistrict,
 					'population': inputPopulation
 				}),
@@ -409,8 +409,8 @@
     }
     $("#infoChangeBtn").on('click', function () {
         let editId = $(this).attr("editId");
-        let inputDistrict = $("#districtEdit").val().trim().toString();
-        let inputPopulation = $("#populationEdit").val().trim().toString();
+        let inputDistrict = $("#districtEdit").val().trim();
+        let inputPopulation = $("#populationEdit").val().trim();
         let regularDistrict = /^[a-zA-Z-\s]{2,33}$/;
         let regularPopulation = /^[0-9]{4,18}$/;
         if (!regularDistrict.test(inputDistrict)
@@ -438,10 +438,9 @@
             type: 'PUT',
             dataType: 'json',
             data: JSON.stringify({
-                'id': editId,
-                'name': $("#cityEdit").text().toString(),
-                'continent': $("#continentEdit").text().toString(),
-                'nation': $("#nationEdit option:selected").val().toString(),
+                'name': $("#cityEdit").text(),
+                'continent': $("#continentEdit").text(),
+                'nation': $("#nationEdit option:selected").val(),
                 'district': inputDistrict,
                 'population': inputPopulation
             }),
