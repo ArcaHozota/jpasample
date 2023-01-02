@@ -73,24 +73,6 @@ public class CityViewServiceImpl extends ServiceImpl<CityViewMapper, CityView> i
 	}
 
 	/**
-	 * Search city info by id.
-	 *
-	 * @param id city id
-	 * @return CityDto
-	 */
-	@Override
-	public CityView getCityInfo(final Long id) {
-		final CityView cityView = new CityView();
-		final City city = this.cityMapper.selectById(id);
-		BeanUtils.copyProperties(city, cityView, "countryCode", "isDeleted");
-		final String countryCode = city.getCountryCode();
-		final Country nation = this.countryMapper.selectById(countryCode);
-		cityView.setContinent(nation.getContinent());
-		cityView.setNation(nation.getName());
-		return cityView;
-	}
-
-	/**
 	 * Save city info.
 	 *
 	 * @param cityView city info
@@ -121,7 +103,7 @@ public class CityViewServiceImpl extends ServiceImpl<CityViewMapper, CityView> i
 	 * @param id city id
 	 */
 	@Override
-	public void deleteCityInfo(final Long id) {
+	public void deleteCityInfo(final Integer id) {
 		this.cityMapper.deleteById(id);
 	}
 

@@ -122,7 +122,7 @@ public class CentreController {
 	 */
 	@GetMapping(value = "/city/{id}")
 	@ResponseBody
-	public RestMsg getCityInfo(@PathVariable("id") final Long id) {
+	public RestMsg getCityInfo(@PathVariable("id") final Integer id) {
 		final CityView cityInfo = this.cityViewService.getById(id);
 		return RestMsg.success().add("citySelected", cityInfo);
 	}
@@ -135,7 +135,7 @@ public class CentreController {
 	 */
 	@GetMapping(value = "/nations/{id}")
 	@ResponseBody
-	public RestMsg getListOfNationsById(@PathVariable("id") final Long id) {
+	public RestMsg getListOfNationsById(@PathVariable("id") final Integer id) {
 		final List<String> list = Lists.newArrayList();
 		final CityView cityView = this.cityViewService.getById(id);
 		final String nationName = cityView.getNation();
@@ -184,7 +184,7 @@ public class CentreController {
 	 */
 	@DeleteMapping(value = "/city/{id}")
 	@ResponseBody
-	public RestMsg deleteCityInfo(@PathVariable("id") final Long id) {
+	public RestMsg deleteCityInfo(@PathVariable("id") final Integer id) {
 		this.cityViewService.deleteCityInfo(id);
 		return RestMsg.success();
 	}
