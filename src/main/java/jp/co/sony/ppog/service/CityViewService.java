@@ -32,7 +32,7 @@ public interface CityViewService extends IService<CityView> {
 	 * @param id city id
 	 * @return List<CityView>
 	 */
-	CityView getCityInfo(Long id);
+	CityView getCityInfo(Integer id);
 
 	/**
 	 * Save city info.
@@ -53,7 +53,7 @@ public interface CityViewService extends IService<CityView> {
 	 *
 	 * @param id city id
 	 */
-	void deleteCityInfo(Long id);
+	void deleteCityInfo(Integer id);
 
 	/**
 	 * Check the duplicated name of cities.
