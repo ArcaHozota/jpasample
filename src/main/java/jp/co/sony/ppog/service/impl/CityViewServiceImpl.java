@@ -29,13 +29,13 @@ import jp.co.sony.ppog.service.CityViewService;
 public class CityViewServiceImpl extends ServiceImpl<CityViewMapper, CityView> implements CityViewService {
 
 	@Resource
-	private CityViewMapper cityViewMapper;
-
-	@Resource
 	private CityMapper cityMapper;
 
 	@Resource
 	private CountryMapper countryMapper;
+
+	@Resource
+	private CityViewMapper cityViewMapper;
 
 	/**
 	 * Search continents of cities located on.
@@ -44,7 +44,7 @@ public class CityViewServiceImpl extends ServiceImpl<CityViewMapper, CityView> i
 	 */
 	@Override
 	public List<String> getContinents() {
-		return this.cityViewMapper.selectContinents();
+		return this.countryMapper.selectContinents();
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class CityViewServiceImpl extends ServiceImpl<CityViewMapper, CityView> i
 	 */
 	@Override
 	public List<String> getNations(final String continent) {
-		return this.cityViewMapper.selectNations(continent);
+		return this.countryMapper.selectNations(continent);
 	}
 
 	/**
