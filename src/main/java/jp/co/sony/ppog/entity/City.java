@@ -1,10 +1,11 @@
 package jp.co.sony.ppog.entity;
 
+import java.io.Serializable;
+
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import lombok.Data;
 
-import java.io.Serializable;
+import lombok.Data;
 
 /**
  * @author Administrator
@@ -18,7 +19,7 @@ public class City implements Serializable {
 	 * This field corresponds to the database column WORLD_CITY.ID
 	 */
 	@TableId
-	private Long id;
+	private Integer id;
 
 	/**
 	 * This field corresponds to the database column WORLD_CITY.NAME

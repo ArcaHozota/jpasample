@@ -1,11 +1,12 @@
 package jp.co.sony.ppog.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
+
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+
+import lombok.Data;
 
 @Data
 public class Country implements Serializable {
@@ -51,7 +52,7 @@ public class Country implements Serializable {
 	/**
 	 * This field corresponds to the database column WORLD_COUNTRY.LIFE_EXPECTANCY
 	 */
-	private BigDecimal lifeExpectancy;
+	private Integer lifeExpectancy;
 
 	/**
 	 * This field corresponds to the database column WORLD_COUNTRY.GNP
@@ -81,7 +82,7 @@ public class Country implements Serializable {
 	/**
 	 * This field corresponds to the database column WORLD_COUNTRY.CAPITAL
 	 */
-	private Long capital;
+	private Integer capital;
 
 	/**
 	 * This field corresponds to the database column WORLD_COUNTRY.CODE2

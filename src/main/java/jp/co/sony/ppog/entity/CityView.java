@@ -1,9 +1,10 @@
 package jp.co.sony.ppog.entity;
 
-import lombok.Data;
+import java.io.Serializable;
 
 import javax.validation.constraints.Pattern;
-import java.io.Serializable;
+
+import lombok.Data;
 
 /**
  * dto of the view of world cities
@@ -19,7 +20,7 @@ public class CityView implements Serializable {
 	/**
 	 * This field corresponds to the database column WORLD_CITY_VIEW.ID
 	 */
-	private Long id;
+	private Integer id;
 
 	/**
 	 * This field corresponds to the database column WORLD_CITY_VIEW.NAME
