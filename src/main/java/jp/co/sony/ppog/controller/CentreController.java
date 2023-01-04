@@ -23,7 +23,6 @@ import com.google.common.collect.Lists;
 
 import jp.co.sony.ppog.entity.CityView;
 import jp.co.sony.ppog.service.CityViewService;
-import jp.co.sony.ppog.utils.ComparisonUtils;
 import jp.co.sony.ppog.utils.RestMsg;
 
 /**
@@ -60,7 +59,7 @@ public class CentreController {
 			queryWrapper.orderByAsc(CityView::getName);
 			// ページング検索；
 			this.cityViewService.page(pageInfo, queryWrapper);
-		} else if (ComparisonUtils.isEqual("min(pop)", keyword)) {
+		} else if ("min(pop)".equals(keyword)) {
 			// 検索条件コンストラクタを宣言する；
 			final LambdaQueryWrapper<CityView> queryWrapper1 = Wrappers.lambdaQuery(new CityView());
 			// フィルター条件を設定する；
@@ -71,7 +70,7 @@ public class CentreController {
 			final List<CityView> list1 = this.cityViewService.list(queryWrapper1);
 			pageInfo.setRecords(list1);
 			pageInfo.setTotal(list1.size());
-		} else if (ComparisonUtils.isEqual("max(pop)", keyword)) {
+		} else if ("max(pop)".equals(keyword)) {
 			// 検索条件コンストラクタを宣言する；
 			final LambdaQueryWrapper<CityView> queryWrapper2 = Wrappers.lambdaQuery(new CityView());
 			// フィルター条件を設定する；
@@ -86,7 +85,7 @@ public class CentreController {
 			// 検索条件コンストラクタを宣言する；
 			final LambdaQueryWrapper<CityView> queryWrapper3 = Wrappers.lambdaQuery(new CityView());
 			// フィルター条件を設定する；
-			queryWrapper3.like(ComparisonUtils.isNotEmpty(keyword), CityView::getName, keyword);
+			queryWrapper3.like(!keyword.isBlank(), CityView::getName, keyword);
 			// ソート条件を設定する；
 			queryWrapper3.orderByAsc(CityView::getId);
 			// ページング検索；
@@ -143,7 +142,7 @@ public class CentreController {
 		final String continent = cityView.getContinent();
 		final List<String> nations = this.cityViewService.getNations(continent);
 		nations.forEach(item -> {
-			if (ComparisonUtils.isNotEqual(nationName, item)) {
+			if (!nationName.equals(item)) {
 				list.add(item);
 			}
 		});
