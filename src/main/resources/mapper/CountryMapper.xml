@@ -41,6 +41,6 @@
 		FROM country
 		WHERE continent =
 		#{continent;jdbcType=VARCHAR}
-		ORDER BY nation ASC
+		ORDER BY name ASC
 	</select>
 </mapper>
