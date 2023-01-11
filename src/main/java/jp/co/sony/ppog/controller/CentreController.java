@@ -47,7 +47,7 @@ public class CentreController {
 	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Long pageNum,
 			@RequestParam(value = "keyword", defaultValue = "") final String keyword) {
 		// ページングコンストラクタを宣言する；
-		final Page<CityView> pageInfo = Page.of(pageNum, 17);
+		final Page<CityView> pageInfo = Page.of(pageNum, 18);
 		// 検索条件コンストラクタを宣言する；
 		final LambdaQueryWrapper<CityView> queryWrapper = Wrappers.lambdaQuery(new CityView());
 		// フィルター条件を設定する；
