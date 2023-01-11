@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
@@ -85,7 +86,7 @@ public class CentreController {
 			// 検索条件コンストラクタを宣言する；
 			final LambdaQueryWrapper<CityView> queryWrapper3 = Wrappers.lambdaQuery(new CityView());
 			// フィルター条件を設定する；
-			queryWrapper3.like(!keyword.isBlank(), CityView::getName, keyword);
+			queryWrapper3.like(StringUtils.isNotEmpty(keyword), CityView::getName, keyword);
 			// ソート条件を設定する；
 			queryWrapper3.orderByAsc(CityView::getId);
 			// ページング検索；
