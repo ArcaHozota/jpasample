@@ -2,48 +2,75 @@ package jp.co.sony.ppog.entity;
 
 import java.io.Serializable;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
-import lombok.Data;
+import org.hibernate.annotations.Proxy;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * @author Administrator
  */
-@Data
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@Proxy(lazy = false)
+@Table(name = "city")
+@NamedQueries({ @NamedQuery(name = "City.removeById", query = "update City c set c.isDeleted = 1 where c.id = :id") })
 public class City implements Serializable {
 
 	private static final long serialVersionUID = 1815689293387304425L;
 
 	/**
-	 * This field corresponds to the database column WORLD_CITY.ID
+	 * This field corresponds to the database column id
 	 */
-	@TableId
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	/**
-	 * This field corresponds to the database column WORLD_CITY.NAME
+	 * This field corresponds to the database column name
 	 */
+	@Column(nullable = false)
 	private String name;
 
 	/**
-	 * This field corresponds to the database column WORLD_CITY.COUNTRY_CODE
+	 * This field corresponds to the database column country_code
 	 */
+	@Column(name = "country_code", nullable = false)
 	private String countryCode;
 
 	/**
-	 * This field corresponds to the database column WORLD_CITY.DISTRICT
+	 * This field corresponds to the database column district
 	 */
+	@Column(nullable = false)
 	private String district;
 
 	/**
-	 * This field corresponds to the database column WORLD_CITY.POPULATION
+	 * This field corresponds to the database column population
 	 */
+	@Column(nullable = false)
 	private Long population;
 
 	/**
-	 * This field corresponds to the database column WORLD_CITY.IS_DELETED
+	 * This field corresponds to the database column is_deleted
 	 */
-	@TableLogic
+	@Column(name = "is_deleted", nullable = false)
 	private Integer isDeleted;
+
+	@Override
+	public String toString() {
+		return "City [id=" + this.id + ", name=" + this.name + ", countryCode=" + this.countryCode + ", district="
+				+ this.district + ", population=" + this.population + ", isDeleted=" + this.isDeleted + "]";
+	}
 }
