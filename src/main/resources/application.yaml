@@ -11,6 +11,14 @@ spring:
     hikari:
       maximum-pool-size: 30
       max-lifetime: 1500000
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    database: POSTGRESQL
+    show-sql: true
+    open-in-view: false
   output:
     ansi:
       enabled: ALWAYS
@@ -22,16 +30,3 @@ spring:
       content-type: text/html
     prefix: classpath:/templates/
     suffix: .html
-mybatis-plus:
-  configuration:
-    map-underscore-to-camel-case: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-  global-config:
-    db-config:
-      id-type: AUTO
-      logic-delete-field: deleted
-      logic-delete-value: 1
-      logic-not-delete-value: 0
-      table-underline: true
-  mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: jp.co.sony.ppog.entity
