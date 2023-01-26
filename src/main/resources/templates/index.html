@@ -68,7 +68,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="pg:${pageInfo.getRecords()}">
+						<tr th:each="pg:${pageInfo.getContent()}">
 							<td th:text="${pg.getId()}" th:class="'text-center'"
 								th:style="'width:70px;'"></td>
 							<td th:text="${pg.getName()}" th:class="'text-center'"
@@ -99,22 +99,22 @@
 		<!-- ページナビ -->
 		<div th:class="'row'">
 			<div th:class="'col-lg-5'"
-				th:text="|The ${pageInfo.getCurrent()} page in ${pageInfo.getPages()} pages, ${pageInfo.getTotal()} records found.|"></div>
+				th:text="|The ${pageInfo.getNumber()} page in ${pageInfo.getTotalPages()} pages, ${pageInfo.getTotalElements()} records found.|"></div>
 			<nav th:class="'col-lg-7'"
-				th:with="previousPage=${pageInfo.getCurrent()-1},nextPage=${pageInfo.getCurrent()+1},totalPg=${pageInfo.getPages()}">
+				th:with="previousPage=${pageInfo.getNumber()},nextPage=${pageInfo.getNumber()+2},totalPg=${pageInfo.getTotalPages()}">
 				<ul th:class="'pagination'">
 					<li><a
 						th:href="@{'/ssmcrud/city?pageNum=1&keyword='+${keyword eq null ? '' : keyword}}"
-						th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">最初のページへ</a>
+						th:class="${pageInfo.isFirst()} eq true ? 'disabled' : 'enable'">最初のページへ</a>
 					</li>
 					<li><a
 						th:href="@{'/ssmcrud/city?pageNum='+${previousPage < 1 ? 1 : previousPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
 						th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">&laquo;</a>
 					</li>
 					<li th:each="i:${#numbers.sequence(pageFirstIndex,pageLastIndex)}"
-						th:class="${pageInfo.getCurrent()} eq ${i} ? 'active' : 'enable'">
-						<a th:text="${i}"
-						th:href="@{'/ssmcrud/city?pageNum='+${i}+'&keyword='+${keyword eq null ? '' : keyword}}"></a>
+						th:class="${pageInfo.getNumber()} eq ${i} ? 'active' : 'enable'">
+						<a th:text="${i+1}"
+						th:href="@{'/ssmcrud/city?pageNum='+${i+1}+'&keyword='+${keyword eq null ? '' : keyword}}"></a>
 					</li>
 					<li><a
 						th:href="@{'/ssmcrud/city?pageNum='+${nextPage > totalPg ? totalPg : nextPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
@@ -122,7 +122,7 @@
 					</li>
 					<li><a
 						th:href="@{'/ssmcrud/city?pageNum='+${totalPg}+'&keyword='+${keyword eq null ? '' : keyword}}"
-						th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">最後のページへ</a>
+						th:class="${pageInfo.isLast()} eq true ? 'disabled' : 'enable'">最後のページへ</a>
 					</li>
 				</ul>
 			</nav>
@@ -248,8 +248,8 @@
 		</div>
 	</div>
 <script th:type="'text/javascript'" th:inline="javascript">
-    let pageNum = /*[[${pageInfo.getCurrent()}]]*/{};
-	let pageTotal = /*[[${pageInfo.getPages()}]]*/{};
+    let pageNum = /*[[${pageInfo.getNumber()+1}]]*/{};
+	let pageTotal = /*[[${pageInfo.getTotalPages()}]]*/{};
     $("#searchBtn").on('click', function () {
         let keyword = $("#keywordInput").val().trim().toString();
         $.ajax({
