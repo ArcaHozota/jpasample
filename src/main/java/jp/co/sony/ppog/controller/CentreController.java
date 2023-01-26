@@ -4,6 +4,13 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,15 +23,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 
-import jp.co.sony.ppog.entity.CityView;
-import jp.co.sony.ppog.service.CityViewService;
+import jp.co.sony.ppog.entity.City;
+import jp.co.sony.ppog.entity.CityInfo;
+import jp.co.sony.ppog.entity.Nation;
+import jp.co.sony.ppog.mapper.CityDao;
+import jp.co.sony.ppog.mapper.CityInfoDao;
+import jp.co.sony.ppog.mapper.NationDao;
 import jp.co.sony.ppog.utils.RestMsg;
+import jp.co.sony.ppog.utils.StringUtils;
 
 /**
  * 中央処理コントローラ
@@ -36,7 +44,13 @@ import jp.co.sony.ppog.utils.RestMsg;
 public class CentreController {
 
 	@Resource
-	private CityViewService cityViewService;
+	private CityDao cityDao;
+
+	@Resource
+	private CityInfoDao cityInfoDao;
+
+	@Resource
+	private NationDao nationDao;
 
 	/**
 	 * 都市情報を検索する
@@ -44,67 +58,46 @@ public class CentreController {
 	 * @return modelAndView
 	 */
 	@GetMapping(value = "/city")
-	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Long pageNum,
+	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
 			@RequestParam(value = "keyword", defaultValue = "") final String keyword) {
 		// ページングコンストラクタを宣言する；
-		final Page<CityView> pageInfo = Page.of(pageNum, 18);
-		// 検索条件コンストラクタを宣言する；
-		final LambdaQueryWrapper<CityView> queryWrapper = Wrappers.lambdaQuery(new CityView());
-		// フィルター条件を設定する；
-		queryWrapper.eq(CityView::getNation, keyword);
-		// 国を検索する；
-		final List<CityView> list = this.cityViewService.list(queryWrapper);
+		final PageRequest pageRequest = PageRequest.of(pageNum - 1, 17);
+		final Page<CityInfo> pageInfo;
 		// キーワードの属性を判断する；
-		if (list.size() != 0) {
-			// ソート条件を設定する；
-			queryWrapper.orderByAsc(CityView::getName);
+		if (StringUtils.isNotEmpty(keyword)) {
 			// ページング検索；
-			this.cityViewService.page(pageInfo, queryWrapper);
-		} else if ("min(pop)".equals(keyword)) {
-			// 検索条件コンストラクタを宣言する；
-			final LambdaQueryWrapper<CityView> queryWrapper1 = Wrappers.lambdaQuery(new CityView());
-			// フィルター条件を設定する；
-			queryWrapper1.orderByAsc(CityView::getPopulation);
-			// 最初の10個記録を取得する；
-			queryWrapper1.last("limit 10");
-			// ページング検索；
-			final List<CityView> list1 = this.cityViewService.list(queryWrapper1);
-			pageInfo.setRecords(list1);
-			pageInfo.setTotal(list1.size());
-		} else if ("max(pop)".equals(keyword)) {
-			// 検索条件コンストラクタを宣言する；
-			final LambdaQueryWrapper<CityView> queryWrapper2 = Wrappers.lambdaQuery(new CityView());
-			// フィルター条件を設定する；
-			queryWrapper2.orderByDesc(CityView::getPopulation);
-			// 最初の10個記録を取得する；
-			queryWrapper2.last("limit 10");
-			// ページング検索；
-			final List<CityView> list2 = this.cityViewService.list(queryWrapper2);
-			pageInfo.setRecords(list2);
-			pageInfo.setTotal(list2.size());
+			final List<CityInfo> findByNations = this.cityInfoDao.findByNations(keyword);
+			if (findByNations.size() != 0) {
+				pageInfo = this.cityInfoDao.getByNations(keyword, pageRequest);
+			} else if (StringUtils.isEqual("min(pop)", keyword)) {
+				// 人口数量昇順で最初の15個都市の情報を吹き出します；
+				final List<CityInfo> minimumRanks = this.cityInfoDao.findMinimumRanks();
+				pageInfo = new PageImpl<>(minimumRanks);
+			} else if (StringUtils.isEqual("max(pop)", keyword)) {
+				// 人口数量降順で最初の15個都市の情報を吹き出します；
+				final List<CityInfo> maximumRanks = this.cityInfoDao.findMaximumRanks();
+				pageInfo = new PageImpl<>(maximumRanks);
+			} else {
+				// ページング検索；
+				pageInfo = this.cityInfoDao.getByNames(keyword, pageRequest);
+			}
 		} else {
-			// 検索条件コンストラクタを宣言する；
-			final LambdaQueryWrapper<CityView> queryWrapper3 = Wrappers.lambdaQuery(new CityView());
-			// フィルター条件を設定する；
-			queryWrapper3.like(StringUtils.isNotEmpty(keyword), CityView::getName, keyword);
-			// ソート条件を設定する；
-			queryWrapper3.orderByAsc(CityView::getId);
 			// ページング検索；
-			this.cityViewService.page(pageInfo, queryWrapper3);
+			pageInfo = this.cityInfoDao.findAll(pageRequest);
 		}
 		// modelAndViewオブジェクトを宣言する；
 		final ModelAndView mav = new ModelAndView("index");
 		// 前のページを取得する；
-		final long current = pageInfo.getCurrent();
+		final int current = pageInfo.getNumber();
 		// ページングナビゲーションの数を定義する；
 		final int naviNums = 7;
 		// ページングナビの最初と最後の数を取得する；
-		final int pageFirstIndex = (int) ((current / naviNums) * naviNums + 1);
-		int pageLastIndex = (int) ((current / naviNums + 1) * naviNums);
-		if (pageLastIndex > pageInfo.getPages()) {
-			pageLastIndex = (int) (pageInfo.getPages());
+		final int pageFirstIndex = (current / naviNums) * naviNums;
+		int pageLastIndex = (current / naviNums + 1) * naviNums - 1;
+		if (pageLastIndex > pageInfo.getTotalPages() - 1) {
+			pageLastIndex = pageInfo.getTotalPages() - 1;
 		} else {
-			pageLastIndex = (int) ((current / naviNums + 1) * naviNums);
+			pageLastIndex = (current / naviNums + 1) * naviNums - 1;
 		}
 		mav.addObject("pageInfo", pageInfo);
 		mav.addObject("keyword", keyword);
@@ -123,7 +116,7 @@ public class CentreController {
 	@GetMapping(value = "/city/{id}")
 	@ResponseBody
 	public RestMsg getCityInfo(@PathVariable("id") final Integer id) {
-		final CityView cityInfo = this.cityViewService.getById(id);
+		final CityInfo cityInfo = this.cityInfoDao.getById(id);
 		return RestMsg.success().add("citySelected", cityInfo);
 	}
 
@@ -137,14 +130,14 @@ public class CentreController {
 	@ResponseBody
 	public RestMsg getListOfNationsById(@PathVariable("id") final Integer id) {
 		final List<String> list = Lists.newArrayList();
-		final CityView cityView = this.cityViewService.getById(id);
-		final String nationName = cityView.getNation();
+		final CityInfo cityInfo = this.cityInfoDao.getById(id);
+		final String nationName = cityInfo.getNation();
 		list.add(nationName);
-		final String continent = cityView.getContinent();
-		final List<String> nations = this.cityViewService.getNations(continent);
+		final String continent = cityInfo.getContinent();
+		final List<Nation> nations = this.nationDao.findNationsByCnt(continent);
 		nations.forEach(item -> {
-			if (!nationName.equals(item)) {
-				list.add(item);
+			if (StringUtils.isNotEqual(nationName, item.getName())) {
+				list.add(item.getName());
 			}
 		});
 		return RestMsg.success().add("nationsWithName", list);
@@ -153,26 +146,40 @@ public class CentreController {
 	/**
 	 * 入力した都市情報を変更する
 	 *
-	 * @param cityView 都市情報エンティティ
+	 * @param cityInfo 都市情報エンティティ
 	 * @return 処理成功のメッセージ
 	 */
 	@PutMapping(value = "/city/{id}")
 	@ResponseBody
-	public RestMsg updateCityInfo(@RequestBody final CityView cityView) {
-		this.cityViewService.updateCityInfo(cityView);
+	public RestMsg updateCityInfo(@RequestBody final CityInfo cityInfo) {
+		final City city = new City();
+		BeanUtils.copyProperties(cityInfo, city, "continent", "nation");
+		final String nationName = cityInfo.getNation();
+		final Nation nation = this.nationDao.findNationCode(nationName);
+		final String nationCode = nation.getCode();
+		city.setCountryCode(nationCode);
+		city.setIsDeleted(0);
+		this.cityDao.saveAndFlush(city);
 		return RestMsg.success();
 	}
 
 	/**
 	 * 入力した都市情報を保存する
 	 *
-	 * @param cityView 都市情報エンティティ
+	 * @param cityInfo 都市情報エンティティ
 	 * @return 処理成功のメッセージ
 	 */
 	@PostMapping(value = "/city")
 	@ResponseBody
-	public RestMsg saveCityInfo(@RequestBody final CityView cityView) {
-		this.cityViewService.saveCityInfo(cityView);
+	public RestMsg saveCityInfo(@RequestBody final CityInfo cityInfo) {
+		final City city = new City();
+		BeanUtils.copyProperties(cityInfo, city, "continent", "nation");
+		final String nationName = cityInfo.getNation();
+		final Nation nation = this.nationDao.findNationCode(nationName);
+		final String nationCode = nation.getCode();
+		city.setCountryCode(nationCode);
+		city.setIsDeleted(0);
+		this.cityDao.save(city);
 		return RestMsg.success();
 	}
 
@@ -185,7 +192,7 @@ public class CentreController {
 	@DeleteMapping(value = "/city/{id}")
 	@ResponseBody
 	public RestMsg deleteCityInfo(@PathVariable("id") final Integer id) {
-		this.cityViewService.deleteCityInfo(id);
+		this.cityDao.removeById(id);
 		return RestMsg.success();
 	}
 
@@ -197,7 +204,7 @@ public class CentreController {
 	@GetMapping(value = "/continents")
 	@ResponseBody
 	public RestMsg getContinents() {
-		final List<String> list = this.cityViewService.getContinents();
+		final List<String> list = this.nationDao.findAllContinents();
 		return RestMsg.success().add("continentList", list);
 	}
 
@@ -210,8 +217,12 @@ public class CentreController {
 	@GetMapping(value = "/nations")
 	@ResponseBody
 	public RestMsg getListOfNationsById(@RequestParam("continentVal") final String continentVal) {
-		final List<String> nations = this.cityViewService.getNations(continentVal);
-		return RestMsg.success().add("nationList", nations);
+		final List<String> nationList = Lists.newArrayList();
+		final List<Nation> nations = this.nationDao.findNationsByCnt(continentVal);
+		nations.forEach(item -> {
+			nationList.add(item.getName());
+		});
+		return RestMsg.success().add("nationList", nationList);
 	}
 
 	/**
@@ -225,8 +236,15 @@ public class CentreController {
 	public RestMsg checkName(@RequestParam("cityName") final String cityName) {
 		final String regex = "^[a-zA-Z-\\p{IsWhiteSpace}]{4,17}$";
 		if (cityName.matches(regex)) {
-			final boolean duplicated = this.cityViewService.checkDuplicated(cityName);
-			if (duplicated) {
+			final City city = new City();
+			city.setName(cityName);
+			final ExampleMatcher matcher = ExampleMatcher.matching()
+					.withStringMatcher(ExampleMatcher.StringMatcher.EXACT).withIgnoreCase(true)
+					.withMatcher(cityName, GenericPropertyMatchers.exact())
+					.withIgnorePaths("id", "countryCode", "district", "population", "isDeleted");
+			final Example<City> example = Example.of(city, matcher);
+			final List<City> lists = this.cityDao.findAll(example);
+			if (lists.size() >= 1) {
 				return RestMsg.failure().add("validatedMsg", "入力した都市名が重複する。");
 			} else {
 				return RestMsg.success();
