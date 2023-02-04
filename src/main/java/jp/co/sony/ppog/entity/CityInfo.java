@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
@@ -28,11 +27,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Proxy(lazy = false)
-@Table(name = "city_view")
-@NamedQueries({
-		@NamedQuery(name = "CityInfo.findByNations", query = "select c from CityInfo c where c.nation = :nation"),
-		@NamedQuery(name = "CityInfo.getByNations", query = "select c from CityInfo c where c.nation = :nation order by c.id asc"),
-		@NamedQuery(name = "CityInfo.getByNames", query = "select c from CityInfo c where c.name like concat('%', :name, '%') order by c.id asc") })
+@Table(name = "city_mate_view")
+@NamedQuery(name = "CityInfo.findByNations", query = "select c from CityInfo c where c.nation = :nation")
+@NamedQuery(name = "CityInfo.getByNations", query = "select c from CityInfo c where c.nation = :nation order by c.id asc")
+@NamedQuery(name = "CityInfo.getByNames", query = "select c from CityInfo c where c.name like concat('%', :name, '%') order by c.id asc")
 public class CityInfo implements Serializable {
 
 	private static final long serialVersionUID = 6678964783710878220L;
