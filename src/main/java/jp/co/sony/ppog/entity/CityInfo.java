@@ -27,7 +27,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Proxy(lazy = false)
-@Table(name = "city_mate_view")
+@Table(name = "city_mateview")
 @NamedQuery(name = "CityInfo.findByNations", query = "select c from CityInfo c where c.nation = :nation")
 @NamedQuery(name = "CityInfo.getByNations", query = "select c from CityInfo c where c.nation = :nation order by c.id asc")
 @NamedQuery(name = "CityInfo.getByNames", query = "select c from CityInfo c where c.name like concat('%', :name, '%') order by c.id asc")
