@@ -46,7 +46,7 @@ public interface CityInfoDao extends JpaRepository<CityInfo, Integer> {
 	 *
 	 * @return Page<CityInfo>
 	 */
-	@Query(value = "select * from city_view cvn order by cvn.population asc fetch first 15 rows only", nativeQuery = true)
+	@Query(value = "SELECT WCV.ID, WCV.NAME, WCV.CONTINENT, WCV.NATION, WCV.DISTRICT, WCV.POPULATION FROM WORLD_CITY_VIEW WCV ORDER BY WCV.POPULATION ASC FETCH FIRST 15 ROWS ONLY", nativeQuery = true)
 	List<CityInfo> findMinimumRanks();
 
 	/**
@@ -54,6 +54,6 @@ public interface CityInfoDao extends JpaRepository<CityInfo, Integer> {
 	 *
 	 * @return Page<CityInfo>
 	 */
-	@Query(value = "select * from city_view cvn order by cvn.population desc fetch first 15 rows only", nativeQuery = true)
+	@Query(value = "SELECT WCV.ID, WCV.NAME, WCV.CONTINENT, WCV.NATION, WCV.DISTRICT, WCV.POPULATION FROM WORLD_CITY_VIEW WCV ORDER BY WCV.POPULATION DESC FETCH FIRST 15 ROWS ONLY", nativeQuery = true)
 	List<CityInfo> findMaximumRanks();
 }
