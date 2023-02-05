@@ -24,6 +24,7 @@ import lombok.Setter;
 @Proxy(lazy = false)
 @Table(name = "WORLD_COUNTRY")
 @NamedQuery(name = "Country.findNationsByCnt", query = "select distinct n from Country n where n.continent =:continent order by n.name asc")
+@NamedQuery(name = "Country.findNationCode", query = "select distinct cty.code from Country cty where cty.name =:name")
 public class Country implements Serializable {
 
 	private static final long serialVersionUID = 6762395398373991166L;

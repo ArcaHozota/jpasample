@@ -247,7 +247,7 @@ public class CentreController {
 		final City city = new City();
 		BeanUtils.copyProperties(cityInfo, city, "continent", "nation");
 		final String nationName = cityInfo.getNation();
-		final String nationCode = this.countryRepository.findNationCode(nationName);
+		final String nationCode = this.countryRepository.findNationCode(nationName).getName();
 		city.setCountryCode(nationCode);
 		city.setIsDeleted(0);
 		return city;
