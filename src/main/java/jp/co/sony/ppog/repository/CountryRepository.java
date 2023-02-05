@@ -24,7 +24,7 @@ public interface CountryRepository extends JpaRepository<Country, String> {
 	 * @param name name of nation
 	 * @return List<CityInfo>
 	 */
-	Country findNationCode(@Param("name") String name);
+	String findNationCode(@Param("name") String name);
 
 	/**
 	 * Retrieve continent list distinct.
