@@ -155,7 +155,8 @@ public class CentreController {
 	@ResponseBody
 	public RestMsg updateCityInfo(@RequestBody final CityInfo cityInfo) {
 		final City city = this.saveAndUpdate(cityInfo);
-		this.cityRepository.updateById(city);
+		this.cityRepository.updateById(city.getId(), city.getName(), city.getCountryCode(), city.getDistrict(),
+				city.getPopulation(), city.getIsDeleted());
 		return RestMsg.success();
 	}
 
