@@ -8,12 +8,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import jp.co.sony.ppog.entity.CityInfo;
+import jp.co.sony.ppog.entity.CityView;
 
 /**
  * @author Administrator
  */
-public interface CityViewRepository extends JpaRepository<CityInfo, Integer> {
+public interface CityViewRepository extends JpaRepository<CityView, Integer> {
 
 	/**
 	 * Retrieve city infos by nation name provided.
@@ -21,7 +21,7 @@ public interface CityViewRepository extends JpaRepository<CityInfo, Integer> {
 	 * @param nation name of nation
 	 * @return List<CityInfo>
 	 */
-	List<CityInfo> findByNations(@Param("nation") final String nation);
+	List<CityView> findByNations(@Param("nation") final String nation);
 
 	/**
 	 * Retrieve city infos by nation name provided.
@@ -30,7 +30,7 @@ public interface CityViewRepository extends JpaRepository<CityInfo, Integer> {
 	 * @param pageable page
 	 * @return Page<CityInfo>
 	 */
-	Page<CityInfo> getByNations(@Param("nation") final String nation, final Pageable pageable);
+	Page<CityView> getByNations(@Param("nation") final String nation, final Pageable pageable);
 
 	/**
 	 * Retrieve city infos by city name provided.
@@ -39,7 +39,7 @@ public interface CityViewRepository extends JpaRepository<CityInfo, Integer> {
 	 * @param pageable page
 	 * @return Page<CityInfo>
 	 */
-	Page<CityInfo> getByNames(@Param("name") final String name, final Pageable pageable);
+	Page<CityView> getByNames(@Param("name") final String name, final Pageable pageable);
 
 	/**
 	 * Retrieve city infos by population ascending.
@@ -47,7 +47,7 @@ public interface CityViewRepository extends JpaRepository<CityInfo, Integer> {
 	 * @return Page<CityInfo>
 	 */
 	@Query(value = "SELECT WCV.ID, WCV.NAME, WCV.CONTINENT, WCV.NATION, WCV.DISTRICT, WCV.POPULATION FROM WORLD_CITY_VIEW WCV ORDER BY WCV.POPULATION ASC FETCH FIRST 15 ROWS ONLY", nativeQuery = true)
-	List<CityInfo> findMinimumRanks();
+	List<CityView> findMinimumRanks();
 
 	/**
 	 * Retrieve city infos by population descending.
@@ -55,5 +55,5 @@ public interface CityViewRepository extends JpaRepository<CityInfo, Integer> {
 	 * @return Page<CityInfo>
 	 */
 	@Query(value = "SELECT WCV.ID, WCV.NAME, WCV.CONTINENT, WCV.NATION, WCV.DISTRICT, WCV.POPULATION FROM WORLD_CITY_VIEW WCV ORDER BY WCV.POPULATION DESC FETCH FIRST 15 ROWS ONLY", nativeQuery = true)
-	List<CityInfo> findMaximumRanks();
+	List<CityView> findMaximumRanks();
 }

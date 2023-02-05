@@ -26,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.common.collect.Lists;
 
 import jp.co.sony.ppog.entity.City;
-import jp.co.sony.ppog.entity.CityInfo;
+import jp.co.sony.ppog.entity.CityView;
 import jp.co.sony.ppog.entity.Country;
 import jp.co.sony.ppog.repository.CityRepository;
 import jp.co.sony.ppog.repository.CityViewRepository;
@@ -62,20 +62,20 @@ public class CentreController {
 			@RequestParam(value = "keyword", defaultValue = "") final String keyword) {
 		// ページングコンストラクタを宣言する；
 		final PageRequest pageRequest = PageRequest.of(pageNum - 1, 17);
-		final Page<CityInfo> pageInfo;
+		final Page<CityView> pageInfo;
 		// キーワードの属性を判断する；
 		if (StringUtils.isNotEmpty(keyword)) {
 			// ページング検索；
-			final List<CityInfo> findByNations = this.cityViewRepository.findByNations(keyword);
+			final List<CityView> findByNations = this.cityViewRepository.findByNations(keyword);
 			if (!findByNations.isEmpty()) {
 				pageInfo = this.cityViewRepository.getByNations(keyword, pageRequest);
 			} else if (StringUtils.isEqual("min(pop)", keyword)) {
 				// 人口数量昇順で最初の15個都市の情報を吹き出します；
-				final List<CityInfo> minimumRanks = this.cityViewRepository.findMinimumRanks();
+				final List<CityView> minimumRanks = this.cityViewRepository.findMinimumRanks();
 				pageInfo = new PageImpl<>(minimumRanks);
 			} else if (StringUtils.isEqual("max(pop)", keyword)) {
 				// 人口数量降順で最初の15個都市の情報を吹き出します；
-				final List<CityInfo> maximumRanks = this.cityViewRepository.findMaximumRanks();
+				final List<CityView> maximumRanks = this.cityViewRepository.findMaximumRanks();
 				pageInfo = new PageImpl<>(maximumRanks);
 			} else {
 				// ページング検索；
@@ -116,8 +116,8 @@ public class CentreController {
 	@GetMapping(value = "/city/{id}")
 	@ResponseBody
 	public RestMsg getCityInfo(@PathVariable("id") final Integer id) {
-		final CityInfo cityInfo = this.cityViewRepository.getById(id);
-		return RestMsg.success().add("citySelected", cityInfo);
+		final CityView cityView = this.cityViewRepository.getById(id);
+		return RestMsg.success().add("citySelected", cityView);
 	}
 
 	/**
@@ -130,10 +130,10 @@ public class CentreController {
 	@ResponseBody
 	public RestMsg getListOfNationsById(@PathVariable("id") final Integer id) {
 		final List<String> list = Lists.newArrayList();
-		final CityInfo cityInfo = this.cityViewRepository.getById(id);
-		final String nationName = cityInfo.getNation();
+		final CityView cityView = this.cityViewRepository.getById(id);
+		final String nationName = cityView.getNation();
 		list.add(nationName);
-		final String continent = cityInfo.getContinent();
+		final String continent = cityView.getContinent();
 		final List<Country> nations = this.countryRepository.findNationsByCnt(continent);
 		nations.forEach(item -> {
 			if (StringUtils.isNotEqual(nationName, item.getName())) {
@@ -146,13 +146,13 @@ public class CentreController {
 	/**
 	 * 入力した都市情報を変更する
 	 *
-	 * @param cityInfo 都市情報エンティティ
+	 * @param cityView 都市情報エンティティ
 	 * @return 処理成功のメッセージ
 	 */
 	@PutMapping(value = "/city/{id}")
 	@ResponseBody
-	public RestMsg updateCityInfo(@RequestBody final CityInfo cityInfo) {
-		final City city = this.saveAndUpdate(cityInfo);
+	public RestMsg updateCityInfo(@RequestBody final CityView cityView) {
+		final City city = this.saveAndUpdate(cityView);
 		this.cityRepository.updateById(city);
 		return RestMsg.success();
 	}
@@ -160,13 +160,13 @@ public class CentreController {
 	/**
 	 * 入力した都市情報を保存する
 	 *
-	 * @param cityInfo 都市情報エンティティ
+	 * @param cityView 都市情報エンティティ
 	 * @return 処理成功のメッセージ
 	 */
 	@PostMapping(value = "/city")
 	@ResponseBody
-	public RestMsg saveCityInfo(@RequestBody final CityInfo cityInfo) {
-		final City city = this.saveAndUpdate(cityInfo);
+	public RestMsg saveCityInfo(@RequestBody final CityView cityView) {
+		final City city = this.saveAndUpdate(cityView);
 		this.cityRepository.save(city);
 		return RestMsg.success();
 	}
@@ -240,10 +240,10 @@ public class CentreController {
 		}
 	}
 
-	private City saveAndUpdate(final CityInfo cityInfo) {
+	private City saveAndUpdate(final CityView cityView) {
 		final City city = new City();
-		BeanUtils.copyProperties(cityInfo, city, "continent", "nation");
-		final String nationName = cityInfo.getNation();
+		BeanUtils.copyProperties(cityView, city, "continent", "nation");
+		final String nationName = cityView.getNation();
 		final Country nation = this.countryRepository.findNationCode(nationName);
 		final String nationCode = nation.getCode();
 		city.setCountryCode(nationCode);

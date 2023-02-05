@@ -27,8 +27,8 @@ public interface CityRepository extends JpaRepository<City, Integer> {
 	 */
 	@Modifying
 	@Transactional(rollbackFor = OracleSQLException.class)
-	@Query(value = "UPDATE WORLD_CITY WCN " + "SET WCN.NAME=:city.name, " + "WCN.COUNTRY_CODE=:city.countryCode, "
-			+ "WCN.DISTRICT=:city.district, " + "WCN.POPULATION=:city.population, " + "WCN.IS_DELETED=:city.isDeleted "
+	@Query(value = "UPDATE WORLD_CITY WCN SET WCN.NAME=:city.name, WCN.COUNTRY_CODE=:city.countryCode, "
+			+ "WCN.DISTRICT=:city.district, WCN.POPULATION=:city.population, WCN.IS_DELETED=:city.isDeleted "
 			+ "WHERE WCN.ID=:city.id", nativeQuery = true)
 	void updateById(@Param("city") City city);
 }
