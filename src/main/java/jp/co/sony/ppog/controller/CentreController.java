@@ -27,10 +27,10 @@ import com.google.common.collect.Lists;
 
 import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.entity.CityInfo;
-import jp.co.sony.ppog.entity.Nation;
+import jp.co.sony.ppog.entity.Country;
 import jp.co.sony.ppog.repository.CityRepository;
 import jp.co.sony.ppog.repository.CityViewRepository;
-import jp.co.sony.ppog.repository.NationRepository;
+import jp.co.sony.ppog.repository.CountryRepository;
 import jp.co.sony.ppog.utils.RestMsg;
 import jp.co.sony.ppog.utils.StringUtils;
 
@@ -50,7 +50,7 @@ public class CentreController {
 	private CityViewRepository cityViewRepository;
 
 	@Resource
-	private NationRepository nationRepository;
+	private CountryRepository countryRepository;
 
 	/**
 	 * 都市情報を検索する
@@ -134,7 +134,7 @@ public class CentreController {
 		final String nationName = cityInfo.getNation();
 		list.add(nationName);
 		final String continent = cityInfo.getContinent();
-		final List<Nation> nations = this.nationRepository.findNationsByCnt(continent);
+		final List<Country> nations = this.countryRepository.findNationsByCnt(continent);
 		nations.forEach(item -> {
 			if (StringUtils.isNotEqual(nationName, item.getName())) {
 				list.add(item.getName());
@@ -192,7 +192,7 @@ public class CentreController {
 	@GetMapping(value = "/continents")
 	@ResponseBody
 	public RestMsg getContinents() {
-		final List<String> list = this.nationRepository.findAllContinents();
+		final List<String> list = this.countryRepository.findAllContinents();
 		return RestMsg.success().add("continentList", list);
 	}
 
@@ -206,7 +206,7 @@ public class CentreController {
 	@ResponseBody
 	public RestMsg getListOfNationsById(@RequestParam("continentVal") final String continentVal) {
 		final List<String> nationList = Lists.newArrayList();
-		final List<Nation> nations = this.nationRepository.findNationsByCnt(continentVal);
+		final List<Country> nations = this.countryRepository.findNationsByCnt(continentVal);
 		nations.forEach(item -> nationList.add(item.getName()));
 		return RestMsg.success().add("nationList", nationList);
 	}
@@ -244,7 +244,7 @@ public class CentreController {
 		final City city = new City();
 		BeanUtils.copyProperties(cityInfo, city, "continent", "nation");
 		final String nationName = cityInfo.getNation();
-		final Nation nation = this.nationRepository.findNationCode(nationName);
+		final Country nation = this.countryRepository.findNationCode(nationName);
 		final String nationCode = nation.getCode();
 		city.setCountryCode(nationCode);
 		city.setIsDeleted(0);

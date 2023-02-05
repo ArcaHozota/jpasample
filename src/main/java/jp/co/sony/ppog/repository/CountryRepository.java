@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import jp.co.sony.ppog.entity.Nation;
+import jp.co.sony.ppog.entity.Country;
 
-public interface NationRepository extends JpaRepository<Nation, String> {
+public interface CountryRepository extends JpaRepository<Country, String> {
 
 	/**
 	 * Retrieve the nation list distinct.
@@ -16,7 +16,7 @@ public interface NationRepository extends JpaRepository<Nation, String> {
 	 * @param continent name of continent
 	 * @return List<CityInfo>
 	 */
-	List<Nation> findNationsByCnt(@Param("continent") final String continent);
+	List<Country> findNationsByCnt(@Param("continent") final String continent);
 
 	/**
 	 * Retrieve the nationcd through name.
@@ -24,7 +24,7 @@ public interface NationRepository extends JpaRepository<Nation, String> {
 	 * @param name name of nation
 	 * @return List<CityInfo>
 	 */
-	Nation findNationCode(@Param("name") final String name);
+	Country findNationCode(@Param("name") final String name);
 
 	/**
 	 * Retrieve continent list distinct.
