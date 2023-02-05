@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.common.collect.Lists;
 
+import jp.co.sony.ppog.dto.CityInfo;
 import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.entity.CityView;
 import jp.co.sony.ppog.entity.Country;
@@ -146,13 +147,13 @@ public class CentreController {
 	/**
 	 * 入力した都市情報を変更する
 	 *
-	 * @param cityView 都市情報エンティティ
+	 * @param cityInfo 都市情報DTO
 	 * @return 処理成功のメッセージ
 	 */
 	@PutMapping(value = "/city/{id}")
 	@ResponseBody
-	public RestMsg updateCityInfo(@RequestBody final CityView cityView) {
-		final City city = this.saveAndUpdate(cityView);
+	public RestMsg updateCityInfo(@RequestBody final CityInfo cityInfo) {
+		final City city = this.saveAndUpdate(cityInfo);
 		this.cityRepository.updateById(city);
 		return RestMsg.success();
 	}
@@ -160,13 +161,13 @@ public class CentreController {
 	/**
 	 * 入力した都市情報を保存する
 	 *
-	 * @param cityView 都市情報エンティティ
+	 * @param cityInfo 都市情報DTO
 	 * @return 処理成功のメッセージ
 	 */
 	@PostMapping(value = "/city")
 	@ResponseBody
-	public RestMsg saveCityInfo(@RequestBody final CityView cityView) {
-		final City city = this.saveAndUpdate(cityView);
+	public RestMsg saveCityInfo(@RequestBody final CityInfo cityInfo) {
+		final City city = this.saveAndUpdate(cityInfo);
 		this.cityRepository.save(city);
 		return RestMsg.success();
 	}
@@ -240,10 +241,10 @@ public class CentreController {
 		}
 	}
 
-	private City saveAndUpdate(final CityView cityView) {
+	private City saveAndUpdate(final CityInfo cityInfo) {
 		final City city = new City();
-		BeanUtils.copyProperties(cityView, city, "continent", "nation");
-		final String nationName = cityView.getNation();
+		BeanUtils.copyProperties(cityInfo, city, "continent", "nation");
+		final String nationName = cityInfo.getNation();
 		final Country nation = this.countryRepository.findNationCode(nationName);
 		final String nationCode = nation.getCode();
 		city.setCountryCode(nationCode);
