@@ -28,9 +28,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Proxy(lazy = false)
 @Table(name = "WORLD_CITY_VIEW")
-@NamedQuery(name = "CityInfo.findByNations", query = "select c from CityView c where c.nation = :nation")
-@NamedQuery(name = "CityInfo.getByNations", query = "select c from CityView c where c.nation = :nation order by c.id asc")
-@NamedQuery(name = "CityInfo.getByNames", query = "select c from CityView c where c.name like concat('%', :name, '%') order by c.id asc")
+@NamedQuery(name = "CityView.findByNations", query = "select c from CityView c where c.nation = :nation")
+@NamedQuery(name = "CityView.getByNations", query = "select c from CityView c where c.nation = :nation order by c.id asc")
+@NamedQuery(name = "CityView.getByNames", query = "select c from CityView c where c.name like concat('%', :name, '%') order by c.id asc")
 public class CityView implements Serializable {
 
 	private static final long serialVersionUID = 6678964783710878220L;
