@@ -24,7 +24,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Proxy(lazy = false)
-@Table(name = "city")
+@Table(name = "WORLD_CITY")
 @NamedQuery(name = "City.removeById", query = "update City c set c.isDeleted = 1 where c.id = :id")
 public class City implements Serializable {
 
