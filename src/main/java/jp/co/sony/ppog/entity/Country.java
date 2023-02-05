@@ -23,7 +23,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Proxy(lazy = false)
 @Table(name = "WORLD_COUNTRY")
-@NamedQuery(name = "Country.findNationCode", query = "select distinct n from Country n where n.name =:name")
 @NamedQuery(name = "Country.findNationsByCnt", query = "select distinct n from Country n where n.continent =:continent order by n.name asc")
 public class Country implements Serializable {
 
