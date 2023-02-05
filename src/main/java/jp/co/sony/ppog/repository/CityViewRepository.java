@@ -21,7 +21,7 @@ public interface CityViewRepository extends JpaRepository<CityView, Integer> {
 	 * @param nation name of nation
 	 * @return List<CityInfo>
 	 */
-	List<CityView> findByNations(@Param("nation") final String nation);
+	List<CityView> findByNations(@Param("nation") String nation);
 
 	/**
 	 * Retrieve city infos by nation name provided.
@@ -30,7 +30,7 @@ public interface CityViewRepository extends JpaRepository<CityView, Integer> {
 	 * @param pageable page
 	 * @return Page<CityInfo>
 	 */
-	Page<CityView> getByNations(@Param("nation") final String nation, final Pageable pageable);
+	Page<CityView> getByNations(@Param("nation") String nation, Pageable pageable);
 
 	/**
 	 * Retrieve city infos by city name provided.
@@ -39,7 +39,7 @@ public interface CityViewRepository extends JpaRepository<CityView, Integer> {
 	 * @param pageable page
 	 * @return Page<CityInfo>
 	 */
-	Page<CityView> getByNames(@Param("name") final String name, final Pageable pageable);
+	Page<CityView> getByNames(@Param("name") String name, Pageable pageable);
 
 	/**
 	 * Retrieve city infos by population ascending.
