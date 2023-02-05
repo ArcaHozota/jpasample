@@ -11,6 +11,7 @@ import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -241,7 +242,7 @@ public class CentreController {
 		}
 	}
 
-	private City saveAndUpdate(final CityInfo cityInfo) {
+	private City saveAndUpdate(@NonNull final CityInfo cityInfo) {
 		final City city = new City();
 		BeanUtils.copyProperties(cityInfo, city, "continent", "nation");
 		final String nationName = cityInfo.getNation();
