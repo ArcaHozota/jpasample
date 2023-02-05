@@ -2,7 +2,6 @@ package jp.co.sony.ppog.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,13 +21,17 @@ public interface CityRepository extends JpaRepository<City, Integer> {
 
 	/**
 	 * update query.
-	 *
-	 * @param city entity
+	 * 
+	 * @param id          ID
+	 * @param name        NAME
+	 * @param countryCode COUNTRY_CODE
+	 * @param district    DISTRICT
+	 * @param population  POPULATION
+	 * @param isDeleted   IS_DELETED
 	 */
 	@Modifying
 	@Transactional(rollbackFor = OracleSQLException.class)
-	@Query(value = "UPDATE WORLD_CITY WCN SET WCN.NAME=:city.name, WCN.COUNTRY_CODE=:city.countryCode, "
-			+ "WCN.DISTRICT=:city.district, WCN.POPULATION=:city.population, WCN.IS_DELETED=:city.isDeleted "
-			+ "WHERE WCN.ID=:city.id", nativeQuery = true)
-	void updateById(@Param("city") City city);
+	void updateById(@Param("id") Integer id, @Param("name") String name, @Param("countryCode") String countryCode,
+			@Param("district") String district, @Param("population") Long population,
+			@Param("isDeleted") Integer isDeleted);
 }
