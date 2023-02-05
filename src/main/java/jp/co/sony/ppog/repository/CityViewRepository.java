@@ -1,4 +1,4 @@
-package jp.co.sony.ppog.mapper;
+package jp.co.sony.ppog.repository;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import jp.co.sony.ppog.entity.CityInfo;
 /**
  * @author Administrator
  */
-public interface CityInfoDao extends JpaRepository<CityInfo, Integer> {
+public interface CityViewRepository extends JpaRepository<CityInfo, Integer> {
 
 	/**
 	 * Retrieve city infos by nation name provided.

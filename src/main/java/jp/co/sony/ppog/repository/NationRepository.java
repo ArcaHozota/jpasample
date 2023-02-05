@@ -1,4 +1,4 @@
-package jp.co.sony.ppog.mapper;
+package jp.co.sony.ppog.repository;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import jp.co.sony.ppog.entity.Nation;
 
-public interface NationDao extends JpaRepository<Nation, String> {
+public interface NationRepository extends JpaRepository<Nation, String> {
 
 	/**
 	 * Retrieve the nation list distinct.
