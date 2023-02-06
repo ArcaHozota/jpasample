@@ -9,12 +9,12 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import jp.co.sony.ppog.utils.JacksonObjectMapper;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * @author Administrator
  */
-@Slf4j
+@Log4j2
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
@@ -44,6 +44,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 		log.info("静的リソースのマッピングが開始しました。");
 		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
 		registry.addResourceHandler("/jquery/**").addResourceLocations("classpath:/static/jquery/");
-		registry.addResourceHandler("/bootstrap-3.4.1-dist/**").addResourceLocations("classpath:/static/bootstrap-3.4.1-dist/");
+		registry.addResourceHandler("/bootstrap-3.4.1-dist/**")
+				.addResourceLocations("classpath:/static/bootstrap-3.4.1-dist/");
 	}
 }

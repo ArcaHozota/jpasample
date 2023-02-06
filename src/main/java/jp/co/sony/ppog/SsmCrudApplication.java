@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * ssmcrudアプリケーション
@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Administrator
  * @date 2022-12-12
  */
-@Slf4j
+@Log4j2
 @SpringBootApplication
 @ServletComponentScan
 public class SsmCrudApplication {
