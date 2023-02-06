@@ -3,6 +3,7 @@ package jp.co.sony.ppog.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import jp.co.sony.ppog.entity.Country;
@@ -30,5 +31,6 @@ public interface CountryRepository extends JpaRepository<Country, String> {
 	 * @param name name of nation
 	 * @return List<CityInfo>
 	 */
+	@Query(value = "SELECT WCY.CODE FROM WORLD_COUNTRY WCY WHERE WCY.NAME=:name", nativeQuery = true)
 	String findNationCode(@Param("name") String name);
 }
