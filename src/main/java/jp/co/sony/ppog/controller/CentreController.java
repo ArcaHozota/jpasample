@@ -29,7 +29,6 @@ import com.google.common.collect.Lists;
 import jp.co.sony.ppog.dto.CityInfo;
 import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.entity.CityView;
-import jp.co.sony.ppog.entity.Country;
 import jp.co.sony.ppog.repository.CityRepository;
 import jp.co.sony.ppog.repository.CityViewRepository;
 import jp.co.sony.ppog.repository.CountryRepository;
@@ -133,13 +132,12 @@ public class CentreController {
 	public RestMsg getListOfNationsById(@PathVariable("id") final Integer id) {
 		final List<String> list = Lists.newArrayList();
 		final CityView cityView = this.cityViewRepository.getById(id);
+		final List<String> nations = this.countryRepository.findNationsByCnt(cityView.getContinent());
 		final String nationName = cityView.getNation();
 		list.add(nationName);
-		final String continent = cityView.getContinent();
-		final List<Country> nations = this.countryRepository.findNationsByCnt(continent);
 		nations.forEach(item -> {
-			if (StringUtils.isNotEqual(nationName, item.getName())) {
-				list.add(item.getName());
+			if (StringUtils.isNotEqual(nationName, item)) {
+				list.add(item);
 			}
 		});
 		return RestMsg.success().add("nationsWithName", list);
@@ -208,9 +206,7 @@ public class CentreController {
 	@GetMapping(value = "/nations")
 	@ResponseBody
 	public RestMsg getListOfNationsById(@RequestParam("continentVal") final String continentVal) {
-		final List<String> nationList = Lists.newArrayList();
-		final List<Country> nations = this.countryRepository.findNationsByCnt(continentVal);
-		nations.forEach(item -> nationList.add(item.getName()));
+		final List<String> nationList = this.countryRepository.findNationsByCnt(continentVal);
 		return RestMsg.success().add("nationList", nationList);
 	}
 
