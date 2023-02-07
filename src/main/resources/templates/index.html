@@ -52,47 +52,33 @@
         <div th:class="'col-lg-12'">
             <table th:id="'cityTable'" th:class="'table table-condensed'">
                 <thead>
-                <tr th:class="'danger'">
+                <tr th:class="'info'">
                     <th scope="col" th:class="'text-center'" th:style="'width:70px;'">都市ID</th>
-                    <th scope="col" th:class="'text-center'"
-                        th:style="'width:120px;'">都市名
-                    </th>
-                    <th scope="col" th:class="'text-center'"
-                        th:style="'width:100px;'">大陸
-                    </th>
-                    <th scope="col" th:class="'text-center'"
-                        th:style="'width:100px;'">国家
-                    </th>
-                    <th scope="col" th:class="'text-center'"
-                        th:style="'width:120px;'">地域
-                    </th>
+                    <th scope="col" th:class="'text-center'" th:style="'width:120px;'">都市名</th>
+                    <th scope="col" th:class="'text-center'" th:style="'width:100px;'">大陸</th>
+                    <th scope="col" th:class="'text-center'" th:style="'width:100px;'">国家</th>
+                    <th scope="col" th:class="'text-center'" th:style="'width:120px;'">地域</th>
                     <th scope="col" th:class="'text-center'" th:style="'width:70px;'">人口数量</th>
-                    <th scope="col" th:class="'text-center'"
-                        th:style="'width:120px;'">操作
-                    </th>
+                    <th scope="col" th:class="'text-center'" th:style="'width:120px;'">操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="pg:${pageInfo.getContent()}">
-                    <td th:text="${pg.getId()}" th:class="'text-center'"
-                        th:style="'width:70px;'"></td>
+                    <td th:text="${pg.getId()}" th:class="'text-center'" th:style="'width:70px;'"></td>
                     <td th:text="${pg.getName()}" th:class="'text-center'"
                         th:style="${pg.getName().trim().length() gt 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}"></td>
-                    <td th:text="${pg.getContinent()}" th:class="'text-center'"
-                        th:style="'width:100px;'"></td>
+                    <td th:text="${pg.getContinent()}" th:class="'text-center'" th:style="'width:100px;'"></td>
                     <td th:text="${pg.getNation()}" th:class="'text-center'"
                         th:style="${pg.getNation().trim().length() gt 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}"></td>
                     <td th:text="${pg.getDistrict()}" th:class="'text-center'"
                         th:style="${pg.getDistrict().trim().length() gt 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}"></td>
-                    <td th:text="${pg.getPopulation()}" th:class="'text-center'"
-                        th:style="'width:70px;'"></td>
+                    <td th:text="${pg.getPopulation()}" th:class="'text-center'" th:style="'width:70px;'"></td>
                     <td th:class="'text-center'" th:style="'width:120px;'">
-                        <button th:class="'btn btn-primary btn-sm edit_btn'"
-                                th:id="*{pg.getId()}">
+                        <button th:class="'btn btn-primary btn-sm edit_btn'" th:id="*{pg.getId()}">
                             <span th:class="'glyphicon glyphicon-pencil'"></span>編集
                         </button>
-                        <button th:class="'btn btn-danger btn-sm delete_btn'"
-                                th:id="*{pg.getName()}" th:deleteId="*{pg.getId()}">
+                        <button th:class="'btn btn-danger btn-sm delete_btn'" th:id="*{pg.getName()}"
+                                th:deleteId="*{pg.getId()}">
                             <span th:class="'glyphicon glyphicon-trash'"></span>削除
                         </button>
                     </td>
