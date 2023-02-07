@@ -61,31 +61,8 @@ public class CentreController {
 	@GetMapping(value = "/city")
 	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
 			@RequestParam(value = "keyword", defaultValue = "") final String keyword) {
-		// ページングコンストラクタを宣言する；
-		final PageRequest pageRequest = PageRequest.of(pageNum - 1, 17);
-		final Page<CityView> pageInfo;
-		// キーワードの属性を判断する；
-		if (StringUtils.isNotEmpty(keyword)) {
-			// ページング検索；
-			final List<CityView> findByNations = this.cityViewRepository.findByNations(keyword);
-			if (!findByNations.isEmpty()) {
-				pageInfo = this.cityViewRepository.getByNations(keyword, pageRequest);
-			} else if (StringUtils.isEqual("min(pop)", keyword)) {
-				// 人口数量昇順で最初の15個都市の情報を吹き出します；
-				final List<CityView> minimumRanks = this.cityViewRepository.findMinimumRanks();
-				pageInfo = new PageImpl<>(minimumRanks);
-			} else if (StringUtils.isEqual("max(pop)", keyword)) {
-				// 人口数量降順で最初の15個都市の情報を吹き出します；
-				final List<CityView> maximumRanks = this.cityViewRepository.findMaximumRanks();
-				pageInfo = new PageImpl<>(maximumRanks);
-			} else {
-				// ページング検索；
-				pageInfo = this.cityViewRepository.getByNames(keyword, pageRequest);
-			}
-		} else {
-			// ページング検索；
-			pageInfo = this.cityViewRepository.findAll(pageRequest);
-		}
+		// ページング検索結果を吹き出します；
+		final Page<CityView> pageInfo = this.getPageInfo(pageNum, keyword);
 		// modelAndViewオブジェクトを宣言する；
 		final ModelAndView mav = new ModelAndView("index");
 		// 前のページを取得する；
@@ -239,6 +216,12 @@ public class CentreController {
 		}
 	}
 
+	/**
+	 * 更新および保存の共通操作
+	 * 
+	 * @param cityInfo 入力した都市情報
+	 * @return 都市エンティティ
+	 */
 	private City saveAndUpdate(@NonNull final CityInfo cityInfo) {
 		final City city = new City();
 		BeanUtils.copyProperties(cityInfo, city, "continent", "nation");
@@ -247,5 +230,41 @@ public class CentreController {
 		city.setCountryCode(nationCode);
 		city.setIsDeleted(0);
 		return city;
+	}
+
+	/**
+	 * ページング結果を取得する
+	 * 
+	 * @param pageNum ページングナンバー
+	 * @param keyword 入力した検索条件
+	 * @return ページング結果
+	 */
+	private Page<CityView> getPageInfo(final Integer pageNum, final String keyword) {
+		// ページングコンストラクタを宣言する；
+		final PageRequest pageRequest = PageRequest.of(pageNum - 1, 17);
+		final Page<CityView> pageInfo;
+		// キーワードの属性を判断する；
+		if (StringUtils.isNotEmpty(keyword)) {
+			// ページング検索；
+			final List<CityView> findByNations = this.cityViewRepository.findByNations(keyword);
+			if (!findByNations.isEmpty()) {
+				pageInfo = this.cityViewRepository.getByNations(keyword, pageRequest);
+			} else if (StringUtils.isEqual("min(pop)", keyword)) {
+				// 人口数量昇順で最初の15個都市の情報を吹き出します；
+				final List<CityView> minimumRanks = this.cityViewRepository.findMinimumRanks();
+				pageInfo = new PageImpl<>(minimumRanks);
+			} else if (StringUtils.isEqual("max(pop)", keyword)) {
+				// 人口数量降順で最初の15個都市の情報を吹き出します；
+				final List<CityView> maximumRanks = this.cityViewRepository.findMaximumRanks();
+				pageInfo = new PageImpl<>(maximumRanks);
+			} else {
+				// ページング検索；
+				pageInfo = this.cityViewRepository.getByNames(keyword, pageRequest);
+			}
+		} else {
+			// ページング検索；
+			pageInfo = this.cityViewRepository.findAll(pageRequest);
+		}
+		return pageInfo;
 	}
 }
