@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.Proxy;
 
@@ -46,7 +45,6 @@ public class CityView implements Serializable {
 	 * This field corresponds to the database column name
 	 */
 	@Column(nullable = false)
-	@Pattern(regexp = "^[a-zA-Z-\\p{IsWhiteSpace}]{4,17}$", message = "Name of cities should be in 4~17 Latin alphabets.")
 	private String name;
 
 	/**
