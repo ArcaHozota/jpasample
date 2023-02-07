@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.Proxy;
 
@@ -42,7 +41,6 @@ public class City implements Serializable {
 	 * This field corresponds to the database column name
 	 */
 	@Column(nullable = false)
-	@Pattern(regexp = "^[a-zA-Z-\\p{IsWhiteSpace}]{4,17}$", message = "入力した都市名は4桁から23桁までのローマ字にしなければなりません。")
 	private String name;
 
 	/**
