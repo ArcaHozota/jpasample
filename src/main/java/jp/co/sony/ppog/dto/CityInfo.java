@@ -10,6 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CityInfo extends City {
 
+	private static final long serialVersionUID = 9053927948255512241L;
+
 	private String continent;
 
 	private String nation;
