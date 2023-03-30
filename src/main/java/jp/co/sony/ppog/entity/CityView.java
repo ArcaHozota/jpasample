@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * dto of the view of world cities
+ * Entity of View WORLD_CITY_VIEW
  *
  * @author Administrator
  */
@@ -35,38 +35,38 @@ public class CityView implements Serializable {
 	private static final long serialVersionUID = 6678964783710878220L;
 
 	/**
-	 * This field corresponds to the database column id
+	 * This field corresponds to the database column ID
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	/**
-	 * This field corresponds to the database column name
+	 * This field corresponds to the database column NAME
 	 */
 	@Column(nullable = false)
 	private String name;
 
 	/**
-	 * This field corresponds to the database column continent
+	 * This field corresponds to the database column CONTINENT
 	 */
 	@Column(nullable = false)
 	private String continent;
 
 	/**
-	 * This field corresponds to the database column nation
+	 * This field corresponds to the database column NATION
 	 */
 	@Column(nullable = false)
 	private String nation;
 
 	/**
-	 * This field corresponds to the database column district
+	 * This field corresponds to the database column DISTRICT
 	 */
 	@Column(nullable = false)
 	private String district;
 
 	/**
-	 * This field corresponds to the database column population
+	 * This field corresponds to the database column POPULATION
 	 */
 	@Column(nullable = false)
 	private Long population;

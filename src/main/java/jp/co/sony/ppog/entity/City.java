@@ -17,6 +17,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
+ * Entity of Table WORLD_CITY
+ * 
  * @author Administrator
  */
 @Entity
@@ -31,39 +33,45 @@ public class City implements Serializable {
 	private static final long serialVersionUID = 1815689293387304425L;
 
 	/**
-	 * This field corresponds to the database column id
+	 * This field corresponds to the database column ID
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	/**
-	 * This field corresponds to the database column name
+	 * This field corresponds to the database column NAME
 	 */
 	@Column(nullable = false)
 	private String name;
 
 	/**
-	 * This field corresponds to the database column country_code
+	 * This field corresponds to the database column COUNTRY_CODE
 	 */
 	@Column(name = "COUNTRY_CODE", nullable = false)
 	private String countryCode;
 
 	/**
-	 * This field corresponds to the database column district
+	 * This field corresponds to the database column DISTRICT
 	 */
 	@Column(nullable = false)
 	private String district;
 
 	/**
-	 * This field corresponds to the database column population
+	 * This field corresponds to the database column POPULATION
 	 */
 	@Column(nullable = false)
 	private Long population;
 
 	/**
-	 * This field corresponds to the database column is_deleted
+	 * This field corresponds to the database column LOGIC_DELETE_FLG
 	 */
 	@Column(name = "LOGIC_DELETE_FLG", nullable = false)
 	private String logicDeleteFlg;
+
+	@Override
+	public String toString() {
+		return "City [id=" + this.id + ", name=" + this.name + ", countryCode=" + this.countryCode + ", district="
+				+ this.district + ", population=" + this.population + ", logicDeleteFlg=" + this.logicDeleteFlg + "]";
+	}
 }
