@@ -64,12 +64,6 @@ public class City implements Serializable {
 	/**
 	 * This field corresponds to the database column is_deleted
 	 */
-	@Column(name = "IS_DELETED", nullable = false)
-	private Integer isDeleted;
-
-	@Override
-	public String toString() {
-		return "City [id=" + this.id + ", name=" + this.name + ", countryCode=" + this.countryCode + ", district="
-				+ this.district + ", population=" + this.population + ", isDeleted=" + this.isDeleted + "]";
-	}
+	@Column(name = "LOGIC_DELETE_FLG", nullable = false)
+	private String logicDeleteFlg;
 }

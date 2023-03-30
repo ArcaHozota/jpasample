@@ -121,16 +121,6 @@ public class Country implements Serializable {
 	/**
 	 * This field corresponds to the database column is_deleted
 	 */
-	@Column(name = "IS_DELETED", nullable = false)
-	private Integer isDeleted;
-
-	@Override
-	public String toString() {
-		return "Nation [code=" + this.code + ", name=" + this.name + ", continent=" + this.continent + ", region="
-				+ this.region + ", surfaceArea=" + this.surfaceArea + ", independenceYear=" + this.independenceYear
-				+ ", population=" + this.population + ", lifeExpectancy=" + this.lifeExpectancy + ", gnp=" + this.gnp
-				+ ", gnpOld=" + this.gnpOld + ", localName=" + this.localName + ", governmentForm="
-				+ this.governmentForm + ", headOfState=" + this.headOfState + ", capital=" + this.capital + ", code2="
-				+ this.code2 + ", isDeleted=" + this.isDeleted + "]";
-	}
+	@Column(name = "LOGIC_DELETE_FLG", nullable = false)
+	private String logicDeleteFlg;
 }

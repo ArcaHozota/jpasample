@@ -131,7 +131,7 @@ public class CentreController {
 	public RestMsg updateCityInfo(@RequestBody final CityInfo cityInfo) {
 		final City city = this.saveAndUpdate(cityInfo);
 		this.cityRepository.updateById(city.getId(), city.getName(), city.getCountryCode(), city.getDistrict(),
-				city.getPopulation(), city.getIsDeleted());
+				city.getPopulation());
 		return RestMsg.success();
 	}
 
@@ -218,7 +218,7 @@ public class CentreController {
 
 	/**
 	 * 更新および保存の共通操作
-	 * 
+	 *
 	 * @param cityInfo 入力した都市情報
 	 * @return 都市エンティティ
 	 */
@@ -228,13 +228,13 @@ public class CentreController {
 		final String nationName = cityInfo.getNation();
 		final String nationCode = this.countryRepository.findNationCode(nationName);
 		city.setCountryCode(nationCode);
-		city.setIsDeleted(0);
+		city.setLogicDeleteFlg("visible");
 		return city;
 	}
 
 	/**
 	 * ページング結果を取得する
-	 * 
+	 *
 	 * @param pageNum ページングナンバー
 	 * @param keyword 入力した検索条件
 	 * @return ページング結果

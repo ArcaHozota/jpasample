@@ -22,7 +22,7 @@ public interface CityRepository extends JpaRepository<City, Integer> {
 
 	/**
 	 * update query.
-	 * 
+	 *
 	 * @param id          ID
 	 * @param name        NAME
 	 * @param countryCode COUNTRY_CODE
@@ -33,8 +33,7 @@ public interface CityRepository extends JpaRepository<City, Integer> {
 	@Modifying
 	@Transactional(rollbackFor = OracleSQLException.class)
 	@Query(value = "UPDATE WORLD_CITY WCN SET WCN.NAME=:name, WCN.COUNTRY_CODE=:countryCode, "
-			+ "WCN.DISTRICT=:district, WCN.POPULATION=:population, WCN.IS_DELETED=:isDeleted WHERE WCN.ID=:id", nativeQuery = true)
+			+ "WCN.DISTRICT=:district, WCN.POPULATION=:population WHERE LOGIC_DELETE_FLG = 'visible' AND WCN.ID=:id", nativeQuery = true)
 	void updateById(@Param("id") Integer id, @Param("name") String name, @Param("countryCode") String countryCode,
-			@Param("district") String district, @Param("population") Long population,
-			@Param("isDeleted") Integer isDeleted);
+			@Param("district") String district, @Param("population") Long population);
 }
