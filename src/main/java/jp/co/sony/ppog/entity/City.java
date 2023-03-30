@@ -25,7 +25,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Proxy(lazy = false)
 @Table(name = "WORLD_CITY")
-@NamedQuery(name = "City.removeById", query = "update City c set c.isDeleted = 1 where c.id =:id")
+@NamedQuery(name = "City.removeById", query = "update City c set c.logicDeleteFlg = 'visible' where c.id =:id")
 public class City implements Serializable {
 
 	private static final long serialVersionUID = 1815689293387304425L;
