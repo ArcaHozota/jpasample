@@ -1,5 +1,5 @@
-let pageNum = /* [[${pageInfo.getNumber()+1}]] */{};
-let pageTotal = /* [[${pageInfo.getTotalPages()}]] */{};
+let pageNum = /*[[${pageInfo.getNumber()+1}]]*/{};
+let pageTotal = /*[[${pageInfo.getTotalPages()}]]*/{};
 $("#searchBtn").on(
 		'click',
 		function() {
@@ -22,7 +22,6 @@ $("#cityAddModalBtn").on('click', function() {
 		backdrop : 'static'
 	});
 });
-
 function getContinents(element) {
 	$(element).empty();
 	$.ajax({
@@ -38,12 +37,10 @@ function getContinents(element) {
 		}
 	});
 }
-
 $("#continentInput").on('change', function() {
 	let continentVal = $("#continentInput option:selected").val();
 	getNations($("#nationInput"), continentVal);
 });
-
 function getNations(element, continentVal) {
 	$(element).empty();
 	$.ajax({
@@ -60,7 +57,6 @@ function getNations(element, continentVal) {
 		}
 	});
 }
-
 $("#nameInput").change(
 		function() {
 			let cityName = this.value;
@@ -158,7 +154,6 @@ $(document).on("click", ".edit_btn", function() {
 		backdrop : 'static'
 	});
 });
-
 function getCityInfo(id) {
 	$.ajax({
 		url : '/ssmcrud/city/' + id,
@@ -174,7 +169,6 @@ function getCityInfo(id) {
 		}
 	});
 }
-
 function getNationsById(element, id) {
 	$(element).empty();
 	$.ajax({
@@ -190,7 +184,6 @@ function getNationsById(element, id) {
 		}
 	});
 }
-
 $("#infoChangeBtn").on(
 		'click',
 		function() {
@@ -261,13 +254,11 @@ $(document).on(
 				});
 			}
 		});
-
 function formReset(element) {
 	$(element)[0].reset();
 	$(element).find("*").removeClass("has-error has-success");
 	$(element).find(".help-block").text("");
 }
-
 function showValidationMsg(element, status, msg) {
 	$(element).parent().removeClass("has-success has-error");
 	$(element).next("span").text("");
