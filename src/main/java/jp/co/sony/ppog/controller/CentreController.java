@@ -26,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.common.collect.Lists;
 
-import jp.co.sony.ppog.dto.CityInfo;
+import jp.co.sony.ppog.dto.CityInfoDto;
 import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.entity.CityView;
 import jp.co.sony.ppog.repository.CityRepository;
@@ -128,7 +128,7 @@ public class CentreController {
 	 */
 	@PutMapping(value = "/city/{id}")
 	@ResponseBody
-	public RestMsg updateCityInfo(@RequestBody final CityInfo cityInfo) {
+	public RestMsg updateCityInfo(@RequestBody final CityInfoDto cityInfo) {
 		final City city = this.saveAndUpdate(cityInfo);
 		this.cityRepository.updateById(city.getId(), city.getName(), city.getCountryCode(), city.getDistrict(),
 				city.getPopulation());
@@ -143,7 +143,7 @@ public class CentreController {
 	 */
 	@PostMapping(value = "/city")
 	@ResponseBody
-	public RestMsg saveCityInfo(@RequestBody final CityInfo cityInfo) {
+	public RestMsg saveCityInfo(@RequestBody final CityInfoDto cityInfo) {
 		final City city = this.saveAndUpdate(cityInfo);
 		this.cityRepository.save(city);
 		return RestMsg.success();
@@ -222,7 +222,7 @@ public class CentreController {
 	 * @param cityInfo 入力した都市情報
 	 * @return 都市エンティティ
 	 */
-	private City saveAndUpdate(@NonNull final CityInfo cityInfo) {
+	private City saveAndUpdate(@NonNull final CityInfoDto cityInfo) {
 		final City city = new City();
 		BeanUtils.copyProperties(cityInfo, city, "continent", "nation");
 		final String nationName = cityInfo.getNation();
