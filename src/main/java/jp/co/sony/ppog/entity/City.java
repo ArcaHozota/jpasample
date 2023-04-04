@@ -36,7 +36,7 @@ public class City implements Serializable {
 	 * This field corresponds to the database column ID
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer id;
 
 	/**
