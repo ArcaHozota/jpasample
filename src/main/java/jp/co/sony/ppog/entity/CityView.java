@@ -71,6 +71,9 @@ public class CityView implements Serializable {
 	@Column(nullable = false)
 	private Long population;
 
+	/**
+	 * toString
+	 */
 	@Override
 	public String toString() {
 		return "CityView [id=" + this.id + ", name=" + this.name + ", continent=" + this.continent + ", nation="

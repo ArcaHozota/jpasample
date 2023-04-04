@@ -19,7 +19,7 @@ import lombok.Setter;
 
 /**
  * Entity of Table WORLD_COUNTRY
- * 
+ *
  * @author Administrator
  */
 @Entity
@@ -129,6 +129,9 @@ public class Country implements Serializable {
 	@Column(name = "LOGIC_DELETE_FLG", nullable = false)
 	private String logicDeleteFlg;
 
+	/**
+	 * toString
+	 */
 	@Override
 	public String toString() {
 		return "Country [code=" + this.code + ", name=" + this.name + ", continent=" + this.continent + ", region="

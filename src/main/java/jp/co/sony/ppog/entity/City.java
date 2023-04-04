@@ -18,7 +18,7 @@ import lombok.Setter;
 
 /**
  * Entity of Table WORLD_CITY
- * 
+ *
  * @author Administrator
  */
 @Entity
@@ -69,6 +69,9 @@ public class City implements Serializable {
 	@Column(name = "LOGIC_DELETE_FLG", nullable = false)
 	private String logicDeleteFlg;
 
+	/**
+	 * toString
+	 */
 	@Override
 	public String toString() {
 		return "City [id=" + this.id + ", name=" + this.name + ", countryCode=" + this.countryCode + ", district="
