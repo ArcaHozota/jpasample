@@ -113,7 +113,7 @@ public class CentreController {
 	@ResponseBody
 	public RestMsg getListOfNationsById(@PathVariable("id") final Integer id) {
 		final List<String> list = Lists.newArrayList();
-		final CityInfoDto cityView = this.cityViewRepository.getById(id);
+		final CityView cityView = this.cityViewRepository.getById(id);
 		final List<String> nations = this.countryRepository.findNationsByCnt(cityView.getContinent());
 		final String nationName = cityView.getNation();
 		list.add(nationName);
@@ -258,6 +258,8 @@ public class CentreController {
 					final CityInfoDto cityInfoDto = new CityInfoDto();
 					BeanUtils.copyProperties(item, cityInfoDto);
 					final String nationCode = this.countryRepository.findNationCode(item.getNation());
+					final String language = this.languageRepository.findLanguageByCity(item.getId(), nationCode);
+					cityInfoDto.setLanguage(language);
 					return cityInfoDto;
 				}).collect(Collectors.toCollection(null));
 			} else if (StringUtils.isEqual("min(pop)", keyword)) {
