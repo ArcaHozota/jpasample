@@ -324,18 +324,20 @@ public class CentreController {
 			}
 		} else {
 			// ページング検索；
-			pageInfo = this.cityViewRepository.findAll(pageRequest).stream().map(item -> {
-				final CityInfoDto cityInfoDto = new CityInfoDto();
-				BeanUtils.copyProperties(item, cityInfoDto);
-				final String nationCode = this.countryRepository.findNationCode(item.getNation());
-				final Long countryPop = this.countryRepository.findById(nationCode).get().getPopulation();
-				final BigDecimal cityPop = BigDecimal.valueOf(item.getPopulation());
-				final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
-				final BigDecimal percentage = cityPop.divide(nationPop);
-				final Language language = this.languageRepository.findLanguageByCity(percentage, nationCode);
-				cityInfoDto.setLanguage(language.getLanguage());
-				return cityInfoDto;
-			}).collect(Collectors.toCollection(null));
+			final List<CityInfoDto> findAll = this.cityViewRepository.findAll(pageRequest).getContent().stream()
+					.map(item -> {
+						final CityInfoDto cityInfoDto = new CityInfoDto();
+						BeanUtils.copyProperties(item, cityInfoDto);
+						final String nationCode = this.countryRepository.findNationCode(item.getNation());
+						final Long countryPop = this.countryRepository.findById(nationCode).get().getPopulation();
+						final BigDecimal cityPop = BigDecimal.valueOf(item.getPopulation());
+						final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
+						final BigDecimal percentage = cityPop.divide(nationPop);
+						final Language language = this.languageRepository.findLanguageByCity(percentage, nationCode);
+						cityInfoDto.setLanguage(language.getLanguage());
+						return cityInfoDto;
+					}).collect(Collectors.toList());
+			pageInfo = new PageImpl<>(findAll);
 		}
 		return pageInfo;
 	}
