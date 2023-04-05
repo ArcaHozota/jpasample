@@ -62,7 +62,7 @@ public class CentreController {
 	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
 			@RequestParam(value = "keyword", defaultValue = "") final String keyword) {
 		// ページング検索結果を吹き出します；
-		final Page<CityView> pageInfo = this.getPageInfo(pageNum, keyword);
+		final Page<CityInfoDto> pageInfo = this.getPageInfo(pageNum, keyword);
 		// modelAndViewオブジェクトを宣言する；
 		final ModelAndView mav = new ModelAndView("index");
 		// 前のページを取得する；
@@ -94,7 +94,7 @@ public class CentreController {
 	@GetMapping(value = "/city/{id}")
 	@ResponseBody
 	public RestMsg getCityInfo(@PathVariable("id") final Integer id) {
-		final CityView cityView = this.cityViewRepository.getById(id);
+		final CityInfoDto cityView = this.cityViewRepository.getById(id);
 		return RestMsg.success().add("citySelected", cityView);
 	}
 
@@ -108,7 +108,7 @@ public class CentreController {
 	@ResponseBody
 	public RestMsg getListOfNationsById(@PathVariable("id") final Integer id) {
 		final List<String> list = Lists.newArrayList();
-		final CityView cityView = this.cityViewRepository.getById(id);
+		final CityInfoDto cityView = this.cityViewRepository.getById(id);
 		final List<String> nations = this.countryRepository.findNationsByCnt(cityView.getContinent());
 		final String nationName = cityView.getNation();
 		list.add(nationName);
@@ -224,7 +224,7 @@ public class CentreController {
 	 */
 	private City saveAndUpdate(@NonNull final CityInfoDto cityInfo) {
 		final City city = new City();
-		BeanUtils.copyProperties(cityInfo, city, "continent", "nation");
+		BeanUtils.copyProperties(cityInfo, city, "continent", "nation", "language");
 		final String nationName = cityInfo.getNation();
 		final String nationCode = this.countryRepository.findNationCode(nationName);
 		city.setCountryCode(nationCode);
@@ -239,23 +239,23 @@ public class CentreController {
 	 * @param keyword 入力した検索条件
 	 * @return ページング結果
 	 */
-	private Page<CityView> getPageInfo(final Integer pageNum, final String keyword) {
+	private Page<CityInfoDto> getPageInfo(final Integer pageNum, final String keyword) {
 		// ページングコンストラクタを宣言する；
 		final PageRequest pageRequest = PageRequest.of(pageNum - 1, 17);
-		final Page<CityView> pageInfo;
+		Page<CityInfoDto> pageInfo;
 		// キーワードの属性を判断する；
 		if (StringUtils.isNotEmpty(keyword)) {
 			// ページング検索；
 			final List<CityView> findByNations = this.cityViewRepository.findByNations(keyword);
 			if (!findByNations.isEmpty()) {
-				pageInfo = this.cityViewRepository.getByNations(keyword, pageRequest);
+				final Page<CityView> byNations = this.cityViewRepository.getByNations(keyword, pageRequest);
 			} else if (StringUtils.isEqual("min(pop)", keyword)) {
 				// 人口数量昇順で最初の15個都市の情報を吹き出します；
-				final List<CityView> minimumRanks = this.cityViewRepository.findMinimumRanks();
+				final List<CityInfoDto> minimumRanks = this.cityViewRepository.findMinimumRanks();
 				pageInfo = new PageImpl<>(minimumRanks);
 			} else if (StringUtils.isEqual("max(pop)", keyword)) {
 				// 人口数量降順で最初の15個都市の情報を吹き出します；
-				final List<CityView> maximumRanks = this.cityViewRepository.findMaximumRanks();
+				final List<CityInfoDto> maximumRanks = this.cityViewRepository.findMaximumRanks();
 				pageInfo = new PageImpl<>(maximumRanks);
 			} else {
 				// ページング検索；
