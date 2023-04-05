@@ -26,9 +26,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Proxy(lazy = false)
 @Table(name = "WORLD_LANGUAGE")
-@NamedQuery(name = "Language.findLanguageByCity", query = "select nl.language, nl.countryCode, min(nl.percentage) from Language nl " +
-		"where nl.logicDeleteFlg = 'visible' and nl.isOfficial = 'T' and nl.countryCode =:countryCode " +
-		"and nl.percentage >=:percentage group by nl.countryCode, nl.language")
+@NamedQuery(name = "Language.findLanguageByCity", query = "select nl.countryCode, nl.language, min(nl.percentage) as percentage from Language nl "
+		+ "where nl.logicDeleteFlg = 'visible' and nl.isOfficial = 'T' and nl.countryCode =:countryCode "
+		+ "and nl.percentage >=:percentage group by nl.countryCode, nl.language")
 public class Language implements Serializable {
 
 	private static final long serialVersionUID = -8085659909634431823L;
