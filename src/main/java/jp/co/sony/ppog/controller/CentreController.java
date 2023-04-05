@@ -101,7 +101,7 @@ public class CentreController {
 	@GetMapping(value = "/city/{id}")
 	@ResponseBody
 	public RestMsg getCityInfo(@PathVariable("id") final Integer id) {
-		final CityInfoDto cityView = this.cityViewRepository.getById(id);
+		final CityView cityView = this.cityViewRepository.getById(id);
 		return RestMsg.success().add("citySelected", cityView);
 	}
 
@@ -315,7 +315,18 @@ public class CentreController {
 			}
 		} else {
 			// ページング検索；
-			pageInfo = this.cityViewRepository.findAll(pageRequest);
+			pageInfo = this.cityViewRepository.findAll(pageRequest).stream().map(item -> {
+				final CityInfoDto cityInfoDto = new CityInfoDto();
+				BeanUtils.copyProperties(item, cityInfoDto);
+				final String nationCode = this.countryRepository.findNationCode(item.getNation());
+				final Long countryPop = this.countryRepository.findById(nationCode).get().getPopulation();
+				final BigDecimal cityPop = BigDecimal.valueOf(item.getPopulation());
+				final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
+				final BigDecimal percentage = cityPop.divide(nationPop);
+				final Language language = this.languageRepository.findLanguageByCity(percentage, nationCode);
+				cityInfoDto.setLanguage(language.getLanguage());
+				return cityInfoDto;
+			}).collect(Collectors.toCollection(null));
 		}
 		return pageInfo;
 	}
