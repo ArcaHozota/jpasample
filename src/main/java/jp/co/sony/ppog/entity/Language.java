@@ -1,6 +1,7 @@
 package jp.co.sony.ppog.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -51,7 +52,7 @@ public class Language implements Serializable {
 	 * This field corresponds to the database column PERCENTAGE
 	 */
 	@Column(nullable = false)
-	private String percentage;
+	private BigDecimal percentage;
 
 	/**
 	 * This field corresponds to the database column LOGIC_DELETE_FLG
