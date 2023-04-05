@@ -9,6 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import jp.co.sony.ppog.entity.City;
 import oracle.jdbc.driver.OracleSQLException;
 
+/**
+ * Searching repository of entity City
+ *
+ * @author Administrator
+ */
 public interface CityRepository extends JpaRepository<City, Integer> {
 
 	/**
