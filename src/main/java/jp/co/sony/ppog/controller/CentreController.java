@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
-import jp.co.sony.ppog.entity.Language;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -32,6 +31,7 @@ import com.google.common.collect.Lists;
 import jp.co.sony.ppog.dto.CityInfoDto;
 import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.entity.CityView;
+import jp.co.sony.ppog.entity.Language;
 import jp.co.sony.ppog.repository.CityRepository;
 import jp.co.sony.ppog.repository.CityViewRepository;
 import jp.co.sony.ppog.repository.CountryRepository;
@@ -102,7 +102,16 @@ public class CentreController {
 	@ResponseBody
 	public RestMsg getCityInfo(@PathVariable("id") final Integer id) {
 		final CityView cityView = this.cityViewRepository.getById(id);
-		return RestMsg.success().add("citySelected", cityView);
+		final CityInfoDto cityInfoDto = new CityInfoDto();
+		BeanUtils.copyProperties(cityView, cityInfoDto);
+		final String nationCode = this.countryRepository.findNationCode(cityView.getNation());
+		final Long countryPop = this.countryRepository.findById(nationCode).get().getPopulation();
+		final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
+		final BigDecimal cityPop = BigDecimal.valueOf(cityView.getPopulation());
+		final BigDecimal percentage = cityPop.divide(nationPop);
+		final Language language = this.languageRepository.findLanguageByCity(percentage, nationCode);
+		cityInfoDto.setLanguage(language.getLanguage());
+		return RestMsg.success().add("citySelected", cityInfoDto);
 	}
 
 	/**
