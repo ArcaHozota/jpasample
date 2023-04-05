@@ -8,6 +8,11 @@ import org.springframework.data.repository.query.Param;
 
 import jp.co.sony.ppog.entity.Country;
 
+/**
+ * Searching repository of entity Country
+ *
+ * @author Administrator
+ */
 public interface CountryRepository extends JpaRepository<Country, String> {
 
 	/**
