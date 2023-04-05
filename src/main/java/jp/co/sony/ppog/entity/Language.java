@@ -28,11 +28,6 @@ import lombok.Setter;
 @Proxy(lazy = false)
 @Table(name = "WORLD_LANGUAGE")
 @IdClass(LanguageId.class)
-@NamedQuery(name = "Language.findLanguageByCity", query = "select wl.language from " +
-        "(select nl.countryCode, min(nl.percentage) as percentage from Language nl "
-        + "where nl.logicDeleteFlg = 'visible' and nl.isOfficial = 'T' and nl.countryCode =:countryCode "
-        + "and nl.percentage >=:percentage group by nl.countryCode) as sub " +
-		"inner join Language as wl on sub.countryCode = wl.countryCode and sub.percentage = wl.percentage")
 public class Language implements Serializable {
 
 	private static final long serialVersionUID = -8085659909634431823L;
