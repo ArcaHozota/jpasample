@@ -264,7 +264,7 @@ public class CentreController {
 			final List<CityView> findByNations = this.cityViewRepository.findByNations(keyword);
 			if (!findByNations.isEmpty()) {
 				final List<CityInfoDto> getByNations = this.cityViewRepository.getByNations(keyword, pageRequest)
-						.stream().map(item -> {
+						.getContent().stream().map(item -> {
 							final CityInfoDto cityInfoDto = new CityInfoDto();
 							BeanUtils.copyProperties(item, cityInfoDto);
 							final String nationCode = this.countryRepository.findNationCode(item.getNation());
