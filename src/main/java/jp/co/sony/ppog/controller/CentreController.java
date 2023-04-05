@@ -1,6 +1,7 @@
 package jp.co.sony.ppog.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -32,6 +33,7 @@ import jp.co.sony.ppog.entity.CityView;
 import jp.co.sony.ppog.repository.CityRepository;
 import jp.co.sony.ppog.repository.CityViewRepository;
 import jp.co.sony.ppog.repository.CountryRepository;
+import jp.co.sony.ppog.repository.LanguageRepository;
 import jp.co.sony.ppog.utils.RestMsg;
 import jp.co.sony.ppog.utils.StringUtils;
 
@@ -52,6 +54,9 @@ public class CentreController {
 
 	@Resource
 	private CountryRepository countryRepository;
+
+	@Resource
+	private LanguageRepository languageRepository;
 
 	/**
 	 * 都市情報を検索する
@@ -249,13 +254,19 @@ public class CentreController {
 			final List<CityView> findByNations = this.cityViewRepository.findByNations(keyword);
 			if (!findByNations.isEmpty()) {
 				final Page<CityView> byNations = this.cityViewRepository.getByNations(keyword, pageRequest);
+				byNations.stream().map(item -> {
+					final CityInfoDto cityInfoDto = new CityInfoDto();
+					BeanUtils.copyProperties(item, cityInfoDto);
+					final String nationCode = this.countryRepository.findNationCode(item.getNation());
+					return cityInfoDto;
+				}).collect(Collectors.toCollection(null));
 			} else if (StringUtils.isEqual("min(pop)", keyword)) {
 				// 人口数量昇順で最初の15個都市の情報を吹き出します；
-				final List<CityInfoDto> minimumRanks = this.cityViewRepository.findMinimumRanks();
+				final List<CityView> minimumRanks = this.cityViewRepository.findMinimumRanks();
 				pageInfo = new PageImpl<>(minimumRanks);
 			} else if (StringUtils.isEqual("max(pop)", keyword)) {
 				// 人口数量降順で最初の15個都市の情報を吹き出します；
-				final List<CityInfoDto> maximumRanks = this.cityViewRepository.findMaximumRanks();
+				final List<CityView> maximumRanks = this.cityViewRepository.findMaximumRanks();
 				pageInfo = new PageImpl<>(maximumRanks);
 			} else {
 				// ページング検索；
