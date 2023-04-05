@@ -258,25 +258,26 @@ public class CentreController {
 	private Page<CityInfoDto> getPageInfo(final Integer pageNum, final String keyword) {
 		// ページングコンストラクタを宣言する；
 		final PageRequest pageRequest = PageRequest.of(pageNum - 1, 17);
-		Page<CityInfoDto> pageInfo;
 		// キーワードの属性を判断する；
 		if (StringUtils.isNotEmpty(keyword)) {
 			// ページング検索；
 			final List<CityView> findByNations = this.cityViewRepository.findByNations(keyword);
 			if (!findByNations.isEmpty()) {
-				final Page<CityView> byNations = this.cityViewRepository.getByNations(keyword, pageRequest);
-				pageInfo = byNations.stream().map(item -> {
-					final CityInfoDto cityInfoDto = new CityInfoDto();
-					BeanUtils.copyProperties(item, cityInfoDto);
-					final String nationCode = this.countryRepository.findNationCode(item.getNation());
-					final Long countryPop = this.countryRepository.findById(nationCode).get().getPopulation();
-					final BigDecimal cityPop = BigDecimal.valueOf(item.getPopulation());
-					final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
-					final BigDecimal percentage = cityPop.divide(nationPop);
-					final Language language = this.languageRepository.findLanguageByCity(percentage, nationCode);
-					cityInfoDto.setLanguage(language.getLanguage());
-					return cityInfoDto;
-				}).collect(Collectors.toCollection(null));
+				final List<CityInfoDto> getByNations = this.cityViewRepository.getByNations(keyword, pageRequest)
+						.stream().map(item -> {
+							final CityInfoDto cityInfoDto = new CityInfoDto();
+							BeanUtils.copyProperties(item, cityInfoDto);
+							final String nationCode = this.countryRepository.findNationCode(item.getNation());
+							final Long countryPop = this.countryRepository.findById(nationCode).get().getPopulation();
+							final BigDecimal cityPop = BigDecimal.valueOf(item.getPopulation());
+							final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
+							final BigDecimal percentage = cityPop.divide(nationPop);
+							final Language language = this.languageRepository.findLanguageByCity(percentage,
+									nationCode);
+							cityInfoDto.setLanguage(language.getLanguage());
+							return cityInfoDto;
+						}).collect(Collectors.toList());
+				return new PageImpl<>(getByNations);
 			} else if (StringUtils.isEqual("min(pop)", keyword)) {
 				// 人口数量昇順で最初の15個都市の情報を吹き出します；
 				final List<CityInfoDto> minimumRanks = this.cityViewRepository.findMinimumRanks().stream().map(item -> {
@@ -291,7 +292,7 @@ public class CentreController {
 					cityInfoDto.setLanguage(language.getLanguage());
 					return cityInfoDto;
 				}).collect(Collectors.toList());
-				pageInfo = new PageImpl<>(minimumRanks);
+				return new PageImpl<>(minimumRanks);
 			} else if (StringUtils.isEqual("max(pop)", keyword)) {
 				// 人口数量降順で最初の15個都市の情報を吹き出します；
 				final List<CityInfoDto> maximumRanks = this.cityViewRepository.findMaximumRanks().stream().map(item -> {
@@ -306,10 +307,29 @@ public class CentreController {
 					cityInfoDto.setLanguage(language.getLanguage());
 					return cityInfoDto;
 				}).collect(Collectors.toList());
-				pageInfo = new PageImpl<>(maximumRanks);
+				return new PageImpl<>(maximumRanks);
 			} else {
 				// ページング検索；
-				pageInfo = this.cityViewRepository.getByNames(keyword, pageRequest).stream().map(item -> {
+				final List<CityInfoDto> findByNames = this.cityViewRepository.getByNames(keyword, pageRequest)
+						.getContent().stream().map(item -> {
+							final CityInfoDto cityInfoDto = new CityInfoDto();
+							BeanUtils.copyProperties(item, cityInfoDto);
+							final String nationCode = this.countryRepository.findNationCode(item.getNation());
+							final Long countryPop = this.countryRepository.findById(nationCode).get().getPopulation();
+							final BigDecimal cityPop = BigDecimal.valueOf(item.getPopulation());
+							final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
+							final BigDecimal percentage = cityPop.divide(nationPop);
+							final Language language = this.languageRepository.findLanguageByCity(percentage,
+									nationCode);
+							cityInfoDto.setLanguage(language.getLanguage());
+							return cityInfoDto;
+						}).collect(Collectors.toList());
+				return new PageImpl<>(findByNames);
+			}
+		}
+		// ページング検索；
+		final List<CityInfoDto> findAll = this.cityViewRepository.findAll(pageRequest).getContent().stream()
+				.map(item -> {
 					final CityInfoDto cityInfoDto = new CityInfoDto();
 					BeanUtils.copyProperties(item, cityInfoDto);
 					final String nationCode = this.countryRepository.findNationCode(item.getNation());
@@ -320,25 +340,7 @@ public class CentreController {
 					final Language language = this.languageRepository.findLanguageByCity(percentage, nationCode);
 					cityInfoDto.setLanguage(language.getLanguage());
 					return cityInfoDto;
-				}).collect(Collectors.toCollection(null));
-			}
-		} else {
-			// ページング検索；
-			final List<CityInfoDto> findAll = this.cityViewRepository.findAll(pageRequest).getContent().stream()
-					.map(item -> {
-						final CityInfoDto cityInfoDto = new CityInfoDto();
-						BeanUtils.copyProperties(item, cityInfoDto);
-						final String nationCode = this.countryRepository.findNationCode(item.getNation());
-						final Long countryPop = this.countryRepository.findById(nationCode).get().getPopulation();
-						final BigDecimal cityPop = BigDecimal.valueOf(item.getPopulation());
-						final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
-						final BigDecimal percentage = cityPop.divide(nationPop);
-						final Language language = this.languageRepository.findLanguageByCity(percentage, nationCode);
-						cityInfoDto.setLanguage(language.getLanguage());
-						return cityInfoDto;
-					}).collect(Collectors.toList());
-			pageInfo = new PageImpl<>(findAll);
-		}
-		return pageInfo;
+				}).collect(Collectors.toList());
+		return new PageImpl<>(findAll);
 	}
 }
