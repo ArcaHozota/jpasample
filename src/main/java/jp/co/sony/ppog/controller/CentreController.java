@@ -1,6 +1,7 @@
 package jp.co.sony.ppog.controller;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -271,7 +272,7 @@ public class CentreController {
 							final Long countryPop = this.countryRepository.findById(nationCode).get().getPopulation();
 							final BigDecimal cityPop = BigDecimal.valueOf(item.getPopulation());
 							final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
-							final BigDecimal percentage = cityPop.divide(nationPop);
+							final BigDecimal percentage = cityPop.divide(nationPop, 7, RoundingMode.HALF_DOWN);
 							final Language language = this.languageRepository.findLanguageByCity(percentage,
 									nationCode);
 							cityInfoDto.setLanguage(language.getLanguage());
@@ -287,7 +288,7 @@ public class CentreController {
 					final Long countryPop = this.countryRepository.findById(nationCode).get().getPopulation();
 					final BigDecimal cityPop = BigDecimal.valueOf(item.getPopulation());
 					final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
-					final BigDecimal percentage = cityPop.divide(nationPop);
+					final BigDecimal percentage = cityPop.divide(nationPop, 7, RoundingMode.HALF_DOWN);
 					final Language language = this.languageRepository.findLanguageByCity(percentage, nationCode);
 					cityInfoDto.setLanguage(language.getLanguage());
 					return cityInfoDto;
@@ -302,7 +303,7 @@ public class CentreController {
 					final Long countryPop = this.countryRepository.findById(nationCode).get().getPopulation();
 					final BigDecimal cityPop = BigDecimal.valueOf(item.getPopulation());
 					final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
-					final BigDecimal percentage = cityPop.divide(nationPop);
+					final BigDecimal percentage = cityPop.divide(nationPop, 7, RoundingMode.HALF_DOWN);
 					final Language language = this.languageRepository.findLanguageByCity(percentage, nationCode);
 					cityInfoDto.setLanguage(language.getLanguage());
 					return cityInfoDto;
@@ -318,7 +319,7 @@ public class CentreController {
 							final Long countryPop = this.countryRepository.findById(nationCode).get().getPopulation();
 							final BigDecimal cityPop = BigDecimal.valueOf(item.getPopulation());
 							final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
-							final BigDecimal percentage = cityPop.divide(nationPop);
+							final BigDecimal percentage = cityPop.divide(nationPop, 7, RoundingMode.HALF_DOWN);
 							final Language language = this.languageRepository.findLanguageByCity(percentage,
 									nationCode);
 							cityInfoDto.setLanguage(language.getLanguage());
@@ -336,7 +337,7 @@ public class CentreController {
 					final Long countryPop = this.countryRepository.findById(nationCode).get().getPopulation();
 					final BigDecimal cityPop = BigDecimal.valueOf(item.getPopulation());
 					final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
-					final BigDecimal percentage = cityPop.divide(nationPop);
+					final BigDecimal percentage = cityPop.divide(nationPop, 7, RoundingMode.HALF_DOWN);
 					final Language language = this.languageRepository.findLanguageByCity(percentage, nationCode);
 					cityInfoDto.setLanguage(language.getLanguage());
 					return cityInfoDto;
