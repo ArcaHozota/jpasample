@@ -20,5 +20,5 @@ public interface LanguageRepository extends JpaRepository<Language, String> {
 			+ "WHERE WL.LOGIC_DELETE_FLG = 'visible' AND WL.IS_OFFICIAL = 'T' AND WL.COUNTRY_CODE =:countryCode "
 			+ "AND WL.PERCENTAGE >=:percentage GROUP BY WL.COUNTRY_CODE) SUB "
 			+ "ON NL.COUNTRY_CODE = SUB.COUNTRY_CODE AND NL.PERCENTAGE = SUB.PERCENTAGE", nativeQuery = true)
-	Language findLanguageByCity(@Param("percentage") BigDecimal percentage, @Param("countryCode") String countryCode);
+	String findLanguageByCity(@Param("percentage") BigDecimal percentage, @Param("countryCode") String countryCode);
 }
