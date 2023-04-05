@@ -80,6 +80,8 @@
 								th:style="${pg.getDistrict().trim().length() gt 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}"></td>
 							<td th:text="${pg.getPopulation()}" th:class="'text-center'"
 								th:style="'width:70px;'"></td>
+							<td th:text="${pg.getLanguage()}" th:class="'text-center'"
+								th:style="'width:80px;'"></td>
 							<td th:class="'text-center'" th:style="'width:120px;'">
 								<button th:class="'btn btn-primary btn-sm edit_btn'"
 									th:id="*{pg.getId()}">
