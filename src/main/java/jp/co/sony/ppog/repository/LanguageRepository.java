@@ -14,5 +14,5 @@ import jp.co.sony.ppog.entity.Language;
  */
 public interface LanguageRepository extends JpaRepository<Language, String> {
 
-	String findLanguageByCity(@Param("percentage") BigDecimal percentage, @Param("countryCode") String countryCode);
+	Language findLanguageByCity(@Param("percentage") BigDecimal percentage, @Param("countryCode") String countryCode);
 }

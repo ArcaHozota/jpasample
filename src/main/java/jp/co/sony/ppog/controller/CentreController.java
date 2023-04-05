@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import jp.co.sony.ppog.entity.Language;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -263,13 +264,24 @@ public class CentreController {
 					final BigDecimal cityPop = BigDecimal.valueOf(item.getPopulation());
 					final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
 					final BigDecimal percentage = cityPop.divide(nationPop);
-					final String language = this.languageRepository.findLanguageByCity(percentage, nationCode);
-					cityInfoDto.setLanguage(language);
+					final Language language = this.languageRepository.findLanguageByCity(percentage, nationCode);
+					cityInfoDto.setLanguage(language.getLanguage());
 					return cityInfoDto;
 				}).collect(Collectors.toCollection(null));
 			} else if (StringUtils.isEqual("min(pop)", keyword)) {
 				// 人口数量昇順で最初の15個都市の情報を吹き出します；
-				final List<CityView> minimumRanks = this.cityViewRepository.findMinimumRanks();
+				final List<CityInfoDto> minimumRanks = this.cityViewRepository.findMinimumRanks().stream().map(item -> {
+					final CityInfoDto cityInfoDto = new CityInfoDto();
+					BeanUtils.copyProperties(item, cityInfoDto);
+					final String nationCode = this.countryRepository.findNationCode(item.getNation());
+					final Long countryPop = this.countryRepository.findById(nationCode).get().getPopulation();
+					final BigDecimal cityPop = BigDecimal.valueOf(item.getPopulation());
+					final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
+					final BigDecimal percentage = cityPop.divide(nationPop);
+					final Language language = this.languageRepository.findLanguageByCity(percentage, nationCode);
+					cityInfoDto.setLanguage(language.getLanguage());
+					return cityInfoDto;
+				}).collect(Collectors.toList());
 				pageInfo = new PageImpl<>(minimumRanks);
 			} else if (StringUtils.isEqual("max(pop)", keyword)) {
 				// 人口数量降順で最初の15個都市の情報を吹き出します；
