@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
@@ -25,6 +26,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Proxy(lazy = false)
 @Table(name = "WORLD_LANGUAGE")
+@NamedQuery(name = "Language.findLanguageByCity", query = "select distinct n.continent from Country n order by n.continent asc")
 public class Language implements Serializable {
 
 	private static final long serialVersionUID = -8085659909634431823L;

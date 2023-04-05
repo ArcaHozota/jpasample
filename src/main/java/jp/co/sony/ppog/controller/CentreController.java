@@ -1,5 +1,6 @@
 package jp.co.sony.ppog.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -259,8 +260,10 @@ public class CentreController {
 					BeanUtils.copyProperties(item, cityInfoDto);
 					final String nationCode = this.countryRepository.findNationCode(item.getNation());
 					final Long countryPop = this.countryRepository.findById(nationCode).get().getPopulation();
-					final Long cityPop = item.getPopulation();
-					final String language = this.languageRepository.findLanguageByCity(item.getId(), nationCode);
+					final BigDecimal cityPop = BigDecimal.valueOf(item.getPopulation());
+					final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
+					final BigDecimal percentage = cityPop.divide(nationPop);
+					final String language = this.languageRepository.findLanguageByCity(percentage, nationCode);
 					cityInfoDto.setLanguage(language);
 					return cityInfoDto;
 				}).collect(Collectors.toCollection(null));
