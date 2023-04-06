@@ -53,9 +53,9 @@ public interface CityViewRepository extends JpaRepository<CityView, Integer> {
 	List<CityView> findMinimumRanks();
 
 	/**
-	 * じんこう
+	 * 人口数量降順で都市情報を検索する
 	 *
-	 * @return Page<CityInfo>
+	 * @return List<CityView>
 	 */
 	@Query(value = "SELECT WCV.ID, WCV.NAME, WCV.CONTINENT, WCV.NATION, WCV.DISTRICT, WCV.POPULATION "
 			+ "FROM WORLD_CITY_VIEW WCV ORDER BY WCV.POPULATION DESC FETCH FIRST 15 ROWS ONLY", nativeQuery = true)
