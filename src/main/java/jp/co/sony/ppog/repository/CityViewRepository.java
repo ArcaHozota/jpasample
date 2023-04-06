@@ -18,18 +18,18 @@ import jp.co.sony.ppog.entity.CityView;
 public interface CityViewRepository extends JpaRepository<CityView, Integer> {
 
 	/**
-	 * Retrieve city infos by nation name provided.
+	 * 国名によって都市情報を検索する
 	 *
-	 * @param nation name of nation
+	 * @param nation 国名
 	 * @return List<CityInfo>
 	 */
 	List<CityView> findByNations(@Param("nation") String nation);
 
 	/**
-	 * Retrieve city infos by nation name provided.
+	 * 国名によって都市情報をページング取得する
 	 *
-	 * @param nation   name of nation
-	 * @param pageable page
+	 * @param nation   国名
+	 * @param pageable ページング条件
 	 * @return Page<CityInfo>
 	 */
 	Page<CityView> getByNations(@Param("nation") String nation, Pageable pageable);
