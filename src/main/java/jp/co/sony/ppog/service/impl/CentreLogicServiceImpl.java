@@ -83,7 +83,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 				BigDecimal minimum = officialLanguages.get(0).getPercentage();
 				for (final Language al : officialLanguages) {
 					final BigDecimal alPercentage = al.getPercentage();
-					final BigDecimal subtract = percentage.subtract(alPercentage);
+					final BigDecimal subtract = alPercentage.subtract(percentage);
 					if (subtract.compareTo(BigDecimal.ZERO) == 1) {
 						if (alPercentage.compareTo(minimum) < 0) {
 							minimum = alPercentage;
@@ -318,7 +318,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 					BigDecimal minimum = officialLanguages.get(0).getPercentage();
 					for (final Language al : officialLanguages) {
 						final BigDecimal alPercentage = al.getPercentage();
-						final BigDecimal subtract = percentage.subtract(alPercentage);
+						final BigDecimal subtract = alPercentage.subtract(percentage);
 						if (subtract.compareTo(BigDecimal.ZERO) == 1) {
 							if (alPercentage.compareTo(minimum) < 0) {
 								minimum = alPercentage;
