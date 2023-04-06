@@ -225,10 +225,9 @@
 							</div>
 						</div>
 						<div th:class="'form-group'">
-							<label for="languageEdit" th:class="'col-sm-2 control-label'">公用語</label>
+							<label th:class="'col-sm-2 control-label'">公用語</label>
 							<div th:class="'col-sm-5'">
-								<input th:type="'text'" th:name="'language'"
-									th:class="'form-control'" id="languageEdit">
+								<p th:id="'languageEdit'" th:class="'form-control-static'"></p>
 							</div>
 						</div>
 						<div th:class="'form-group'">
@@ -463,7 +462,7 @@
 				type : 'GET',
 				dataType : 'json',
 				success : function(result) {
-					$("#languageEdit").val(result.extend.languages);
+					$("#languageEdit").text(result.extend.languages);
 				}
 			});
 		}
