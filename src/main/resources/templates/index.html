@@ -182,13 +182,6 @@
 									th:class="'help-block'"></span>
 							</div>
 						</div>
-						<div th:class="'form-group'">
-							<label for="languageInput" th:class="'col-sm-2 control-label'">公用語</label>
-							<div th:class="'col-sm-5'">
-								<select id="languageInput" th:class="'form-control'"
-									th:name="'language'"></select>
-							</div>
-						</div>
 					</form>
 				</div>
 				<div th:class="'modal-footer'">
@@ -229,6 +222,13 @@
 							<div th:class="'col-sm-5'">
 								<select id="nationEdit" th:class="'form-control'"
 									th:name="'nation'"></select>
+							</div>
+						</div>
+						<div th:class="'form-group'">
+							<label for="languageEdit" th:class="'col-sm-2 control-label'">公用語</label>
+							<div th:class="'col-sm-5'">
+								<input th:type="'text'" th:name="'language'"
+									th:class="'form-control'" id="languageEdit">
 							</div>
 						</div>
 						<div th:class="'form-group'">
@@ -310,26 +310,6 @@
 				dataType : 'json',
 				success : function(result) {
 					$.each(result.extend.nationList, function() {
-						let optionElement = $("<option></option>").append(this)
-								.attr("value", this);
-						optionElement.appendTo(element);
-					});
-				}
-			});
-		}
-		$("#nationInput").on('change', function() {
-			let nationVal = $("#nationInput option:selected").val();
-			getLanguages($("#languageInput"), nationVal);
-		});
-		function getLanguages(element, nationVal) {
-			$(element).empty();
-			$.ajax({
-				url : '/ssmcrud/languages',
-				data : 'nationVal=' + nationVal,
-				type : 'GET',
-				dataType : 'json',
-				success : function(result) {
-					$.each(result.extend.languages, function() {
 						let optionElement = $("<option></option>").append(this)
 								.attr("value", this);
 						optionElement.appendTo(element);
@@ -464,6 +444,26 @@
 				dataType : 'json',
 				success : function(result) {
 					$.each(result.extend.nationsWithName, function() {
+						let optionElement = $("<option></option>").append(this)
+								.attr("value", this);
+						optionElement.appendTo(element);
+					});
+				}
+			});
+		}
+		$("#nationEdit").on('change', function() {
+			let nationVal = $("#nationEdit option:selected").val();
+			getLanguages($("#languageEdit"), nationVal);
+		});
+		function getLanguages(element, nationVal) {
+			$(element).empty();
+			$.ajax({
+				url : '/ssmcrud/languages',
+				data : 'nationVal=' + nationVal,
+				type : 'GET',
+				dataType : 'json',
+				success : function(result) {
+					$.each(result.extend.languages, function() {
 						let optionElement = $("<option></option>").append(this)
 								.attr("value", this);
 						optionElement.appendTo(element);
