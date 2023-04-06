@@ -18,7 +18,6 @@ public interface LanguageRepository extends JpaRepository<Language, String> {
 	/**
 	 * 都市の公用語を検索する
 	 *
-	 * @param percentage  人口比率
 	 * @param countryCode 国家コード
 	 * @return List<String>
 	 */
