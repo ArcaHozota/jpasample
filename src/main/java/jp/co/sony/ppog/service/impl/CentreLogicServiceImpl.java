@@ -350,6 +350,16 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	}
 
 	@Override
+	public List<String> findLanguagesByCty(final String nationVal) {
+		final String nationCode = this.countryRepository.findNationCode(nationVal);
+		final List<Language> languages = this.languageRepository.findLanguageByCity(nationCode);
+		return languages.stream().map(item -> {
+			final String language = item.getLanguage();
+			return language;
+		}).collect(Collectors.toList());
+	}
+
+	@Override
 	public List<City> checkDuplicate(final String cityName) {
 		final City city = new City();
 		city.setName(cityName);
