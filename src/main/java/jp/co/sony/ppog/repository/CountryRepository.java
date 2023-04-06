@@ -16,26 +16,27 @@ import jp.co.sony.ppog.entity.Country;
 public interface CountryRepository extends JpaRepository<Country, String> {
 
 	/**
-	 * Retrieve continent list distinct.
+	 * 大陸の集合を取得する
 	 *
-	 * @return List<CityInfo>
+	 * @return List<String>
 	 */
 	List<String> findAllContinents();
 
 	/**
-	 * Retrieve the nation list distinct.
+	 * 選択された大陸の上にすべての国の情報を取得する
 	 *
-	 * @param continent name of continent
-	 * @return List<CityInfo>
+	 * @param continent 大陸名
+	 * @return List<String>
 	 */
 	List<String> findNationsByCnt(@Param("continent") String continent);
 
 	/**
-	 * Retrieve the nationcd through name.
+	 * 国名によって国家コードを抽出する
 	 *
-	 * @param name name of nation
-	 * @return List<CityInfo>
+	 * @param name 国名
+	 * @return String
 	 */
-	@Query(value = "SELECT WCY.CODE FROM WORLD_COUNTRY WCY WHERE LOGIC_DELETE_FLG = 'visible' AND WCY.NAME=:name", nativeQuery = true)
+	@Query(value = "SELECT WCY.CODE FROM WORLD_COUNTRY WCY WHERE "
+			+ "LOGIC_DELETE_FLG = 'visible' AND WCY.NAME=:name", nativeQuery = true)
 	String findNationCode(@Param("name") String name);
 }
