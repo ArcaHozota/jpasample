@@ -98,7 +98,7 @@ public class CentreController {
 	/**
 	 * 入力した都市情報を変更する
 	 *
-	 * @param cityInfo 都市情報DTO
+	 * @param cityInfoDto 都市情報DTO
 	 * @return 処理成功のメッセージ
 	 */
 	@PutMapping(value = "/city/{id}")
@@ -111,7 +111,7 @@ public class CentreController {
 	/**
 	 * 入力した都市情報を保存する
 	 *
-	 * @param cityInfo 都市情報DTO
+	 * @param cityInfoDto 都市情報DTO
 	 * @return 処理成功のメッセージ
 	 */
 	@PostMapping(value = "/city")
