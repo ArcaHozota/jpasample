@@ -17,7 +17,7 @@ import oracle.jdbc.driver.OracleSQLException;
 public interface CityRepository extends JpaRepository<City, Integer> {
 
 	/**
-	 * logic remove query.
+	 * 論理削除
 	 *
 	 * @param id id of the selected city
 	 */
@@ -26,14 +26,13 @@ public interface CityRepository extends JpaRepository<City, Integer> {
 	void removeById(@Param("id") Integer id);
 
 	/**
-	 * update query.
+	 * 更新
 	 *
-	 * @param id          ID
-	 * @param name        NAME
-	 * @param countryCode COUNTRY_CODE
-	 * @param district    DISTRICT
-	 * @param population  POPULATION
-	 * @param isDeleted   IS_DELETED
+	 * @param id          都市ID
+	 * @param name        都市名
+	 * @param countryCode 国家コード
+	 * @param district    地域
+	 * @param population  人口数量
 	 */
 	@Modifying
 	@Transactional(rollbackFor = OracleSQLException.class)
