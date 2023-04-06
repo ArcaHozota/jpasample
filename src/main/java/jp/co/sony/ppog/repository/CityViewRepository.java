@@ -21,7 +21,7 @@ public interface CityViewRepository extends JpaRepository<CityView, Integer> {
 	 * 国名によって都市情報を検索する
 	 *
 	 * @param nation 国名
-	 * @return List<CityInfo>
+	 * @return List<CityView>
 	 */
 	List<CityView> findByNations(@Param("nation") String nation);
 
@@ -30,32 +30,34 @@ public interface CityViewRepository extends JpaRepository<CityView, Integer> {
 	 *
 	 * @param nation   国名
 	 * @param pageable ページング条件
-	 * @return Page<CityInfo>
+	 * @return Page<CityView>
 	 */
 	Page<CityView> getByNations(@Param("nation") String nation, Pageable pageable);
 
 	/**
-	 * Retrieve city infos by city name provided.
+	 * 都市名によって情報を取得する
 	 *
-	 * @param name     city name
-	 * @param pageable page
-	 * @return Page<CityInfo>
+	 * @param name     都市名
+	 * @param pageable ページング条件
+	 * @return Page<CityView>
 	 */
 	Page<CityView> getByNames(@Param("name") String name, Pageable pageable);
 
 	/**
-	 * Retrieve city infos by population ascending.
+	 * 人口数量昇順で都市情報を検索する
 	 *
-	 * @return Page<CityInfo>
+	 * @return List<CityView>
 	 */
-	@Query(value = "SELECT WCV.ID, WCV.NAME, WCV.CONTINENT, WCV.NATION, WCV.DISTRICT, WCV.POPULATION FROM WORLD_CITY_VIEW WCV ORDER BY WCV.POPULATION ASC FETCH FIRST 15 ROWS ONLY", nativeQuery = true)
+	@Query(value = "SELECT WCV.ID, WCV.NAME, WCV.CONTINENT, WCV.NATION, WCV.DISTRICT, WCV.POPULATION "
+			+ "FROM WORLD_CITY_VIEW WCV ORDER BY WCV.POPULATION ASC FETCH FIRST 15 ROWS ONLY", nativeQuery = true)
 	List<CityView> findMinimumRanks();
 
 	/**
-	 * Retrieve city infos by population descending.
+	 * じんこう
 	 *
 	 * @return Page<CityInfo>
 	 */
-	@Query(value = "SELECT WCV.ID, WCV.NAME, WCV.CONTINENT, WCV.NATION, WCV.DISTRICT, WCV.POPULATION FROM WORLD_CITY_VIEW WCV ORDER BY WCV.POPULATION DESC FETCH FIRST 15 ROWS ONLY", nativeQuery = true)
+	@Query(value = "SELECT WCV.ID, WCV.NAME, WCV.CONTINENT, WCV.NATION, WCV.DISTRICT, WCV.POPULATION "
+			+ "FROM WORLD_CITY_VIEW WCV ORDER BY WCV.POPULATION DESC FETCH FIRST 15 ROWS ONLY", nativeQuery = true)
 	List<CityView> findMaximumRanks();
 }
