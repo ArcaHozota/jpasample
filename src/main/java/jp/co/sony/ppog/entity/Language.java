@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Entity of Table WORLD_LANGUAGE
+ * 言語テーブルWORLD_LANGUAGEのエンティティ
  *
  * @author Administrator
  */
@@ -27,6 +28,7 @@ import lombok.Setter;
 @Proxy(lazy = false)
 @Table(name = "WORLD_LANGUAGE")
 @IdClass(LanguageId.class)
+@NamedQuery(name = "Language.findLanguageByCity", query = "select new Language from Language as an")
 public class Language implements Serializable {
 
 	private static final long serialVersionUID = -8085659909634431823L;
