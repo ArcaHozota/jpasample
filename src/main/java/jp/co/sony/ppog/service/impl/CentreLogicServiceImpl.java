@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 import javax.annotation.Resource;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -183,5 +186,41 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		city.setLogicDeleteFlg("visible");
 		this.cityRepository.updateById(city.getId(), city.getName(), city.getCountryCode(), city.getDistrict(),
 				city.getPopulation());
+	}
+
+	@Override
+	public void save(final CityInfoDto cityInfoDto) {
+		final City city = new City();
+		BeanUtils.copyProperties(cityInfoDto, city, "continent", "nation", "language");
+		final String nationName = cityInfoDto.getNation();
+		final String nationCode = this.countryRepository.findNationCode(nationName);
+		city.setCountryCode(nationCode);
+		this.cityRepository.save(city);
+	}
+
+	@Override
+	public void removeById(final Integer id) {
+		this.cityRepository.removeById(id);
+	}
+
+	@Override
+	public List<String> findAllContinents() {
+		return this.countryRepository.findAllContinents();
+	}
+
+	@Override
+	public List<String> findNationsByCnt(final String continentVal) {
+		return this.countryRepository.findNationsByCnt(continentVal);
+	}
+
+	@Override
+	public List<City> checkDuplicate(final String cityName) {
+		final City city = new City();
+		city.setName(cityName);
+		final ExampleMatcher matcher = ExampleMatcher.matching().withStringMatcher(ExampleMatcher.StringMatcher.EXACT)
+				.withIgnoreCase(true).withMatcher(cityName, GenericPropertyMatchers.exact())
+				.withIgnorePaths("id", "countryCode", "district", "population", "isDeleted");
+		final Example<City> example = Example.of(city, matcher);
+		return this.cityRepository.findAll(example);
 	}
 }
