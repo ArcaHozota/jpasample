@@ -4,12 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.BeanUtils;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.data.domain.Page;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -121,9 +116,8 @@ public class CentreController {
 	 */
 	@PostMapping(value = "/city")
 	@ResponseBody
-	public RestMsg saveCityInfo(@RequestBody final CityInfoDto cityInfo) {
-		final City city = this.saveAndUpdate(cityInfo);
-		this.cityRepository.save(city);
+	public RestMsg saveCityInfo(@RequestBody final CityInfoDto cityInfoDto) {
+		this.centreLogicService.save(cityInfoDto);
 		return RestMsg.success();
 	}
 
@@ -136,7 +130,7 @@ public class CentreController {
 	@DeleteMapping(value = "/city/{id}")
 	@ResponseBody
 	public RestMsg deleteCityInfo(@PathVariable("id") final Integer id) {
-		this.cityRepository.removeById(id);
+		this.centreLogicService.removeById(id);
 		return RestMsg.success();
 	}
 
@@ -148,8 +142,8 @@ public class CentreController {
 	@GetMapping(value = "/continents")
 	@ResponseBody
 	public RestMsg getContinents() {
-		final List<String> list = this.countryRepository.findAllContinents();
-		return RestMsg.success().add("continentList", list);
+		final List<String> continents = this.centreLogicService.findAllContinents();
+		return RestMsg.success().add("continentList", continents);
 	}
 
 	/**
@@ -161,7 +155,7 @@ public class CentreController {
 	@GetMapping(value = "/nations")
 	@ResponseBody
 	public RestMsg getListOfNationsById(@RequestParam("continentVal") final String continentVal) {
-		final List<String> nationList = this.countryRepository.findNationsByCnt(continentVal);
+		final List<String> nationList = this.centreLogicService.findNationsByCnt(continentVal);
 		return RestMsg.success().add("nationList", nationList);
 	}
 
@@ -176,14 +170,7 @@ public class CentreController {
 	public RestMsg checkName(@RequestParam("cityName") final String cityName) {
 		final String regex = "^[a-zA-Z-\\p{IsWhiteSpace}]{4,17}$";
 		if (cityName.matches(regex)) {
-			final City city = new City();
-			city.setName(cityName);
-			final ExampleMatcher matcher = ExampleMatcher.matching()
-					.withStringMatcher(ExampleMatcher.StringMatcher.EXACT).withIgnoreCase(true)
-					.withMatcher(cityName, GenericPropertyMatchers.exact())
-					.withIgnorePaths("id", "countryCode", "district", "population", "isDeleted");
-			final Example<City> example = Example.of(city, matcher);
-			final List<City> lists = this.cityRepository.findAll(example);
+			final List<City> lists = this.centreLogicService.checkDuplicate(cityName);
 			if (!lists.isEmpty()) {
 				return RestMsg.failure().add("validatedMsg", "入力した都市名が重複する。");
 			} else {
@@ -192,21 +179,5 @@ public class CentreController {
 		} else {
 			return RestMsg.failure().add("validatedMsg", "入力した都市名は4桁から23桁までのローマ字にしなければなりません。");
 		}
-	}
-
-	/**
-	 * 更新および保存の共通操作
-	 *
-	 * @param cityInfo 入力した都市情報
-	 * @return 都市エンティティ
-	 */
-	private City saveAndUpdate(@NonNull final CityInfoDto cityInfo) {
-		final City city = new City();
-		BeanUtils.copyProperties(cityInfo, city, "continent", "nation", "language");
-		final String nationName = cityInfo.getNation();
-		final String nationCode = this.countryRepository.findNationCode(nationName);
-		city.setCountryCode(nationCode);
-		city.setLogicDeleteFlg("visible");
-		return city;
 	}
 }
