@@ -1,7 +1,6 @@
 package jp.co.sony.ppog.service.impl;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,35 +66,28 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		final CityInfoDto cityInfoDto = new CityInfoDto();
 		BeanUtils.copyProperties(cityView, cityInfoDto);
 		final String nationCode = this.countryRepository.findNationCode(cityView.getNation());
-		final Long countryPop = this.countryRepository.findById(nationCode).get().getPopulation();
-		final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
-		final BigDecimal cityPop = BigDecimal.valueOf(cityView.getPopulation());
-		final BigDecimal percentage = cityPop.divide(nationPop);
 		final List<Language> language = this.languageRepository.findLanguageByCity(nationCode);
 		if (language.size() == 1) {
 			cityInfoDto.setLanguage(language.get(0).getLanguage());
 		} else {
 			final List<Language> officialLanguages = language.stream()
-					.filter(item -> StringUtils.isEqual(item.getIsOfficial(), "T")).collect(Collectors.toList());
+					.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "T")).collect(Collectors.toList());
 			if (officialLanguages.size() == 1) {
 				cityInfoDto.setLanguage(officialLanguages.get(0).getLanguage());
 			} else if (officialLanguages.size() > 1) {
-				BigDecimal minimum = officialLanguages.get(0).getPercentage();
+				BigDecimal maximum = officialLanguages.get(0).getPercentage();
 				for (final Language al : officialLanguages) {
 					final BigDecimal alPercentage = al.getPercentage();
-					final BigDecimal subtract = alPercentage.subtract(percentage);
-					if (subtract.compareTo(BigDecimal.ZERO) == 1) {
-						if (alPercentage.compareTo(minimum) < 0) {
-							minimum = alPercentage;
-							cityInfoDto.setLanguage(al.getLanguage());
-						}
+					if (alPercentage.compareTo(maximum) <= 0) {
+						maximum = alPercentage;
+						cityInfoDto.setLanguage(al.getLanguage());
 					}
 				}
 			} else {
 				BigDecimal maximum = language.get(0).getPercentage();
 				for (final Language al : language) {
 					final BigDecimal alPercentage = al.getPercentage();
-					if (alPercentage.compareTo(maximum) > 0) {
+					if (alPercentage.compareTo(maximum) >= 0) {
 						maximum = alPercentage;
 						cityInfoDto.setLanguage(al.getLanguage());
 					}
@@ -119,10 +111,6 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 							final CityInfoDto cityInfoDto = new CityInfoDto();
 							BeanUtils.copyProperties(item, cityInfoDto);
 							final String nationCode = this.countryRepository.findNationCode(item.getNation());
-							final Long countryPop = this.countryRepository.findById(nationCode).get().getPopulation();
-							final BigDecimal cityPop = BigDecimal.valueOf(item.getPopulation());
-							final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
-							final BigDecimal percentage = cityPop.divide(nationPop, 7, RoundingMode.HALF_DOWN);
 							final List<Language> language = this.languageRepository.findLanguageByCity(nationCode);
 							if (language.size() == 1) {
 								cityInfoDto.setLanguage(language.get(0).getLanguage());
@@ -133,22 +121,19 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 								if (officialLanguages.size() == 1) {
 									cityInfoDto.setLanguage(officialLanguages.get(0).getLanguage());
 								} else if (officialLanguages.size() > 1) {
-									BigDecimal minimum = officialLanguages.get(0).getPercentage();
+									BigDecimal maximum = officialLanguages.get(0).getPercentage();
 									for (final Language al : officialLanguages) {
 										final BigDecimal alPercentage = al.getPercentage();
-										final BigDecimal subtract = percentage.subtract(alPercentage);
-										if (subtract.compareTo(BigDecimal.ZERO) == 1) {
-											if (alPercentage.compareTo(minimum) < 0) {
-												minimum = alPercentage;
-												cityInfoDto.setLanguage(al.getLanguage());
-											}
+										if (alPercentage.compareTo(maximum) <= 0) {
+											maximum = alPercentage;
+											cityInfoDto.setLanguage(al.getLanguage());
 										}
 									}
 								} else {
 									BigDecimal maximum = language.get(0).getPercentage();
 									for (final Language al : language) {
 										final BigDecimal alPercentage = al.getPercentage();
-										if (alPercentage.compareTo(maximum) > 0) {
+										if (alPercentage.compareTo(maximum) >= 0) {
 											maximum = alPercentage;
 											cityInfoDto.setLanguage(al.getLanguage());
 										}
@@ -164,10 +149,6 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 					final CityInfoDto cityInfoDto = new CityInfoDto();
 					BeanUtils.copyProperties(item, cityInfoDto);
 					final String nationCode = this.countryRepository.findNationCode(item.getNation());
-					final Long countryPop = this.countryRepository.findById(nationCode).get().getPopulation();
-					final BigDecimal cityPop = BigDecimal.valueOf(item.getPopulation());
-					final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
-					final BigDecimal percentage = cityPop.divide(nationPop, 7, RoundingMode.HALF_DOWN);
 					final List<Language> language = this.languageRepository.findLanguageByCity(nationCode);
 					if (language.size() == 1) {
 						cityInfoDto.setLanguage(language.get(0).getLanguage());
@@ -178,22 +159,19 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 						if (officialLanguages.size() == 1) {
 							cityInfoDto.setLanguage(officialLanguages.get(0).getLanguage());
 						} else if (officialLanguages.size() > 1) {
-							BigDecimal minimum = officialLanguages.get(0).getPercentage();
+							BigDecimal maximum = officialLanguages.get(0).getPercentage();
 							for (final Language al : officialLanguages) {
 								final BigDecimal alPercentage = al.getPercentage();
-								final BigDecimal subtract = percentage.subtract(alPercentage);
-								if (subtract.compareTo(BigDecimal.ZERO) == 1) {
-									if (alPercentage.compareTo(minimum) < 0) {
-										minimum = alPercentage;
-										cityInfoDto.setLanguage(al.getLanguage());
-									}
+								if (alPercentage.compareTo(maximum) <= 0) {
+									maximum = alPercentage;
+									cityInfoDto.setLanguage(al.getLanguage());
 								}
 							}
 						} else {
 							BigDecimal maximum = language.get(0).getPercentage();
 							for (final Language al : language) {
 								final BigDecimal alPercentage = al.getPercentage();
-								if (alPercentage.compareTo(maximum) > 0) {
+								if (alPercentage.compareTo(maximum) >= 0) {
 									maximum = alPercentage;
 									cityInfoDto.setLanguage(al.getLanguage());
 								}
@@ -209,10 +187,6 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 					final CityInfoDto cityInfoDto = new CityInfoDto();
 					BeanUtils.copyProperties(item, cityInfoDto);
 					final String nationCode = this.countryRepository.findNationCode(item.getNation());
-					final Long countryPop = this.countryRepository.findById(nationCode).get().getPopulation();
-					final BigDecimal cityPop = BigDecimal.valueOf(item.getPopulation());
-					final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
-					final BigDecimal percentage = cityPop.divide(nationPop, 7, RoundingMode.HALF_DOWN);
 					final List<Language> language = this.languageRepository.findLanguageByCity(nationCode);
 					if (language.size() == 1) {
 						cityInfoDto.setLanguage(language.get(0).getLanguage());
@@ -223,22 +197,19 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 						if (officialLanguages.size() == 1) {
 							cityInfoDto.setLanguage(officialLanguages.get(0).getLanguage());
 						} else if (officialLanguages.size() > 1) {
-							BigDecimal minimum = officialLanguages.get(0).getPercentage();
+							BigDecimal maximum = officialLanguages.get(0).getPercentage();
 							for (final Language al : officialLanguages) {
 								final BigDecimal alPercentage = al.getPercentage();
-								final BigDecimal subtract = percentage.subtract(alPercentage);
-								if (subtract.compareTo(BigDecimal.ZERO) == 1) {
-									if (alPercentage.compareTo(minimum) < 0) {
-										minimum = alPercentage;
-										cityInfoDto.setLanguage(al.getLanguage());
-									}
+								if (alPercentage.compareTo(maximum) <= 0) {
+									maximum = alPercentage;
+									cityInfoDto.setLanguage(al.getLanguage());
 								}
 							}
 						} else {
 							BigDecimal maximum = language.get(0).getPercentage();
 							for (final Language al : language) {
 								final BigDecimal alPercentage = al.getPercentage();
-								if (alPercentage.compareTo(maximum) > 0) {
+								if (alPercentage.compareTo(maximum) >= 0) {
 									maximum = alPercentage;
 									cityInfoDto.setLanguage(al.getLanguage());
 								}
@@ -255,10 +226,6 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 							final CityInfoDto cityInfoDto = new CityInfoDto();
 							BeanUtils.copyProperties(item, cityInfoDto);
 							final String nationCode = this.countryRepository.findNationCode(item.getNation());
-							final Long countryPop = this.countryRepository.findById(nationCode).get().getPopulation();
-							final BigDecimal cityPop = BigDecimal.valueOf(item.getPopulation());
-							final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
-							final BigDecimal percentage = cityPop.divide(nationPop, 7, RoundingMode.HALF_DOWN);
 							final List<Language> language = this.languageRepository.findLanguageByCity(nationCode);
 							if (language.size() == 1) {
 								cityInfoDto.setLanguage(language.get(0).getLanguage());
@@ -269,22 +236,19 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 								if (officialLanguages.size() == 1) {
 									cityInfoDto.setLanguage(officialLanguages.get(0).getLanguage());
 								} else if (officialLanguages.size() > 1) {
-									BigDecimal minimum = officialLanguages.get(0).getPercentage();
+									BigDecimal maximum = officialLanguages.get(0).getPercentage();
 									for (final Language al : officialLanguages) {
 										final BigDecimal alPercentage = al.getPercentage();
-										final BigDecimal subtract = percentage.subtract(alPercentage);
-										if (subtract.compareTo(BigDecimal.ZERO) == 1) {
-											if (alPercentage.compareTo(minimum) < 0) {
-												minimum = alPercentage;
-												cityInfoDto.setLanguage(al.getLanguage());
-											}
+										if (alPercentage.compareTo(maximum) <= 0) {
+											maximum = alPercentage;
+											cityInfoDto.setLanguage(al.getLanguage());
 										}
 									}
 								} else {
 									BigDecimal maximum = language.get(0).getPercentage();
 									for (final Language al : language) {
 										final BigDecimal alPercentage = al.getPercentage();
-										if (alPercentage.compareTo(maximum) > 0) {
+										if (alPercentage.compareTo(maximum) >= 0) {
 											maximum = alPercentage;
 											cityInfoDto.setLanguage(al.getLanguage());
 										}
@@ -302,10 +266,6 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 			final CityInfoDto cityInfoDto = new CityInfoDto();
 			BeanUtils.copyProperties(item, cityInfoDto);
 			final String nationCode = this.countryRepository.findNationCode(item.getNation());
-			final Long countryPop = this.countryRepository.findById(nationCode).get().getPopulation();
-			final BigDecimal cityPop = BigDecimal.valueOf(item.getPopulation());
-			final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
-			final BigDecimal percentage = cityPop.divide(nationPop, 7, RoundingMode.HALF_DOWN);
 			final List<Language> language = this.languageRepository.findLanguageByCity(nationCode);
 			if (language.size() == 1) {
 				cityInfoDto.setLanguage(language.get(0).getLanguage());
@@ -315,22 +275,19 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 				if (officialLanguages.size() == 1) {
 					cityInfoDto.setLanguage(officialLanguages.get(0).getLanguage());
 				} else if (officialLanguages.size() > 1) {
-					BigDecimal minimum = officialLanguages.get(0).getPercentage();
+					BigDecimal maximum = officialLanguages.get(0).getPercentage();
 					for (final Language al : officialLanguages) {
 						final BigDecimal alPercentage = al.getPercentage();
-						final BigDecimal subtract = alPercentage.subtract(percentage);
-						if (subtract.compareTo(BigDecimal.ZERO) == 1) {
-							if (alPercentage.compareTo(minimum) < 0) {
-								minimum = alPercentage;
-								cityInfoDto.setLanguage(al.getLanguage());
-							}
+						if (alPercentage.compareTo(maximum) <= 0) {
+							maximum = alPercentage;
+							cityInfoDto.setLanguage(al.getLanguage());
 						}
 					}
 				} else {
 					BigDecimal maximum = language.get(0).getPercentage();
 					for (final Language al : language) {
 						final BigDecimal alPercentage = al.getPercentage();
-						if (alPercentage.compareTo(maximum) > 0) {
+						if (alPercentage.compareTo(maximum) >= 0) {
 							maximum = alPercentage;
 							cityInfoDto.setLanguage(al.getLanguage());
 						}
