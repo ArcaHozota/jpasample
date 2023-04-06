@@ -81,7 +81,7 @@ public interface CentreLogicService {
 	 * @param nationVal 国名
 	 * @return List<String>
 	 */
-	String findLanguagesByCty(String nationVal);
+	String findLanguageByCty(String nationVal);
 
 	/**
 	 * 入力した都市名の重複するかどうかを検証する

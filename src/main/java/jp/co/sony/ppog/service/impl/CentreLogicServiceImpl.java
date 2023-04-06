@@ -350,7 +350,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	}
 
 	@Override
-	public String findLanguagesByCty(final String nationVal) {
+	public String findLanguageByCty(final String nationVal) {
 		final String nationCode = this.countryRepository.findNationCode(nationVal);
 		final List<Language> languages = this.languageRepository.findLanguageByCty(nationCode);
 		if (languages.size() == 1) {

@@ -168,7 +168,7 @@ public class CentreController {
 	@GetMapping(value = "/languages")
 	@ResponseBody
 	public RestMsg getListOfLanguages(@RequestParam("nationVal") final String nationVal) {
-		final String language = this.centreLogicService.findLanguagesByCty(nationVal);
+		final String language = this.centreLogicService.findLanguageByCty(nationVal);
 		return RestMsg.success().add("languages", language);
 	}
 
