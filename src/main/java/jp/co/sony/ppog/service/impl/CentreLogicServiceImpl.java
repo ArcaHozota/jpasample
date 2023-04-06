@@ -353,34 +353,36 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	public String findLanguagesByCty(final String nationVal) {
 		final String nationCode = this.countryRepository.findNationCode(nationVal);
 		final List<Language> languages = this.languageRepository.findLanguageByCty(nationCode);
-		if (language.size() == 1) {
-			cityInfoDto.setLanguage(language.get(0).getLanguage());
+		if (languages.size() == 1) {
+			return languages.get(0).getLanguage();
 		} else {
-			final List<Language> officialLanguages = language.stream()
+			String language = null;
+			final List<Language> officialLanguages = languages.stream()
 					.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "T")).collect(Collectors.toList());
 			if (officialLanguages.size() == 1) {
-				cityInfoDto.setLanguage(officialLanguages.get(0).getLanguage());
+				return officialLanguages.get(0).getLanguage();
 			} else if (officialLanguages.size() > 1) {
 				BigDecimal maximum = officialLanguages.get(0).getPercentage();
 				for (final Language al : officialLanguages) {
 					final BigDecimal alPercentage = al.getPercentage();
 					if (alPercentage.compareTo(maximum) >= 0) {
 						maximum = alPercentage;
-						cityInfoDto.setLanguage(al.getLanguage());
+						language = al.getLanguage();
 					}
 				}
+				return language;
 			} else {
-				BigDecimal maximum = language.get(0).getPercentage();
-				for (final Language al : language) {
+				BigDecimal maximum = languages.get(0).getPercentage();
+				for (final Language al : languages) {
 					final BigDecimal alPercentage = al.getPercentage();
 					if (alPercentage.compareTo(maximum) >= 0) {
 						maximum = alPercentage;
-						cityInfoDto.setLanguage(al.getLanguage());
+						language = al.getLanguage();
 					}
 				}
+				return language;
 			}
 		}
-		return null;
 	}
 
 	@Override
