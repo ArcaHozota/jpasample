@@ -28,8 +28,8 @@ import lombok.Setter;
 @Proxy(lazy = false)
 @Table(name = "WORLD_LANGUAGE")
 @IdClass(LanguageId.class)
-@NamedQuery(name = "Language.findLanguageByCity", query = "select nl from Language as nl " +
-		"where nl.logicDeleteFlg = 'visible' and nl.countryCode =:countryCode")
+@NamedQuery(name = "Language.findLanguageByCity", query = "select nl from Language as nl "
+		+ "where nl.logicDeleteFlg = 'visible' and nl.countryCode =:countryCode")
 public class Language implements Serializable {
 
 	private static final long serialVersionUID = -8085659909634431823L;

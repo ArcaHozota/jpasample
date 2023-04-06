@@ -21,6 +21,7 @@ import com.google.common.collect.Lists;
 import jp.co.sony.ppog.dto.CityInfoDto;
 import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.entity.CityView;
+import jp.co.sony.ppog.entity.Language;
 import jp.co.sony.ppog.repository.CityRepository;
 import jp.co.sony.ppog.repository.CityViewRepository;
 import jp.co.sony.ppog.repository.CountryRepository;
@@ -70,8 +71,10 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		final BigDecimal nationPop = BigDecimal.valueOf(countryPop);
 		final BigDecimal cityPop = BigDecimal.valueOf(cityView.getPopulation());
 		final BigDecimal percentage = cityPop.divide(nationPop);
-		final String language = this.languageRepository.findLanguageByCity(percentage, nationCode);
-		cityInfoDto.setLanguage(language);
+		final List<Language> language = this.languageRepository.findLanguageByCity(nationCode);
+		if( {
+			cityInfoDto.setLanguage(language);
+		}
 		return cityInfoDto;
 	}
 
