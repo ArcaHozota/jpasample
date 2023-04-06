@@ -463,11 +463,7 @@
 				type : 'GET',
 				dataType : 'json',
 				success : function(result) {
-					$.each(result.extend.languages, function() {
-						let optionElement = $("<option></option>").append(this)
-								.attr("value", this);
-						optionElement.appendTo(element);
-					});
+					$("#languageEdit").val(result.extend.languages);
 				}
 			});
 		}
