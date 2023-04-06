@@ -6,6 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * 言語テーブルの複数プライマリーキーの定義クラス
+ *
+ * @author Administrator
+ */
 @Getter
 @Setter
 @NoArgsConstructor
