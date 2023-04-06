@@ -101,7 +101,7 @@
 		<!-- ページナビ -->
 		<div th:class="'row'">
 			<div th:class="'col-lg-5'"
-				th:text="|The ${pageInfo.getNumber()} page in ${pageInfo.getTotalPages()} pages, ${pageInfo.getTotalElements()} records found.|"></div>
+				th:text="|The ${pageInfo.getNumber()+1} page in ${pageInfo.getTotalPages()} pages, ${pageInfo.getTotalElements()} records found.|"></div>
 			<nav th:class="'col-lg-7'"
 				th:with="previousPage=${pageInfo.getNumber()},nextPage=${pageInfo.getNumber()+2},totalPg=${pageInfo.getTotalPages()}">
 				<ul th:class="'pagination'">
