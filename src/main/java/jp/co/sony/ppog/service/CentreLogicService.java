@@ -76,12 +76,12 @@ public interface CentreLogicService {
 	List<String> findNationsByCnt(String continentVal);
 
 	/**
-	 * 指定された国のすべての言語を取得する
+	 * 指定された国の公用語を取得する
 	 *
 	 * @param nationVal 国名
 	 * @return List<String>
 	 */
-	List<String> findLanguagesByCty(String nationVal);
+	String findLanguagesByCty(String nationVal);
 
 	/**
 	 * 入力した都市名の重複するかどうかを検証する

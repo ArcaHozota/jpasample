@@ -350,13 +350,37 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	}
 
 	@Override
-	public List<String> findLanguagesByCty(final String nationVal) {
+	public String findLanguagesByCty(final String nationVal) {
 		final String nationCode = this.countryRepository.findNationCode(nationVal);
 		final List<Language> languages = this.languageRepository.findLanguageByCty(nationCode);
-		return languages.stream().map(item -> {
-			final String language = item.getLanguage();
-			return language;
-		}).collect(Collectors.toList());
+		if (language.size() == 1) {
+			cityInfoDto.setLanguage(language.get(0).getLanguage());
+		} else {
+			final List<Language> officialLanguages = language.stream()
+					.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "T")).collect(Collectors.toList());
+			if (officialLanguages.size() == 1) {
+				cityInfoDto.setLanguage(officialLanguages.get(0).getLanguage());
+			} else if (officialLanguages.size() > 1) {
+				BigDecimal maximum = officialLanguages.get(0).getPercentage();
+				for (final Language al : officialLanguages) {
+					final BigDecimal alPercentage = al.getPercentage();
+					if (alPercentage.compareTo(maximum) >= 0) {
+						maximum = alPercentage;
+						cityInfoDto.setLanguage(al.getLanguage());
+					}
+				}
+			} else {
+				BigDecimal maximum = language.get(0).getPercentage();
+				for (final Language al : language) {
+					final BigDecimal alPercentage = al.getPercentage();
+					if (alPercentage.compareTo(maximum) >= 0) {
+						maximum = alPercentage;
+						cityInfoDto.setLanguage(al.getLanguage());
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	@Override
