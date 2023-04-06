@@ -20,5 +20,5 @@ public interface LanguageRepository extends JpaRepository<Language, String> {
 	 * @param countryCode 国家コード
 	 * @return List<String>
 	 */
-	List<Language> findLanguageByCity(@Param("countryCode") String countryCode);
+	List<Language> findLanguageByCty(@Param("countryCode") String countryCode);
 }
