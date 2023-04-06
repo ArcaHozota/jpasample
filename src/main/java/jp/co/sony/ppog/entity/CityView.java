@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Entity of View WORLD_CITY_VIEW
+ * 都市情報ビューWORLD_CITY_VIEWのエンティティ
  *
  * @author Administrator
  */
