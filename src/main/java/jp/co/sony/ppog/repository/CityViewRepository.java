@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import jp.co.sony.ppog.entity.CityView;
 
 /**
- * Searching repository of entity CityView
+ * 都市情報リポジトリ
  *
  * @author Administrator
  */

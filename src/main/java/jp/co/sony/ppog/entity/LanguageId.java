@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * 言語テーブルの複数プライマリーキーの定義クラス
+ * 言語テーブル複数プライマリーキーの永続化するクラス
  *
  * @author Administrator
  */

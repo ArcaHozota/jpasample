@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import jp.co.sony.ppog.entity.Country;
 
 /**
- * Searching repository of entity Country
+ * 国家リポジトリ
  *
  * @author Administrator
  */

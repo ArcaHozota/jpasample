@@ -10,7 +10,7 @@ import jp.co.sony.ppog.entity.City;
 import oracle.jdbc.driver.OracleSQLException;
 
 /**
- * Searching repository of entity City
+ * 都市リポジトリ
  *
  * @author Administrator
  */
