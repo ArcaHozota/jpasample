@@ -78,7 +78,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 				BigDecimal maximum = officialLanguages.get(0).getPercentage();
 				for (final Language al : officialLanguages) {
 					final BigDecimal alPercentage = al.getPercentage();
-					if (alPercentage.compareTo(maximum) <= 0) {
+					if (alPercentage.compareTo(maximum) >= 0) {
 						maximum = alPercentage;
 						cityInfoDto.setLanguage(al.getLanguage());
 					}
@@ -124,7 +124,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 									BigDecimal maximum = officialLanguages.get(0).getPercentage();
 									for (final Language al : officialLanguages) {
 										final BigDecimal alPercentage = al.getPercentage();
-										if (alPercentage.compareTo(maximum) <= 0) {
+										if (alPercentage.compareTo(maximum) >= 0) {
 											maximum = alPercentage;
 											cityInfoDto.setLanguage(al.getLanguage());
 										}
@@ -162,7 +162,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 							BigDecimal maximum = officialLanguages.get(0).getPercentage();
 							for (final Language al : officialLanguages) {
 								final BigDecimal alPercentage = al.getPercentage();
-								if (alPercentage.compareTo(maximum) <= 0) {
+								if (alPercentage.compareTo(maximum) >= 0) {
 									maximum = alPercentage;
 									cityInfoDto.setLanguage(al.getLanguage());
 								}
@@ -200,7 +200,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 							BigDecimal maximum = officialLanguages.get(0).getPercentage();
 							for (final Language al : officialLanguages) {
 								final BigDecimal alPercentage = al.getPercentage();
-								if (alPercentage.compareTo(maximum) <= 0) {
+								if (alPercentage.compareTo(maximum) >= 0) {
 									maximum = alPercentage;
 									cityInfoDto.setLanguage(al.getLanguage());
 								}
@@ -239,7 +239,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 									BigDecimal maximum = officialLanguages.get(0).getPercentage();
 									for (final Language al : officialLanguages) {
 										final BigDecimal alPercentage = al.getPercentage();
-										if (alPercentage.compareTo(maximum) <= 0) {
+										if (alPercentage.compareTo(maximum) >= 0) {
 											maximum = alPercentage;
 											cityInfoDto.setLanguage(al.getLanguage());
 										}
@@ -278,7 +278,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 					BigDecimal maximum = officialLanguages.get(0).getPercentage();
 					for (final Language al : officialLanguages) {
 						final BigDecimal alPercentage = al.getPercentage();
-						if (alPercentage.compareTo(maximum) <= 0) {
+						if (alPercentage.compareTo(maximum) >= 0) {
 							maximum = alPercentage;
 							cityInfoDto.setLanguage(al.getLanguage());
 						}
