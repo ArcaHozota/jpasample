@@ -72,13 +72,13 @@
 							<td th:text="${pg.getId()}" th:class="'text-center'"
 								th:style="'width:70px;'"></td>
 							<td th:text="${pg.getName()}" th:class="'text-center'"
-								th:style="${pg.getName().trim().length() gt 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}"></td>
+								th:style="${pg.getName().trim().length() ge 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}"></td>
 							<td th:text="${pg.getContinent()}" th:class="'text-center'"
 								th:style="'width:100px;'"></td>
 							<td th:text="${pg.getNation()}" th:class="'text-center'"
-								th:style="${pg.getNation().trim().length() gt 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}"></td>
+								th:style="${pg.getNation().trim().length() ge 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}"></td>
 							<td th:text="${pg.getDistrict()}" th:class="'text-center'"
-								th:style="${pg.district.trim().length() gt 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}"></td>
+								th:style="${pg.district.trim().length() ge 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}"></td>
 							<td th:text="${pg.getPopulation()}" th:class="'text-center'"
 								th:style="'width:70px;'"></td>
 							<td th:text="${pg.getLanguage()}" th:class="'text-center'"
