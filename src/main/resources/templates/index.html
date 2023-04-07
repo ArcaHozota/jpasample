@@ -277,6 +277,7 @@
 		$("#cityAddModalBtn").on('click', function() {
 			formReset("#cityAddModal form");
 			getContinents("#continentInput");
+			getNations($("#nationInput"), $("#continentInput option:selected").val());
 			$("#cityAddModal").modal({
 				backdrop : 'static'
 			});
