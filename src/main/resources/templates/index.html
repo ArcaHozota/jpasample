@@ -277,7 +277,7 @@
 		$("#cityAddModalBtn").on('click', function() {
 			formReset("#cityAddModal form");
 			getContinents("#continentInput");
-			getNations($("#nationInput"), $("#continentInput option:selected").val());
+			getNations($("#nationInput"), 'Africa');
 			$("#cityAddModal").modal({
 				backdrop : 'static'
 			});
