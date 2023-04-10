@@ -12,21 +12,14 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 /**
  * 都市情報ビューWORLD_CITY_VIEWのエンティティ
  *
  * @author Administrator
  */
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@Proxy(lazy = false)
 @Table(name = "WORLD_CITY_VIEW")
+@Proxy(lazy = false)
 @NamedQuery(name = "CityView.findByNations", query = "select cv from CityView as cv where cv.nation =:nation")
 @NamedQuery(name = "CityView.getByNations", query = "select cv from CityView as cv where cv.nation =:nation order by cv.id asc")
 @NamedQuery(name = "CityView.getByNames", query = "select cv from CityView as cv where cv.name like concat('%', :name, '%') order by cv.id asc")
@@ -70,6 +63,121 @@ public class CityView implements Serializable {
 	 */
 	@Column(nullable = false)
 	private Long population;
+
+	/**
+	 * コンストラクタ
+	 */
+	public CityView() {
+		super();
+	}
+
+	/**
+	 * getter for id
+	 *
+	 * @return id
+	 */
+	public Integer getId() {
+		return this.id;
+	}
+
+	/**
+	 * setter of id
+	 *
+	 * @param id セットする id
+	 */
+	public void setId(final Integer id) {
+		this.id = id;
+	}
+
+	/**
+	 * getter for name
+	 *
+	 * @return name
+	 */
+	public String getName() {
+		return this.name;
+	}
+
+	/**
+	 * setter of name
+	 *
+	 * @param name セットする name
+	 */
+	public void setName(final String name) {
+		this.name = name;
+	}
+
+	/**
+	 * getter for continent
+	 *
+	 * @return continent
+	 */
+	public String getContinent() {
+		return this.continent;
+	}
+
+	/**
+	 * setter of continent
+	 *
+	 * @param continent セットする continent
+	 */
+	public void setContinent(final String continent) {
+		this.continent = continent;
+	}
+
+	/**
+	 * getter for nation
+	 *
+	 * @return nation
+	 */
+	public String getNation() {
+		return this.nation;
+	}
+
+	/**
+	 * setter of nation
+	 *
+	 * @param nation セットする nation
+	 */
+	public void setNation(final String nation) {
+		this.nation = nation;
+	}
+
+	/**
+	 * getter for district
+	 *
+	 * @return district
+	 */
+	public String getDistrict() {
+		return this.district;
+	}
+
+	/**
+	 * setter of district
+	 *
+	 * @param district セットする district
+	 */
+	public void setDistrict(final String district) {
+		this.district = district;
+	}
+
+	/**
+	 * getter for population
+	 *
+	 * @return population
+	 */
+	public Long getPopulation() {
+		return this.population;
+	}
+
+	/**
+	 * setter of population
+	 *
+	 * @param population セットする population
+	 */
+	public void setPopulation(final Long population) {
+		this.population = population;
+	}
 
 	/**
 	 * toString

@@ -12,21 +12,14 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 /**
  * 都市テーブルWORLD_CITYのエンティティ
  *
  * @author Administrator
  */
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@Proxy(lazy = false)
 @Table(name = "WORLD_CITY")
+@Proxy(lazy = false)
 @NamedQuery(name = "City.removeById", query = "update City as c set c.logicDeleteFlg = 'removed' where c.id =:id")
 public class City implements Serializable {
 
@@ -68,6 +61,121 @@ public class City implements Serializable {
 	 */
 	@Column(name = "LOGIC_DELETE_FLG", nullable = false)
 	private String logicDeleteFlg;
+
+	/**
+	 * コンストラクタ
+	 */
+	public City() {
+		super();
+	}
+
+	/**
+	 * getter for id
+	 *
+	 * @return id
+	 */
+	public Integer getId() {
+		return this.id;
+	}
+
+	/**
+	 * setter of id
+	 *
+	 * @param id セットする id
+	 */
+	public void setId(final Integer id) {
+		this.id = id;
+	}
+
+	/**
+	 * getter for name
+	 *
+	 * @return name
+	 */
+	public String getName() {
+		return this.name;
+	}
+
+	/**
+	 * setter of name
+	 *
+	 * @param name セットする name
+	 */
+	public void setName(final String name) {
+		this.name = name;
+	}
+
+	/**
+	 * getter for countryCode
+	 *
+	 * @return countryCode
+	 */
+	public String getCountryCode() {
+		return this.countryCode;
+	}
+
+	/**
+	 * setter of countryCode
+	 *
+	 * @param countryCode セットする countryCode
+	 */
+	public void setCountryCode(final String countryCode) {
+		this.countryCode = countryCode;
+	}
+
+	/**
+	 * getter for district
+	 *
+	 * @return district
+	 */
+	public String getDistrict() {
+		return this.district;
+	}
+
+	/**
+	 * setter of district
+	 *
+	 * @param district セットする district
+	 */
+	public void setDistrict(final String district) {
+		this.district = district;
+	}
+
+	/**
+	 * getter for population
+	 *
+	 * @return population
+	 */
+	public Long getPopulation() {
+		return this.population;
+	}
+
+	/**
+	 * setter of population
+	 *
+	 * @param population セットする population
+	 */
+	public void setPopulation(final Long population) {
+		this.population = population;
+	}
+
+	/**
+	 * getter for logicDeleteFlg
+	 *
+	 * @return logicDeleteFlg
+	 */
+	public String getLogicDeleteFlg() {
+		return this.logicDeleteFlg;
+	}
+
+	/**
+	 * setter of logicDeleteFlg
+	 *
+	 * @param logicDeleteFlg セットする logicDeleteFlg
+	 */
+	public void setLogicDeleteFlg(final String logicDeleteFlg) {
+		this.logicDeleteFlg = logicDeleteFlg;
+	}
 
 	/**
 	 * toString

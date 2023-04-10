@@ -8,17 +8,28 @@ public class CityInfoDto extends CityView {
 
 	private String language;
 
-	public CityInfoDto(final String language) {
+	/**
+	 * コンストラクタ
+	 */
+	public CityInfoDto() {
 		super();
-		this.language = language;
 	}
 
+	/**
+	 * getter for language
+	 *
+	 * @return language
+	 */
 	public String getLanguage() {
 		return this.language;
 	}
 
+	/**
+	 * setter of language
+	 *
+	 * @param language セットする language
+	 */
 	public void setLanguage(final String language) {
 		this.language = language;
 	}
-
 }
