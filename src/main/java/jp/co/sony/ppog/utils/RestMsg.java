@@ -1,22 +1,18 @@
 package jp.co.sony.ppog.utils;
 
+import java.util.HashMap;
 import java.util.Map;
-
-import com.google.common.collect.Maps;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * The common class of JSON-data response.
  *
  * @author Administrator
  */
-@Getter
-@Setter
-@NoArgsConstructor
 public class RestMsg {
+
+	private RestMsg() {
+		super();
+	}
 
 	/**
 	 * status code
@@ -31,7 +27,7 @@ public class RestMsg {
 	/**
 	 * data returned to browsers
 	 */
-	private final Map<String, Object> extend = Maps.newHashMap();
+	private final Map<String, Object> extend = new HashMap<>();
 
 	/**
 	 * retrieve successfully
@@ -67,5 +63,25 @@ public class RestMsg {
 	public RestMsg add(final String key, final Object value) {
 		this.getExtend().put(key, value);
 		return this;
+	}
+
+	public Integer getCode() {
+		return this.code;
+	}
+
+	public void setCode(final Integer code) {
+		this.code = code;
+	}
+
+	public String getMessage() {
+		return this.message;
+	}
+
+	public void setMessage(final String message) {
+		this.message = message;
+	}
+
+	public Map<String, Object> getExtend() {
+		return this.extend;
 	}
 }
