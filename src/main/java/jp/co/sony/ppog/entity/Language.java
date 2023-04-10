@@ -12,21 +12,14 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 /**
  * 言語テーブルWORLD_LANGUAGEのエンティティ
  *
  * @author Administrator
  */
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@Proxy(lazy = false)
 @Table(name = "WORLD_LANGUAGE")
+@Proxy(lazy = false)
 @IdClass(LanguageId.class)
 @NamedQuery(name = "Language.findLanguageByCty", query = "select nl from Language as nl where nl.logicDeleteFlg = 'visible' "
 		+ "and nl.countryCode =:countryCode")
@@ -64,6 +57,103 @@ public class Language implements Serializable {
 	 */
 	@Column(name = "LOGIC_DELETE_FLG", nullable = false)
 	private String logicDeleteFlg;
+
+	/**
+	 * コンストラクタ
+	 */
+	public Language() {
+		super();
+	}
+
+	/**
+	 * getter for countryCode
+	 *
+	 * @return countryCode
+	 */
+	public String getCountryCode() {
+		return this.countryCode;
+	}
+
+	/**
+	 * setter of countryCode
+	 *
+	 * @param countryCode セットする countryCode
+	 */
+	public void setCountryCode(final String countryCode) {
+		this.countryCode = countryCode;
+	}
+
+	/**
+	 * getter for language
+	 *
+	 * @return language
+	 */
+	public String getLanguage() {
+		return this.language;
+	}
+
+	/**
+	 * setter of language
+	 *
+	 * @param language セットする language
+	 */
+	public void setLanguage(final String language) {
+		this.language = language;
+	}
+
+	/**
+	 * getter for isOfficial
+	 *
+	 * @return isOfficial
+	 */
+	public String getIsOfficial() {
+		return this.isOfficial;
+	}
+
+	/**
+	 * setter of isOfficial
+	 *
+	 * @param isOfficial セットする isOfficial
+	 */
+	public void setIsOfficial(final String isOfficial) {
+		this.isOfficial = isOfficial;
+	}
+
+	/**
+	 * getter for percentage
+	 *
+	 * @return percentage
+	 */
+	public BigDecimal getPercentage() {
+		return this.percentage;
+	}
+
+	/**
+	 * setter of percentage
+	 *
+	 * @param percentage セットする percentage
+	 */
+	public void setPercentage(final BigDecimal percentage) {
+		this.percentage = percentage;
+	}
+
+	/**
+	 * getter for logicDeleteFlg
+	 *
+	 * @return logicDeleteFlg
+	 */
+	public String getLogicDeleteFlg() {
+		return this.logicDeleteFlg;
+	}
+
+	/**
+	 * setter of logicDeleteFlg
+	 *
+	 * @param logicDeleteFlg セットする logicDeleteFlg
+	 */
+	public void setLogicDeleteFlg(final String logicDeleteFlg) {
+		this.logicDeleteFlg = logicDeleteFlg;
+	}
 
 	/**
 	 * toString
