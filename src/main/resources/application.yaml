@@ -17,7 +17,7 @@ spring:
       naming:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
     database: ORACLE
-    database-platform: jp.co.sony.ppog.config.Oracle18aDialect
+    database-platform: jp.co.sony.ppog.config.Oracle18cDialect
     show-sql: true
     open-in-view: false
   output:
