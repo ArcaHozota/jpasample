@@ -59,7 +59,7 @@ public class Country implements Serializable {
 	 * This field corresponds to the database column INDEPENDENCE_YEAR
 	 */
 	@Column(name = "INDEPENDENCE_YEAR")
-	private Integer independenceYear;
+	private Long independenceYear;
 
 	/**
 	 * This field corresponds to the database column POPULATION
@@ -71,7 +71,7 @@ public class Country implements Serializable {
 	 * This field corresponds to the database column LIFE_EXPECTANCY
 	 */
 	@Column(name = "LIFE_EXPECTANCY")
-	private Integer lifeExpectancy;
+	private Long lifeExpectancy;
 
 	/**
 	 * This field corresponds to the database column GNP
@@ -105,7 +105,7 @@ public class Country implements Serializable {
 	/**
 	 * This field corresponds to the database column CAPITAL
 	 */
-	private Integer capital;
+	private Long capital;
 
 	/**
 	 * This field corresponds to the database column CODE2
@@ -221,7 +221,7 @@ public class Country implements Serializable {
 	 *
 	 * @return independenceYear
 	 */
-	public Integer getIndependenceYear() {
+	public Long getIndependenceYear() {
 		return this.independenceYear;
 	}
 
@@ -230,7 +230,7 @@ public class Country implements Serializable {
 	 *
 	 * @param independenceYear セットする independenceYear
 	 */
-	public void setIndependenceYear(final Integer independenceYear) {
+	public void setIndependenceYear(final Long independenceYear) {
 		this.independenceYear = independenceYear;
 	}
 
@@ -257,7 +257,7 @@ public class Country implements Serializable {
 	 *
 	 * @return lifeExpectancy
 	 */
-	public Integer getLifeExpectancy() {
+	public Long getLifeExpectancy() {
 		return this.lifeExpectancy;
 	}
 
@@ -266,7 +266,7 @@ public class Country implements Serializable {
 	 *
 	 * @param lifeExpectancy セットする lifeExpectancy
 	 */
-	public void setLifeExpectancy(final Integer lifeExpectancy) {
+	public void setLifeExpectancy(final Long lifeExpectancy) {
 		this.lifeExpectancy = lifeExpectancy;
 	}
 
@@ -365,7 +365,7 @@ public class Country implements Serializable {
 	 *
 	 * @return capital
 	 */
-	public Integer getCapital() {
+	public Long getCapital() {
 		return this.capital;
 	}
 
@@ -374,7 +374,7 @@ public class Country implements Serializable {
 	 *
 	 * @param capital セットする capital
 	 */
-	public void setCapital(final Integer capital) {
+	public void setCapital(final Long capital) {
 		this.capital = capital;
 	}
 
