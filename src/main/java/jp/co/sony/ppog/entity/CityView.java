@@ -37,7 +37,7 @@ public class CityView implements Serializable {
 	/**
 	 * This field corresponds to the database column NAME
 	 */
-	@Column(nullable = false)
+	@Column(name = "CITY_NAME", nullable = false)
 	private String name;
 
 	/**
@@ -49,7 +49,7 @@ public class CityView implements Serializable {
 	/**
 	 * This field corresponds to the database column NATION
 	 */
-	@Column(name = "COUNTRY", nullable = false)
+	@Column(name = "COUNTRY_NAME", nullable = false)
 	private String nation;
 
 	/**
