@@ -32,7 +32,7 @@ public class CityView implements Serializable {
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private Integer id;
+	private Long id;
 
 	/**
 	 * This field corresponds to the database column NAME
@@ -49,7 +49,7 @@ public class CityView implements Serializable {
 	/**
 	 * This field corresponds to the database column NATION
 	 */
-	@Column(nullable = false)
+	@Column(name = "COUNTRY", nullable = false)
 	private String nation;
 
 	/**
@@ -76,7 +76,7 @@ public class CityView implements Serializable {
 	 *
 	 * @return id
 	 */
-	public Integer getId() {
+	public Long getId() {
 		return this.id;
 	}
 
@@ -85,7 +85,7 @@ public class CityView implements Serializable {
 	 *
 	 * @param id セットする id
 	 */
-	public void setId(final Integer id) {
+	public void setId(final Long id) {
 		this.id = id;
 	}
 
