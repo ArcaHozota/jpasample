@@ -116,7 +116,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 								cityInfoDto.setLanguage(language.get(0).getLanguage());
 							} else {
 								final List<Language> officialLanguages = language.stream()
-										.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "T"))
+										.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "True"))
 										.collect(Collectors.toList());
 								if (officialLanguages.size() == 1) {
 									cityInfoDto.setLanguage(officialLanguages.get(0).getLanguage());
@@ -154,7 +154,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 						cityInfoDto.setLanguage(language.get(0).getLanguage());
 					} else {
 						final List<Language> officialLanguages = language.stream()
-								.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "T"))
+								.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "True"))
 								.collect(Collectors.toList());
 						if (officialLanguages.size() == 1) {
 							cityInfoDto.setLanguage(officialLanguages.get(0).getLanguage());
@@ -192,7 +192,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 						cityInfoDto.setLanguage(language.get(0).getLanguage());
 					} else {
 						final List<Language> officialLanguages = language.stream()
-								.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "T"))
+								.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "True"))
 								.collect(Collectors.toList());
 						if (officialLanguages.size() == 1) {
 							cityInfoDto.setLanguage(officialLanguages.get(0).getLanguage());
@@ -231,7 +231,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 								cityInfoDto.setLanguage(language.get(0).getLanguage());
 							} else {
 								final List<Language> officialLanguages = language.stream()
-										.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "T"))
+										.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "True"))
 										.collect(Collectors.toList());
 								if (officialLanguages.size() == 1) {
 									cityInfoDto.setLanguage(officialLanguages.get(0).getLanguage());
@@ -271,7 +271,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 				cityInfoDto.setLanguage(language.get(0).getLanguage());
 			} else {
 				final List<Language> officialLanguages = language.stream()
-						.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "T")).collect(Collectors.toList());
+						.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "True")).collect(Collectors.toList());
 				if (officialLanguages.size() == 1) {
 					cityInfoDto.setLanguage(officialLanguages.get(0).getLanguage());
 				} else if (officialLanguages.size() > 1) {
@@ -358,7 +358,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		} else {
 			String language = null;
 			final List<Language> officialLanguages = languages.stream()
-					.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "T")).collect(Collectors.toList());
+					.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "True")).collect(Collectors.toList());
 			if (officialLanguages.size() == 1) {
 				return officialLanguages.get(0).getLanguage();
 			} else if (officialLanguages.size() > 1) {
