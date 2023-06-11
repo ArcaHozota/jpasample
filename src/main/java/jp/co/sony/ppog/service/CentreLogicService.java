@@ -29,7 +29,7 @@ public interface CentreLogicService {
 	 * @param id 都市ID
 	 * @return CityInfoDto
 	 */
-	CityInfoDto getCityInfoById(Integer id);
+	CityInfoDto getCityInfoById(Long id);
 
 	/**
 	 * 都市IDによって国家名を抽出する
@@ -37,7 +37,7 @@ public interface CentreLogicService {
 	 * @param id 都市ID
 	 * @return List<String>
 	 */
-	List<String> getListOfNationsById(Integer id);
+	List<String> getListOfNationsById(Long id);
 
 	/**
 	 * 入力した都市情報を保存する
@@ -58,7 +58,7 @@ public interface CentreLogicService {
 	 *
 	 * @param id 都市ID
 	 */
-	void removeById(Integer id);
+	void removeById(Long id);
 
 	/**
 	 * 大陸情報を取得する
