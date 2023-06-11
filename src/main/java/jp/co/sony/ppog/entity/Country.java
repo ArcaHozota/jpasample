@@ -52,13 +52,12 @@ public class Country implements Serializable {
 	/**
 	 * This field corresponds to the database column SURFACE_AREA
 	 */
-	@Column(name = "SURFACE_AREA", nullable = false)
+	@Column(nullable = false)
 	private BigDecimal surfaceArea;
 
 	/**
 	 * This field corresponds to the database column INDEPENDENCE_YEAR
 	 */
-	@Column(name = "INDEPENDENCE_YEAR")
 	private Long independenceYear;
 
 	/**
@@ -70,7 +69,6 @@ public class Country implements Serializable {
 	/**
 	 * This field corresponds to the database column LIFE_EXPECTANCY
 	 */
-	@Column(name = "LIFE_EXPECTANCY")
 	private Long lifeExpectancy;
 
 	/**
@@ -81,25 +79,23 @@ public class Country implements Serializable {
 	/**
 	 * This field corresponds to the database column GNP_OLD
 	 */
-	@Column(name = "GNP_OLD")
 	private BigDecimal gnpOld;
 
 	/**
 	 * This field corresponds to the database column LOCAL_NAME
 	 */
-	@Column(name = "LOCAL_NAME", nullable = false)
+	@Column(nullable = false)
 	private String localName;
 
 	/**
 	 * This field corresponds to the database column GOVERNMENT_FORM
 	 */
-	@Column(name = "GOVERNMENT_FORM", nullable = false)
+	@Column(nullable = false)
 	private String governmentForm;
 
 	/**
 	 * This field corresponds to the database column HEAD_OF_STATE
 	 */
-	@Column(name = "HEAD_OF_STATE")
 	private String headOfState;
 
 	/**
@@ -116,7 +112,7 @@ public class Country implements Serializable {
 	/**
 	 * This field corresponds to the database column LOGIC_DELETE_FLG
 	 */
-	@Column(name = "LOGIC_DELETE_FLG", nullable = false)
+	@Column(nullable = false)
 	private String logicDeleteFlg;
 
 	/**

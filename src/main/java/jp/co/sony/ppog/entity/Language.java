@@ -31,7 +31,6 @@ public class Language implements Serializable {
 	 * This field corresponds to the database column COUNTRY_CODE
 	 */
 	@Id
-	@Column(name = "COUNTRY_CODE")
 	private String countryCode;
 
 	/**
@@ -43,7 +42,7 @@ public class Language implements Serializable {
 	/**
 	 * This field corresponds to the database column IS_OFFICIAL
 	 */
-	@Column(name = "IS_OFFICIAL", nullable = false)
+	@Column(nullable = false)
 	private String isOfficial;
 
 	/**
@@ -55,7 +54,7 @@ public class Language implements Serializable {
 	/**
 	 * This field corresponds to the database column LOGIC_DELETE_FLG
 	 */
-	@Column(name = "LOGIC_DELETE_FLG", nullable = false)
+	@Column(nullable = false)
 	private String logicDeleteFlg;
 
 	/**

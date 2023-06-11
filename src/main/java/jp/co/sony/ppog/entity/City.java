@@ -41,7 +41,7 @@ public class City implements Serializable {
 	/**
 	 * This field corresponds to the database column COUNTRY_CODE
 	 */
-	@Column(name = "COUNTRY_CODE", nullable = false)
+	@Column(nullable = false)
 	private String countryCode;
 
 	/**
@@ -59,7 +59,7 @@ public class City implements Serializable {
 	/**
 	 * This field corresponds to the database column LOGIC_DELETE_FLG
 	 */
-	@Column(name = "LOGIC_DELETE_FLG", nullable = false)
+	@Column(nullable = false)
 	private String logicDeleteFlg;
 
 	/**
