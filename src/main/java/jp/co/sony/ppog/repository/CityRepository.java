@@ -23,7 +23,7 @@ public interface CityRepository extends JpaRepository<City, Integer> {
 	 */
 	@Modifying
 	@Transactional(rollbackFor = OracleSQLException.class)
-	void removeById(@Param("id") Integer id);
+	void removeById(@Param("id") Long id);
 
 	/**
 	 * 更新

@@ -62,7 +62,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 
 	@Override
 	public CityInfoDto getCityInfoById(final Long id) {
-		final CityView cityView = this.cityViewRepository.getById(id);
+		final CityView cityView = this.cityViewRepository.getById(Integer.valueOf(id.intValue()));
 		final CityInfoDto cityInfoDto = new CityInfoDto();
 		BeanUtils.copyProperties(cityView, cityInfoDto);
 		final String nationCode = this.countryRepository.findNationCode(cityView.getNation());
@@ -302,7 +302,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	@Override
 	public List<String> getListOfNationsById(final Long id) {
 		final List<String> list = Lists.newArrayList();
-		final CityView cityView = this.cityViewRepository.getById(id);
+		final CityView cityView = this.cityViewRepository.getById(Integer.valueOf(id.intValue()));
 		final List<String> nations = this.countryRepository.findNationsByCnt(cityView.getContinent());
 		final String nationName = cityView.getNation();
 		list.add(nationName);
