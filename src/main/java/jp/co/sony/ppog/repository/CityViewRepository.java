@@ -15,7 +15,7 @@ import jp.co.sony.ppog.entity.CityView;
  *
  * @author Administrator
  */
-public interface CityViewRepository extends JpaRepository<CityView, Integer> {
+public interface CityViewRepository extends JpaRepository<CityView, Long> {
 
 	/**
 	 * 国名によって都市情報を検索する

@@ -14,7 +14,7 @@ import oracle.jdbc.driver.OracleSQLException;
  *
  * @author Administrator
  */
-public interface CityRepository extends JpaRepository<City, Integer> {
+public interface CityRepository extends JpaRepository<City, Long> {
 
 	/**
 	 * 論理削除
