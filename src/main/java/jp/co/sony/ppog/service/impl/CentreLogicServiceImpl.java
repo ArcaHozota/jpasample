@@ -66,34 +66,8 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		final CityInfoDto cityInfoDto = new CityInfoDto();
 		BeanUtils.copyProperties(cityView, cityInfoDto);
 		final String nationCode = this.countryRepository.findNationCode(cityView.getNation());
-		final List<Language> language = this.languageRepository.findLanguagesByCity(nationCode);
-		if (language.size() == 1) {
-			cityInfoDto.setLanguage(language.get(0).getLanguage());
-		} else {
-			final List<Language> officialLanguages = language.stream()
-					.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "T")).collect(Collectors.toList());
-			if (officialLanguages.size() == 1) {
-				cityInfoDto.setLanguage(officialLanguages.get(0).getLanguage());
-			} else if (officialLanguages.size() > 1) {
-				BigDecimal maximum = officialLanguages.get(0).getPercentage();
-				for (final Language al : officialLanguages) {
-					final BigDecimal alPercentage = al.getPercentage();
-					if (alPercentage.compareTo(maximum) >= 0) {
-						maximum = alPercentage;
-						cityInfoDto.setLanguage(al.getLanguage());
-					}
-				}
-			} else {
-				BigDecimal maximum = language.get(0).getPercentage();
-				for (final Language al : language) {
-					final BigDecimal alPercentage = al.getPercentage();
-					if (alPercentage.compareTo(maximum) >= 0) {
-						maximum = alPercentage;
-						cityInfoDto.setLanguage(al.getLanguage());
-					}
-				}
-			}
-		}
+		final String language = this.findLanguageByCty(nationCode);
+		cityInfoDto.setLanguage(language);
 		return cityInfoDto;
 	}
 
@@ -111,35 +85,8 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 							final CityInfoDto cityInfoDto = new CityInfoDto();
 							BeanUtils.copyProperties(item, cityInfoDto);
 							final String nationCode = this.countryRepository.findNationCode(item.getNation());
-							final List<Language> language = this.languageRepository.findLanguagesByCity(nationCode);
-							if (language.size() == 1) {
-								cityInfoDto.setLanguage(language.get(0).getLanguage());
-							} else {
-								final List<Language> officialLanguages = language.stream()
-										.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "True"))
-										.collect(Collectors.toList());
-								if (officialLanguages.size() == 1) {
-									cityInfoDto.setLanguage(officialLanguages.get(0).getLanguage());
-								} else if (officialLanguages.size() > 1) {
-									BigDecimal maximum = officialLanguages.get(0).getPercentage();
-									for (final Language al : officialLanguages) {
-										final BigDecimal alPercentage = al.getPercentage();
-										if (alPercentage.compareTo(maximum) >= 0) {
-											maximum = alPercentage;
-											cityInfoDto.setLanguage(al.getLanguage());
-										}
-									}
-								} else {
-									BigDecimal maximum = language.get(0).getPercentage();
-									for (final Language al : language) {
-										final BigDecimal alPercentage = al.getPercentage();
-										if (alPercentage.compareTo(maximum) >= 0) {
-											maximum = alPercentage;
-											cityInfoDto.setLanguage(al.getLanguage());
-										}
-									}
-								}
-							}
+							final String language = this.findLanguageByCty(nationCode);
+							cityInfoDto.setLanguage(language);
 							return cityInfoDto;
 						}).collect(Collectors.toList());
 				return new PageImpl<>(getByNations);
@@ -149,35 +96,8 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 					final CityInfoDto cityInfoDto = new CityInfoDto();
 					BeanUtils.copyProperties(item, cityInfoDto);
 					final String nationCode = this.countryRepository.findNationCode(item.getNation());
-					final List<Language> language = this.languageRepository.findLanguagesByCity(nationCode);
-					if (language.size() == 1) {
-						cityInfoDto.setLanguage(language.get(0).getLanguage());
-					} else {
-						final List<Language> officialLanguages = language.stream()
-								.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "True"))
-								.collect(Collectors.toList());
-						if (officialLanguages.size() == 1) {
-							cityInfoDto.setLanguage(officialLanguages.get(0).getLanguage());
-						} else if (officialLanguages.size() > 1) {
-							BigDecimal maximum = officialLanguages.get(0).getPercentage();
-							for (final Language al : officialLanguages) {
-								final BigDecimal alPercentage = al.getPercentage();
-								if (alPercentage.compareTo(maximum) >= 0) {
-									maximum = alPercentage;
-									cityInfoDto.setLanguage(al.getLanguage());
-								}
-							}
-						} else {
-							BigDecimal maximum = language.get(0).getPercentage();
-							for (final Language al : language) {
-								final BigDecimal alPercentage = al.getPercentage();
-								if (alPercentage.compareTo(maximum) >= 0) {
-									maximum = alPercentage;
-									cityInfoDto.setLanguage(al.getLanguage());
-								}
-							}
-						}
-					}
+					final String language = this.findLanguageByCty(nationCode);
+					cityInfoDto.setLanguage(language);
 					return cityInfoDto;
 				}).collect(Collectors.toList());
 				return new PageImpl<>(minimumRanks);
@@ -187,35 +107,8 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 					final CityInfoDto cityInfoDto = new CityInfoDto();
 					BeanUtils.copyProperties(item, cityInfoDto);
 					final String nationCode = this.countryRepository.findNationCode(item.getNation());
-					final List<Language> language = this.languageRepository.findLanguagesByCity(nationCode);
-					if (language.size() == 1) {
-						cityInfoDto.setLanguage(language.get(0).getLanguage());
-					} else {
-						final List<Language> officialLanguages = language.stream()
-								.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "True"))
-								.collect(Collectors.toList());
-						if (officialLanguages.size() == 1) {
-							cityInfoDto.setLanguage(officialLanguages.get(0).getLanguage());
-						} else if (officialLanguages.size() > 1) {
-							BigDecimal maximum = officialLanguages.get(0).getPercentage();
-							for (final Language al : officialLanguages) {
-								final BigDecimal alPercentage = al.getPercentage();
-								if (alPercentage.compareTo(maximum) >= 0) {
-									maximum = alPercentage;
-									cityInfoDto.setLanguage(al.getLanguage());
-								}
-							}
-						} else {
-							BigDecimal maximum = language.get(0).getPercentage();
-							for (final Language al : language) {
-								final BigDecimal alPercentage = al.getPercentage();
-								if (alPercentage.compareTo(maximum) >= 0) {
-									maximum = alPercentage;
-									cityInfoDto.setLanguage(al.getLanguage());
-								}
-							}
-						}
-					}
+					final String language = this.findLanguageByCty(nationCode);
+					cityInfoDto.setLanguage(language);
 					return cityInfoDto;
 				}).collect(Collectors.toList());
 				return new PageImpl<>(maximumRanks);
@@ -226,35 +119,8 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 							final CityInfoDto cityInfoDto = new CityInfoDto();
 							BeanUtils.copyProperties(item, cityInfoDto);
 							final String nationCode = this.countryRepository.findNationCode(item.getNation());
-							final List<Language> language = this.languageRepository.findLanguagesByCity(nationCode);
-							if (language.size() == 1) {
-								cityInfoDto.setLanguage(language.get(0).getLanguage());
-							} else {
-								final List<Language> officialLanguages = language.stream()
-										.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "True"))
-										.collect(Collectors.toList());
-								if (officialLanguages.size() == 1) {
-									cityInfoDto.setLanguage(officialLanguages.get(0).getLanguage());
-								} else if (officialLanguages.size() > 1) {
-									BigDecimal maximum = officialLanguages.get(0).getPercentage();
-									for (final Language al : officialLanguages) {
-										final BigDecimal alPercentage = al.getPercentage();
-										if (alPercentage.compareTo(maximum) >= 0) {
-											maximum = alPercentage;
-											cityInfoDto.setLanguage(al.getLanguage());
-										}
-									}
-								} else {
-									BigDecimal maximum = language.get(0).getPercentage();
-									for (final Language al : language) {
-										final BigDecimal alPercentage = al.getPercentage();
-										if (alPercentage.compareTo(maximum) >= 0) {
-											maximum = alPercentage;
-											cityInfoDto.setLanguage(al.getLanguage());
-										}
-									}
-								}
-							}
+							final String language = this.findLanguageByCty(nationCode);
+							cityInfoDto.setLanguage(language);
 							return cityInfoDto;
 						}).collect(Collectors.toList());
 				return new PageImpl<>(findByNames);
@@ -266,34 +132,8 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 			final CityInfoDto cityInfoDto = new CityInfoDto();
 			BeanUtils.copyProperties(item, cityInfoDto);
 			final String nationCode = this.countryRepository.findNationCode(item.getNation());
-			final List<Language> language = this.languageRepository.findLanguagesByCity(nationCode);
-			if (language.size() == 1) {
-				cityInfoDto.setLanguage(language.get(0).getLanguage());
-			} else {
-				final List<Language> officialLanguages = language.stream()
-						.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "True")).collect(Collectors.toList());
-				if (officialLanguages.size() == 1) {
-					cityInfoDto.setLanguage(officialLanguages.get(0).getLanguage());
-				} else if (officialLanguages.size() > 1) {
-					BigDecimal maximum = officialLanguages.get(0).getPercentage();
-					for (final Language al : officialLanguages) {
-						final BigDecimal alPercentage = al.getPercentage();
-						if (alPercentage.compareTo(maximum) >= 0) {
-							maximum = alPercentage;
-							cityInfoDto.setLanguage(al.getLanguage());
-						}
-					}
-				} else {
-					BigDecimal maximum = language.get(0).getPercentage();
-					for (final Language al : language) {
-						final BigDecimal alPercentage = al.getPercentage();
-						if (alPercentage.compareTo(maximum) >= 0) {
-							maximum = alPercentage;
-							cityInfoDto.setLanguage(al.getLanguage());
-						}
-					}
-				}
-			}
+			final String language = this.findLanguageByCty(nationCode);
+			cityInfoDto.setLanguage(language);
 			return cityInfoDto;
 		}).collect(Collectors.toList());
 		return new PageImpl<>(allCities, pageRequest, findAll.getTotalElements());

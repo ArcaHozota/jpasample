@@ -6,13 +6,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 
 import jp.co.sony.ppog.entity.Language;
+import jp.co.sony.ppog.entity.LanguageId;
 
 /**
  * 言語リポジトリ
  *
  * @author Administrator
  */
-public interface LanguageRepository extends JpaRepository<Language, String> {
+public interface LanguageRepository extends JpaRepository<Language, LanguageId> {
 
 	/**
 	 * 都市のすべての言語を検索する
