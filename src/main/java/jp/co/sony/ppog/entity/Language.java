@@ -22,7 +22,7 @@ import org.hibernate.annotations.Proxy;
 @Proxy(lazy = false)
 @IdClass(LanguageId.class)
 @NamedQuery(name = "Language.findLanguageByCty", query = "select nl from Language as nl where nl.logicDeleteFlg = 'visible' "
-		+ "and nl.countryCode =:countryCode")
+		+ "and nl.countryCode =:countryCode order by nl.percentage desc")
 public class Language implements Serializable {
 
 	private static final long serialVersionUID = -8085659909634431823L;
