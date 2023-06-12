@@ -196,31 +196,23 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		if (languages.size() == 1) {
 			return languages.get(0).getLanguage();
 		} else {
-			String language = null;
 			final List<Language> officialLanguages = languages.stream()
 					.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "True")).collect(Collectors.toList());
-			if (officialLanguages.size() == 1) {
+			final List<Language> typicalLanguages = languages.stream()
+					.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "False")).collect(Collectors.toList());
+			if (officialLanguages.isEmpty() && !typicalLanguages.isEmpty()) {
+				return typicalLanguages.get(0).getLanguage();
+			} else if (!officialLanguages.isEmpty() && typicalLanguages.isEmpty()) {
 				return officialLanguages.get(0).getLanguage();
-			} else if (officialLanguages.size() > 1) {
-				BigDecimal maximum = officialLanguages.get(0).getPercentage();
-				for (final Language al : officialLanguages) {
-					final BigDecimal alPercentage = al.getPercentage();
-					if (alPercentage.compareTo(maximum) >= 0) {
-						maximum = alPercentage;
-						language = al.getLanguage();
-					}
-				}
-				return language;
 			} else {
-				BigDecimal maximum = languages.get(0).getPercentage();
-				for (final Language al : languages) {
-					final BigDecimal alPercentage = al.getPercentage();
-					if (alPercentage.compareTo(maximum) >= 0) {
-						maximum = alPercentage;
-						language = al.getLanguage();
-					}
+				final Language language1 = officialLanguages.get(0);
+				final Language language2 = typicalLanguages.get(0);
+				if (language2.getPercentage().subtract(language1.getPercentage())
+						.compareTo(BigDecimal.valueOf(35L)) <= 0) {
+					return language1.getLanguage();
+				} else {
+					return language2.getLanguage();
 				}
-				return language;
 			}
 		}
 	}
