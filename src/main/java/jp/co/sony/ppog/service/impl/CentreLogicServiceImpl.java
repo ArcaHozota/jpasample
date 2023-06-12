@@ -66,7 +66,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		final CityInfoDto cityInfoDto = new CityInfoDto();
 		BeanUtils.copyProperties(cityView, cityInfoDto);
 		final String nationCode = this.countryRepository.findNationCode(cityView.getNation());
-		final List<Language> language = this.languageRepository.findLanguageByCty(nationCode);
+		final List<Language> language = this.languageRepository.findLanguagesByCity(nationCode);
 		if (language.size() == 1) {
 			cityInfoDto.setLanguage(language.get(0).getLanguage());
 		} else {
@@ -111,7 +111,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 							final CityInfoDto cityInfoDto = new CityInfoDto();
 							BeanUtils.copyProperties(item, cityInfoDto);
 							final String nationCode = this.countryRepository.findNationCode(item.getNation());
-							final List<Language> language = this.languageRepository.findLanguageByCty(nationCode);
+							final List<Language> language = this.languageRepository.findLanguagesByCity(nationCode);
 							if (language.size() == 1) {
 								cityInfoDto.setLanguage(language.get(0).getLanguage());
 							} else {
@@ -149,7 +149,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 					final CityInfoDto cityInfoDto = new CityInfoDto();
 					BeanUtils.copyProperties(item, cityInfoDto);
 					final String nationCode = this.countryRepository.findNationCode(item.getNation());
-					final List<Language> language = this.languageRepository.findLanguageByCty(nationCode);
+					final List<Language> language = this.languageRepository.findLanguagesByCity(nationCode);
 					if (language.size() == 1) {
 						cityInfoDto.setLanguage(language.get(0).getLanguage());
 					} else {
@@ -187,7 +187,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 					final CityInfoDto cityInfoDto = new CityInfoDto();
 					BeanUtils.copyProperties(item, cityInfoDto);
 					final String nationCode = this.countryRepository.findNationCode(item.getNation());
-					final List<Language> language = this.languageRepository.findLanguageByCty(nationCode);
+					final List<Language> language = this.languageRepository.findLanguagesByCity(nationCode);
 					if (language.size() == 1) {
 						cityInfoDto.setLanguage(language.get(0).getLanguage());
 					} else {
@@ -226,7 +226,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 							final CityInfoDto cityInfoDto = new CityInfoDto();
 							BeanUtils.copyProperties(item, cityInfoDto);
 							final String nationCode = this.countryRepository.findNationCode(item.getNation());
-							final List<Language> language = this.languageRepository.findLanguageByCty(nationCode);
+							final List<Language> language = this.languageRepository.findLanguagesByCity(nationCode);
 							if (language.size() == 1) {
 								cityInfoDto.setLanguage(language.get(0).getLanguage());
 							} else {
@@ -266,7 +266,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 			final CityInfoDto cityInfoDto = new CityInfoDto();
 			BeanUtils.copyProperties(item, cityInfoDto);
 			final String nationCode = this.countryRepository.findNationCode(item.getNation());
-			final List<Language> language = this.languageRepository.findLanguageByCty(nationCode);
+			final List<Language> language = this.languageRepository.findLanguagesByCity(nationCode);
 			if (language.size() == 1) {
 				cityInfoDto.setLanguage(language.get(0).getLanguage());
 			} else {
@@ -352,7 +352,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	@Override
 	public String findLanguageByCty(final String nationVal) {
 		final String nationCode = this.countryRepository.findNationCode(nationVal);
-		final List<Language> languages = this.languageRepository.findLanguageByCty(nationCode);
+		final List<Language> languages = this.languageRepository.findLanguagesByCity(nationCode);
 		if (languages.size() == 1) {
 			return languages.get(0).getLanguage();
 		} else {
