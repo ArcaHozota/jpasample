@@ -65,8 +65,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		final CityView cityView = this.cityViewRepository.getById(id);
 		final CityInfoDto cityInfoDto = new CityInfoDto();
 		BeanUtils.copyProperties(cityView, cityInfoDto);
-		final String nationCode = this.countryRepository.findNationCode(cityView.getNation());
-		final String language = this.findLanguageByCty(nationCode);
+		final String language = this.findLanguageByCty(cityInfoDto.getNation());
 		cityInfoDto.setLanguage(language);
 		return cityInfoDto;
 	}
@@ -84,8 +83,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 						.getContent().stream().map(item -> {
 							final CityInfoDto cityInfoDto = new CityInfoDto();
 							BeanUtils.copyProperties(item, cityInfoDto);
-							final String nationCode = this.countryRepository.findNationCode(item.getNation());
-							final String language = this.findLanguageByCty(nationCode);
+							final String language = this.findLanguageByCty(item.getNation());
 							cityInfoDto.setLanguage(language);
 							return cityInfoDto;
 						}).collect(Collectors.toList());
@@ -95,8 +93,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 				final List<CityInfoDto> minimumRanks = this.cityViewRepository.findMinimumRanks().stream().map(item -> {
 					final CityInfoDto cityInfoDto = new CityInfoDto();
 					BeanUtils.copyProperties(item, cityInfoDto);
-					final String nationCode = this.countryRepository.findNationCode(item.getNation());
-					final String language = this.findLanguageByCty(nationCode);
+					final String language = this.findLanguageByCty(item.getNation());
 					cityInfoDto.setLanguage(language);
 					return cityInfoDto;
 				}).collect(Collectors.toList());
@@ -106,8 +103,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 				final List<CityInfoDto> maximumRanks = this.cityViewRepository.findMaximumRanks().stream().map(item -> {
 					final CityInfoDto cityInfoDto = new CityInfoDto();
 					BeanUtils.copyProperties(item, cityInfoDto);
-					final String nationCode = this.countryRepository.findNationCode(item.getNation());
-					final String language = this.findLanguageByCty(nationCode);
+					final String language = this.findLanguageByCty(item.getNation());
 					cityInfoDto.setLanguage(language);
 					return cityInfoDto;
 				}).collect(Collectors.toList());
@@ -118,8 +114,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 						.getContent().stream().map(item -> {
 							final CityInfoDto cityInfoDto = new CityInfoDto();
 							BeanUtils.copyProperties(item, cityInfoDto);
-							final String nationCode = this.countryRepository.findNationCode(item.getNation());
-							final String language = this.findLanguageByCty(nationCode);
+							final String language = this.findLanguageByCty(item.getNation());
 							cityInfoDto.setLanguage(language);
 							return cityInfoDto;
 						}).collect(Collectors.toList());
@@ -131,8 +126,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		final List<CityInfoDto> allCities = findAll.getContent().stream().map(item -> {
 			final CityInfoDto cityInfoDto = new CityInfoDto();
 			BeanUtils.copyProperties(item, cityInfoDto);
-			final String nationCode = this.countryRepository.findNationCode(item.getNation());
-			final String language = this.findLanguageByCty(nationCode);
+			final String language = this.findLanguageByCty(item.getNation());
 			cityInfoDto.setLanguage(language);
 			return cityInfoDto;
 		}).collect(Collectors.toList());
