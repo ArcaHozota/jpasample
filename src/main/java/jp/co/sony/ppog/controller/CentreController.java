@@ -160,7 +160,7 @@ public class CentreController {
 	}
 
 	/**
-	 * 指定された国のすべての言語を取得する
+	 * 指定された国の公用語を取得する
 	 *
 	 * @param nationVal 国名
 	 * @return 言語のリスト
