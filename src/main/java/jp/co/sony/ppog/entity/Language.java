@@ -21,7 +21,7 @@ import org.hibernate.annotations.Proxy;
 @Table(name = "WORLD_LANGUAGE")
 @Proxy(lazy = false)
 @IdClass(LanguageId.class)
-@NamedQuery(name = "Language.findLanguageByCty", query = "select nl from Language as nl where nl.logicDeleteFlg = 'visible' "
+@NamedQuery(name = "Language.findLanguageByCity", query = "select nl from Language as nl where nl.logicDeleteFlg = 'visible' "
 		+ "and nl.countryCode =:countryCode order by nl.percentage desc")
 public class Language implements Serializable {
 
