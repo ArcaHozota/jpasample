@@ -1,6 +1,7 @@
 package jp.co.sony.ppog.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * 言語テーブル複数プライマリーキーの永続化するクラス
@@ -62,5 +63,22 @@ public class LanguageId implements Serializable {
 	 */
 	public void setName(final String name) {
 		this.name = name;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.countryCode, this.name);
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof LanguageId)) {
+			return false;
+		}
+		final LanguageId other = (LanguageId) obj;
+		return Objects.equals(this.countryCode, other.countryCode) && Objects.equals(this.name, other.name);
 	}
 }
