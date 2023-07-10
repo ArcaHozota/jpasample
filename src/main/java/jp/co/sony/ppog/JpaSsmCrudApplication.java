@@ -7,19 +7,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 
 /**
- * ssmcrudアプリケーション
+ * JpaSsmcrudアプリケーション
  *
  * @author Administrator
- * @date 2022-12-12
+ * @since 1.00beta
  */
 @SpringBootApplication
 @ServletComponentScan
-public class SsmCrudApplication {
+public class JpaSsmCrudApplication {
 
-	private static final Logger log = LogManager.getLogger(SsmCrudApplication.class);
+	private static final Logger log = LogManager.getLogger(JpaSsmCrudApplication.class);
 
 	public static void main(final String[] args) {
-		SpringApplication.run(SsmCrudApplication.class, args);
+		SpringApplication.run(JpaSsmCrudApplication.class, args);
 		log.info("アプリは正常に起動しました!");
 	}
 }
