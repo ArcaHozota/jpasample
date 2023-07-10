@@ -188,24 +188,24 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		final String nationCode = this.countryRepository.findNationCode(nationVal);
 		final List<Language> languages = this.languageRepository.findLanguagesByCity(nationCode);
 		if (languages.size() == 1) {
-			return languages.get(0).getLanguage();
+			return languages.get(0).getName();
 		} else {
 			final List<Language> officialLanguages = languages.stream()
 					.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "True")).collect(Collectors.toList());
 			final List<Language> typicalLanguages = languages.stream()
 					.filter(al -> StringUtils.isEqual(al.getIsOfficial(), "False")).collect(Collectors.toList());
 			if (officialLanguages.isEmpty() && !typicalLanguages.isEmpty()) {
-				return typicalLanguages.get(0).getLanguage();
+				return typicalLanguages.get(0).getName();
 			} else if (!officialLanguages.isEmpty() && typicalLanguages.isEmpty()) {
-				return officialLanguages.get(0).getLanguage();
+				return officialLanguages.get(0).getName();
 			} else {
 				final Language language1 = officialLanguages.get(0);
 				final Language language2 = typicalLanguages.get(0);
 				if (language2.getPercentage().subtract(language1.getPercentage())
 						.compareTo(BigDecimal.valueOf(35L)) <= 0) {
-					return language1.getLanguage();
+					return language1.getName();
 				} else {
-					return language2.getLanguage();
+					return language2.getName();
 				}
 			}
 		}

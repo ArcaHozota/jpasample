@@ -37,7 +37,8 @@ public class Language implements Serializable {
 	 * This field corresponds to the database column LANGUAGE
 	 */
 	@Id
-	private String language;
+	@Column(name = "LANGUAGE")
+	private String name;
 
 	/**
 	 * This field corresponds to the database column IS_OFFICIAL
@@ -83,21 +84,21 @@ public class Language implements Serializable {
 	}
 
 	/**
-	 * getter for language
+	 * getter for name
 	 *
-	 * @return language
+	 * @return name
 	 */
-	public String getLanguage() {
-		return this.language;
+	public String getName() {
+		return this.name;
 	}
 
 	/**
-	 * setter of language
+	 * setter of name
 	 *
-	 * @param language セットする language
+	 * @param name セットする name
 	 */
-	public void setLanguage(final String language) {
-		this.language = language;
+	public void setName(final String name) {
+		this.name = name;
 	}
 
 	/**
@@ -154,12 +155,9 @@ public class Language implements Serializable {
 		this.logicDeleteFlg = logicDeleteFlg;
 	}
 
-	/**
-	 * toString
-	 */
 	@Override
 	public String toString() {
-		return "Language [countryCode=" + this.countryCode + ", language=" + this.language + ", isOfficial="
-				+ this.isOfficial + ", percentage=" + this.percentage + ", logicDeleteFlg=" + this.logicDeleteFlg + "]";
+		return "Language [countryCode=" + this.countryCode + ", name=" + this.name + ", isOfficial=" + this.isOfficial
+				+ ", percentage=" + this.percentage + ", logicDeleteFlg=" + this.logicDeleteFlg + "]";
 	}
 }
