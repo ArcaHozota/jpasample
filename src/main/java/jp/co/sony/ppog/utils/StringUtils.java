@@ -1,8 +1,9 @@
 package jp.co.sony.ppog.utils;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
-import javax.annotation.Nullable;
+import org.springframework.lang.Nullable;
 
 /**
  * 通用判斷工具類
@@ -15,12 +16,19 @@ public final class StringUtils {
 	/**
 	 * UTF-8キャラセット
 	 */
-	public static final Charset CHARSET_UTF8 = Charset.forName("UTF-8");
+	public static final Charset CHARSET_UTF8 = StandardCharsets.UTF_8;
 
 	/**
 	 * 空のストリング
 	 */
 	public static final String EMPTY_STRING = "";
+
+	/**
+	 * コンストラクタ
+	 */
+	private StringUtils() {
+		throw new IllegalStateException("Utility class");
+	}
 
 	/**
 	 * 判斷該字符串是否爲空

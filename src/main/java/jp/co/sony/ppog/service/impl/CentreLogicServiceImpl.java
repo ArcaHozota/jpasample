@@ -1,6 +1,7 @@
 package jp.co.sony.ppog.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,8 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import com.google.common.collect.Lists;
 
 import jp.co.sony.ppog.dto.CityInfoDto;
 import jp.co.sony.ppog.entity.City;
@@ -135,7 +134,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 
 	@Override
 	public List<String> getListOfNationsById(final Long id) {
-		final List<String> list = Lists.newArrayList();
+		final List<String> list = new ArrayList<>();
 		final CityView cityView = this.cityViewRepository.getById(id);
 		final List<String> nations = this.countryRepository.findNationsByCnt(cityView.getContinent());
 		final String nationName = cityView.getNation();
