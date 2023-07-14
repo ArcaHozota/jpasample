@@ -2,8 +2,6 @@ package jp.co.sony.ppog.controller;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +19,7 @@ import jp.co.sony.ppog.dto.CityInfoDto;
 import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.service.CentreLogicService;
 import jp.co.sony.ppog.utils.RestMsg;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 中央処理コントローラ
@@ -28,14 +27,14 @@ import jp.co.sony.ppog.utils.RestMsg;
  * @author Administrator
  */
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/ssmcrud")
 public class CentreController {
 
 	/**
 	 * 中央処理サービスインターフェス
 	 */
-	@Resource
-	private CentreLogicService centreLogicService;
+	private final CentreLogicService centreLogicService;
 
 	/**
 	 * 都市情報を検索する
