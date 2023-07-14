@@ -10,12 +10,12 @@ import jp.co.sony.ppog.repository.CountryRepository;
 import jp.co.sony.ppog.repository.LanguageRepository;
 import jp.co.sony.ppog.service.CentreLogicService;
 import jp.co.sony.ppog.utils.StringUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.*;
 import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,31 +27,28 @@ import java.util.stream.Collectors;
  * @author Administrator
  */
 @Service
+@RequiredArgsConstructor
 public class CentreLogicServiceImpl implements CentreLogicService {
 
     /**
      * 都市リポジトリ
      */
-    @Resource
-    private CityRepository cityRepository;
+    private final CityRepository cityRepository;
 
     /**
      * 都市情報リポジトリ
      */
-    @Resource
-    private CityViewRepository cityViewRepository;
+    private final CityViewRepository cityViewRepository;
 
     /**
      * 国家リポジトリ
      */
-    @Resource
-    private CountryRepository countryRepository;
+    private final CountryRepository countryRepository;
 
     /**
      * 言語リポジトリ
      */
-    @Resource
-    private LanguageRepository languageRepository;
+    private final LanguageRepository languageRepository;
 
     @Override
     public CityInfoDto getCityInfoById(final Long id) {
