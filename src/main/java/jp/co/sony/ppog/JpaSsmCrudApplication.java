@@ -1,7 +1,6 @@
 package jp.co.sony.ppog;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
@@ -12,14 +11,13 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
  * @author Administrator
  * @since 1.00beta
  */
+@Log4j2
 @SpringBootApplication
 @ServletComponentScan
 public class JpaSsmCrudApplication {
 
-	private static final Logger log = LogManager.getLogger(JpaSsmCrudApplication.class);
-
-	public static void main(final String[] args) {
-		SpringApplication.run(JpaSsmCrudApplication.class, args);
-		log.info("アプリは正常に起動しました!");
-	}
+    public static void main(final String[] args) {
+        SpringApplication.run(JpaSsmCrudApplication.class, args);
+        log.info("アプリは正常に起動しました!");
+    }
 }
