@@ -2,21 +2,23 @@ package jp.co.sony.ppog.config;
 
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
+import lombok.extern.log4j.Log4j2;
+
 /**
+ * ウェブコンフィギュレーション
+ *
  * @author Administrator
+ * @since 2022-11-08
  */
+@Log4j2
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
-
-	private static final Logger log = LogManager.getLogger(WebMvcConfig.class);
 
 	/**
 	 * SpringMVCフレームワークを拡張するメッセージ・コンバーター
@@ -35,9 +37,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 	}
 
 	/**
-	 * 設置靜態資源映射
+	 * 静的リソースマッピングを設定する
 	 *
-	 * @param registry 注冊説明
+	 * @param registry 登録
 	 */
 	@Override
 	protected void addResourceHandlers(final ResourceHandlerRegistry registry) {
