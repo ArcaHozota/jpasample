@@ -2,6 +2,7 @@ package jp.co.sony.ppog.controller;
 
 import java.util.List;
 
+import jp.co.sony.ppog.utils.Messages;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -184,12 +185,12 @@ public class CentreController {
 		if (cityName.matches(regex)) {
 			final List<City> lists = this.centreLogicService.checkDuplicate(cityName);
 			if (!lists.isEmpty()) {
-				return RestMsg.failure().add("validatedMsg", "入力した都市名が重複する。");
+				return RestMsg.failure().add("validatedMsg", Messages.MSG004);
 			} else {
 				return RestMsg.success();
 			}
 		} else {
-			return RestMsg.failure().add("validatedMsg", "入力した都市名は4桁から23桁までのローマ字にしなければなりません。");
+			return RestMsg.failure().add("validatedMsg", Messages.MSG005);
 		}
 	}
 }
