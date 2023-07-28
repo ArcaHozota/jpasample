@@ -1,5 +1,12 @@
 package jp.co.sony.ppog.utils;
 
+
+/**
+ * 共通メッセージクラス
+ *
+ * @author Administrator
+ * @since 2023-07-28
+ */
 public final class Messages {
 
 	private Messages() {
