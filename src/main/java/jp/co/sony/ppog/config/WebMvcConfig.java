@@ -2,6 +2,7 @@ package jp.co.sony.ppog.config;
 
 import java.util.List;
 
+import jp.co.sony.ppog.utils.Messages;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -27,7 +28,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 	 */
 	@Override
 	protected void extendMessageConverters(final List<HttpMessageConverter<?>> converters) {
-		log.info("拡張メッセージコンバーターの設置は完了しました。");
+		log.info(Messages.MSG001);
 		// 創建消息轉換器對象；
 		final MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
 		// 設置對象轉換器，底層使用Jackson將Java對象轉為JSON；
@@ -43,7 +44,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 	 */
 	@Override
 	protected void addResourceHandlers(final ResourceHandlerRegistry registry) {
-		log.info("静的リソースのマッピングが開始しました。");
+		log.info(Messages.MSG002);
 		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
 		registry.addResourceHandler("/jquery/**").addResourceLocations("classpath:/static/jquery/");
 		registry.addResourceHandler("/bootstrap-3.4.1-dist/**")
