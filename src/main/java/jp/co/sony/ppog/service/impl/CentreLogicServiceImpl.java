@@ -74,8 +74,6 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	public Page<CityInfoDto> getPageInfo(final Integer pageNum, final String keyword) {
 		// ページングコンストラクタを宣言する；
 		final PageRequest pageRequest = PageRequest.of(pageNum - 1, PAGESIZE);
-		final Integer pageMax = PAGESIZE * pageNum;
-		final Integer pageMin = PAGESIZE * (pageNum - 1);
 		// キーワードの属性を判断する；
 		if (StringUtils.isNotEmpty(keyword)) {
 			// ページング検索；
@@ -85,6 +83,8 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 					GenericPropertyMatchers.exact());
 			final Example<CityView> example = Example.of(cityView, matcher);
 			final List<CityView> findByNations = this.cityViewRepository.findAll(example);
+			final Integer pageMin = PAGESIZE * (pageNum - 1);
+			Integer pageMax = PAGESIZE * pageNum;
 			if (!findByNations.isEmpty()) {
 				final Page<CityView> pages = this.cityViewRepository.findAll(example, pageRequest);
 				return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
@@ -98,6 +98,9 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 					cityInfoDto.setLanguage(language);
 					return cityInfoDto;
 				}).collect(Collectors.toList());
+				if (pageMax >= minimumRanks.size()) {
+					pageMax = minimumRanks.size();
+				}
 				return new PageImpl<>(minimumRanks.subList(pageMin, pageMax), pageRequest, minimumRanks.size());
 			}
 			if (StringUtils.isEqual("max(pop)", keyword)) {
@@ -109,6 +112,9 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 					cityInfoDto.setLanguage(language);
 					return cityInfoDto;
 				}).collect(Collectors.toList());
+				if (pageMax >= maximumRanks.size()) {
+					pageMax = maximumRanks.size();
+				}
 				return new PageImpl<>(maximumRanks.subList(pageMin, pageMax), pageRequest, maximumRanks.size());
 			}
 			cityView.setNation(null);
