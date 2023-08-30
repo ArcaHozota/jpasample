@@ -20,6 +20,7 @@ import jp.co.sony.ppog.dto.CityInfoDto;
 import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.service.CentreLogicService;
 import jp.co.sony.ppog.utils.RestMsg;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -28,8 +29,8 @@ import lombok.RequiredArgsConstructor;
  * @author Administrator
  */
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/ssmcrud")
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class CentreController {
 
 	/**
