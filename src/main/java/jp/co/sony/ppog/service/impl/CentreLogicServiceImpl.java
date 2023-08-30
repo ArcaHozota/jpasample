@@ -46,7 +46,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	/**
 	 * ページサイズ
 	 */
-	private static final Integer DEFAULT_SORT = 100;
+	private static final Integer SORT_NUMBER = 100;
 
 	/**
 	 * 都市リポジトリ
@@ -97,7 +97,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 				final Page<CityView> pages = this.cityViewRepository.findAll(example, pageRequest);
 				return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
 			}
-			Integer sort = DEFAULT_SORT;
+			Integer sort = SORT_NUMBER;
 			if (keyword.startsWith("min(pop)")) {
 				final int indexOf = keyword.indexOf(")");
 				final String keisan = keyword.substring(indexOf + 1);
