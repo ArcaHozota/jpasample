@@ -92,33 +92,37 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 				final Page<CityView> pages = this.cityViewRepository.findAll(example, pageRequest);
 				return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
 			}
-			if (StringUtils.isEqual("min(pop)", keyword)) {
+			if (keyword.startsWith("min(pop)")) {
+				final int indexOf = keyword.indexOf(")");
+				final Integer sort = Integer.parseInt(keyword.substring(indexOf + 1));
 				// 人口数量昇順で最初の15個都市の情報を吹き出します；
-				final List<CityInfoDto> minimumRanks = this.cityViewRepository.findMinimumRanks().stream().map(item -> {
-					final CityInfoDto cityInfoDto = new CityInfoDto();
-					BeanUtils.copyProperties(item, cityInfoDto);
-					final String language = this.findLanguageByCty(item.getNation());
-					cityInfoDto.setLanguage(language);
-					return cityInfoDto;
-				}).collect(Collectors.toList());
-				if (pageMax >= minimumRanks.size()) {
-					return new PageImpl<>(minimumRanks.subList(pageMin, minimumRanks.size()), pageRequest,
-							minimumRanks.size());
+				final List<CityInfoDto> minimumRanks = this.cityViewRepository.findMinimumRanks(sort).stream()
+						.map(item -> {
+							final CityInfoDto cityInfoDto = new CityInfoDto();
+							BeanUtils.copyProperties(item, cityInfoDto);
+							final String language = this.findLanguageByCty(item.getNation());
+							cityInfoDto.setLanguage(language);
+							return cityInfoDto;
+						}).collect(Collectors.toList());
+				if (pageMax >= sort) {
+					return new PageImpl<>(minimumRanks.subList(pageMin, sort), pageRequest, minimumRanks.size());
 				}
 				return new PageImpl<>(minimumRanks.subList(pageMin, pageMax), pageRequest, minimumRanks.size());
 			}
 			if (StringUtils.isEqual("max(pop)", keyword)) {
+				final int indexOf = keyword.indexOf(")");
+				final Integer sort = Integer.parseInt(keyword.substring(indexOf + 1));
 				// 人口数量降順で最初の15個都市の情報を吹き出します；
-				final List<CityInfoDto> maximumRanks = this.cityViewRepository.findMaximumRanks().stream().map(item -> {
-					final CityInfoDto cityInfoDto = new CityInfoDto();
-					BeanUtils.copyProperties(item, cityInfoDto);
-					final String language = this.findLanguageByCty(item.getNation());
-					cityInfoDto.setLanguage(language);
-					return cityInfoDto;
-				}).collect(Collectors.toList());
-				if (pageMax >= maximumRanks.size()) {
-					return new PageImpl<>(maximumRanks.subList(pageMin, maximumRanks.size()), pageRequest,
-							maximumRanks.size());
+				final List<CityInfoDto> maximumRanks = this.cityViewRepository.findMaximumRanks(sort).stream()
+						.map(item -> {
+							final CityInfoDto cityInfoDto = new CityInfoDto();
+							BeanUtils.copyProperties(item, cityInfoDto);
+							final String language = this.findLanguageByCty(item.getNation());
+							cityInfoDto.setLanguage(language);
+							return cityInfoDto;
+						}).collect(Collectors.toList());
+				if (pageMax >= sort) {
+					return new PageImpl<>(maximumRanks.subList(pageMin, sort), pageRequest, maximumRanks.size());
 				}
 				return new PageImpl<>(maximumRanks.subList(pageMin, pageMax), pageRequest, maximumRanks.size());
 			}
