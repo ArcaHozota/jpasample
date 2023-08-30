@@ -20,8 +20,8 @@ import java.math.BigDecimal;
 @ToString
 @Table(name = "WORLD_COUNTRY")
 @Proxy(lazy = false)
-@NamedQuery(name = "Country.findAllContinents", query = "select distinct n.continent from Country as n order by n.continent asc")
-@NamedQuery(name = "Country.findNationsByCnt", query = "select distinct n.name from Country as n where n.continent =:continent order by n.name asc")
+@NamedQuery(name = "Country.findAllContinents", query = "select distinct n.continent from Country as n where n.logicDeleteFlg = 'visible' order by n.continent asc")
+@NamedQuery(name = "Country.findNationsByCnt", query = "select distinct n.name from Country as n where n.logicDeleteFlg = 'visible' and n.continent =:continent order by n.name asc")
 public class Country implements Serializable {
 
     private static final long serialVersionUID = 6762395398373991166L;

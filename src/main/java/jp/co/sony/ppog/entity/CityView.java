@@ -20,8 +20,6 @@ import java.io.Serializable;
 @Table(name = "WORLD_CITY_VIEW")
 @Proxy(lazy = false)
 @NamedQuery(name = "CityView.findByNations", query = "select cv from CityView as cv where cv.nation =:nation")
-@NamedQuery(name = "CityView.getByNations", query = "select cv from CityView as cv where cv.nation =:nation order by cv.id asc")
-@NamedQuery(name = "CityView.getByNames", query = "select cv from CityView as cv where cv.name like concat('%', :name, '%') order by cv.id asc")
 public class CityView implements Serializable {
 
     private static final long serialVersionUID = 6678964783710878220L;
