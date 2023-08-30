@@ -19,7 +19,6 @@ import java.io.Serializable;
 @ToString
 @Table(name = "WORLD_CITY_VIEW")
 @Proxy(lazy = false)
-@NamedQuery(name = "CityView.findByNations", query = "select cv from CityView as cv where cv.nation =:nation")
 public class CityView implements Serializable {
 
     private static final long serialVersionUID = 6678964783710878220L;

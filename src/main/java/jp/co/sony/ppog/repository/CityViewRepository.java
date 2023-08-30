@@ -16,14 +16,6 @@ import java.util.List;
 public interface CityViewRepository extends JpaRepository<CityView, Long>, JpaSpecificationExecutor<CityView> {
 
     /**
-     * 国名によって都市情報を検索する
-     *
-     * @param nation 国名
-     * @return List<CityView>
-     */
-    List<CityView> findByNations(@Param("nation") String nation);
-
-    /**
      * 人口数量昇順で都市情報を検索する
      *
      * @return List<CityView>

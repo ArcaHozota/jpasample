@@ -68,13 +68,13 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		// キーワードの属性を判断する；
 		if (StringUtils.isNotEmpty(keyword)) {
 			// ページング検索；
-			final List<CityView> findByNations = this.cityViewRepository.findByNations(keyword);
+			CityView cityView = new CityView();
+			cityView.setNation(keyword);
+			ExampleMatcher matcher = ExampleMatcher.matching().withMatcher("nation",
+					GenericPropertyMatchers.exact());
+			Example<CityView> example = Example.of(cityView, matcher);
+			final List<CityView> findByNations = this.cityViewRepository.findAll(example);
 			if (!findByNations.isEmpty()) {
-				CityView cityView = new CityView();
-				cityView.setNation(keyword);
-				ExampleMatcher matcher = ExampleMatcher.matching().withMatcher("nation",
-						GenericPropertyMatchers.exact());
-				Example<CityView> example = Example.of(cityView, matcher);
 				return getCityInfoDtos(this.cityViewRepository.findAll(example, pageRequest));
 			} else if (StringUtils.isEqual("min(pop)", keyword)) {
 				// 人口数量昇順で最初の15個都市の情報を吹き出します；
@@ -97,12 +97,11 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 				}).collect(Collectors.toList());
 				return new PageImpl<>(maximumRanks);
 			} else {
-				CityView cityView = new CityView();
 				cityView.setName("%" + keyword + "%");
-				ExampleMatcher matcher = ExampleMatcher.matching().withMatcher("name", GenericPropertyMatchers.exact());
-				Example<CityView> example = Example.of(cityView, matcher);
+				ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("name", GenericPropertyMatchers.exact());
+				Example<CityView> example2 = Example.of(cityView, exampleMatcher);
 				// ページング検索；
-				return getCityInfoDtos(this.cityViewRepository.findAll(example, pageRequest));
+				return getCityInfoDtos(this.cityViewRepository.findAll(example2, pageRequest));
 			}
 		}
 		// ページング検索；
