@@ -96,24 +96,25 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 				}).collect(Collectors.toList());
 				return new PageImpl<>(minimumRanks);
 			}
-			if (!StringUtils.isEqual("max(pop)", keyword)) {
-				cityView.setName("%" + keyword + "%");
-				final ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("name",
-						GenericPropertyMatchers.exact());
-				final Example<CityView> example2 = Example.of(cityView, exampleMatcher);
-				// ページング検索；
-				final Page<CityView> pages = this.cityViewRepository.findAll(example2, pageRequest);
-				return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
+			if (StringUtils.isEqual("max(pop)", keyword)) {
+				// 人口数量降順で最初の15個都市の情報を吹き出します；
+				final List<CityInfoDto> maximumRanks = this.cityViewRepository.findMaximumRanks().stream().map(item -> {
+					final CityInfoDto cityInfoDto = new CityInfoDto();
+					BeanUtils.copyProperties(item, cityInfoDto);
+					final String language = this.findLanguageByCty(item.getNation());
+					cityInfoDto.setLanguage(language);
+					return cityInfoDto;
+				}).collect(Collectors.toList());
+				return new PageImpl<>(maximumRanks);
 			}
-			// 人口数量降順で最初の15個都市の情報を吹き出します；
-			final List<CityInfoDto> maximumRanks = this.cityViewRepository.findMaximumRanks().stream().map(item -> {
-				final CityInfoDto cityInfoDto = new CityInfoDto();
-				BeanUtils.copyProperties(item, cityInfoDto);
-				final String language = this.findLanguageByCty(item.getNation());
-				cityInfoDto.setLanguage(language);
-				return cityInfoDto;
-			}).collect(Collectors.toList());
-			return new PageImpl<>(maximumRanks);
+			cityView.setNation(null);
+			cityView.setName(keyword);
+			final ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("name",
+					GenericPropertyMatchers.contains());
+			final Example<CityView> example2 = Example.of(cityView, exampleMatcher);
+			// ページング検索；
+			final Page<CityView> pages = this.cityViewRepository.findAll(example2, pageRequest);
+			return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
 		}
 		// ページング検索；
 		final Page<CityView> pages = this.cityViewRepository.findAll(pageRequest);
