@@ -2,7 +2,6 @@ package jp.co.sony.ppog.controller;
 
 import java.util.List;
 
-import jp.co.sony.ppog.utils.Messages;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import jp.co.sony.ppog.dto.CityInfoDto;
 import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.service.CentreLogicService;
+import jp.co.sony.ppog.utils.Messages;
 import jp.co.sony.ppog.utils.RestMsg;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +55,7 @@ public class CentreController {
 		// ページングナビゲーションの数を定義する；
 		final int naviNums = 7;
 		// ページングナビの最初と最後の数を取得する；
-		final int pageFirstIndex = (current / naviNums) * naviNums;
+		final int pageFirstIndex = current / naviNums * naviNums;
 		int pageLastIndex = (current / naviNums + 1) * naviNums - 1;
 		if (pageLastIndex > pageInfo.getTotalPages() - 1) {
 			pageLastIndex = pageInfo.getTotalPages() - 1;
@@ -183,15 +183,13 @@ public class CentreController {
 	@ResponseBody
 	public RestMsg checkName(@RequestParam("cityName") final String cityName) {
 		final String regex = "^[a-zA-Z-\\p{IsWhiteSpace}]{4,17}$";
-		if (cityName.matches(regex)) {
-			final List<City> lists = this.centreLogicService.checkDuplicate(cityName);
-			if (!lists.isEmpty()) {
-				return RestMsg.failure().add("validatedMsg", Messages.MSG004);
-			} else {
-				return RestMsg.success();
-			}
-		} else {
+		if (!cityName.matches(regex)) {
 			return RestMsg.failure().add("validatedMsg", Messages.MSG005);
 		}
+		final List<City> lists = this.centreLogicService.checkDuplicate(cityName);
+		if (!lists.isEmpty()) {
+			return RestMsg.failure().add("validatedMsg", Messages.MSG004);
+		}
+		return RestMsg.success();
 	}
 }
