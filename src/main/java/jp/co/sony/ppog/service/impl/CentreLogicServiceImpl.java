@@ -44,11 +44,6 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	private static final Integer PAGESIZE = 17;
 
 	/**
-	 * デフォルトソート設定値
-	 */
-	private static final Integer SORT_INTEGER = 99;
-
-	/**
 	 * 都市リポジトリ
 	 */
 	private final CityRepository cityRepository;
@@ -106,10 +101,11 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 					cityInfoDto.setLanguage(language);
 					return cityInfoDto;
 				}).collect(Collectors.toList());
-				if (pageMax >= SORT_INTEGER) {
-					return new PageImpl<>(minimumRanks.subList(pageMin, SORT_INTEGER), pageRequest, SORT_INTEGER);
+				if (pageMax >= minimumRanks.size()) {
+					return new PageImpl<>(minimumRanks.subList(pageMin, minimumRanks.size()), pageRequest,
+							minimumRanks.size());
 				}
-				return new PageImpl<>(minimumRanks.subList(pageMin, pageMax), pageRequest, SORT_INTEGER);
+				return new PageImpl<>(minimumRanks.subList(pageMin, pageMax), pageRequest, minimumRanks.size());
 			}
 			if (StringUtils.isEqual("max(pop)", keyword)) {
 				// 人口数量降順で最初の15個都市の情報を吹き出します；
@@ -120,10 +116,11 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 					cityInfoDto.setLanguage(language);
 					return cityInfoDto;
 				}).collect(Collectors.toList());
-				if (pageMax >= SORT_INTEGER) {
-					return new PageImpl<>(maximumRanks.subList(pageMin, SORT_INTEGER), pageRequest, SORT_INTEGER);
+				if (pageMax >= maximumRanks.size()) {
+					return new PageImpl<>(maximumRanks.subList(pageMin, maximumRanks.size()), pageRequest,
+							maximumRanks.size());
 				}
-				return new PageImpl<>(maximumRanks.subList(pageMin, pageMax), pageRequest, SORT_INTEGER);
+				return new PageImpl<>(maximumRanks.subList(pageMin, pageMax), pageRequest, maximumRanks.size());
 			}
 			cityView.setNation(null);
 			cityView.setName(keyword);
