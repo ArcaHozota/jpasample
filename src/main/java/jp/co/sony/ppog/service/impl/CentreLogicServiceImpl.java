@@ -12,6 +12,7 @@ import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,7 @@ import lombok.RequiredArgsConstructor;
  * @author Administrator
  */
 @Service
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class CentreLogicServiceImpl implements CentreLogicService {
 
 	/**
@@ -81,7 +82,8 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 			final Example<CityView> example = Example.of(cityView, matcher);
 			final List<CityView> findByNations = this.cityViewRepository.findAll(example);
 			if (!findByNations.isEmpty()) {
-				return this.getCityInfoDtos(this.cityViewRepository.findAll(example, pageRequest));
+				final Page<CityView> pages = this.cityViewRepository.findAll(example, pageRequest);
+				return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
 			}
 			if (StringUtils.isEqual("min(pop)", keyword)) {
 				// 人口数量昇順で最初の15個都市の情報を吹き出します；
@@ -94,27 +96,28 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 				}).collect(Collectors.toList());
 				return new PageImpl<>(minimumRanks);
 			}
-			if (StringUtils.isEqual("max(pop)", keyword)) {
-				// 人口数量降順で最初の15個都市の情報を吹き出します；
-				final List<CityInfoDto> maximumRanks = this.cityViewRepository.findMaximumRanks().stream().map(item -> {
-					final CityInfoDto cityInfoDto = new CityInfoDto();
-					BeanUtils.copyProperties(item, cityInfoDto);
-					final String language = this.findLanguageByCty(item.getNation());
-					cityInfoDto.setLanguage(language);
-					return cityInfoDto;
-				}).collect(Collectors.toList());
-				return new PageImpl<>(maximumRanks);
-			} else {
+			if (!StringUtils.isEqual("max(pop)", keyword)) {
 				cityView.setName("%" + keyword + "%");
 				final ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("name",
 						GenericPropertyMatchers.exact());
 				final Example<CityView> example2 = Example.of(cityView, exampleMatcher);
 				// ページング検索；
-				return this.getCityInfoDtos(this.cityViewRepository.findAll(example2, pageRequest));
+				final Page<CityView> pages = this.cityViewRepository.findAll(example2, pageRequest);
+				return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
 			}
+			// 人口数量降順で最初の15個都市の情報を吹き出します；
+			final List<CityInfoDto> maximumRanks = this.cityViewRepository.findMaximumRanks().stream().map(item -> {
+				final CityInfoDto cityInfoDto = new CityInfoDto();
+				BeanUtils.copyProperties(item, cityInfoDto);
+				final String language = this.findLanguageByCty(item.getNation());
+				cityInfoDto.setLanguage(language);
+				return cityInfoDto;
+			}).collect(Collectors.toList());
+			return new PageImpl<>(maximumRanks);
 		}
 		// ページング検索；
-		return this.getCityInfoDtos(this.cityViewRepository.findAll(pageRequest));
+		final Page<CityView> pages = this.cityViewRepository.findAll(pageRequest);
+		return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
 	}
 
 	@Override
@@ -189,15 +192,13 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		}
 		if (!officialLanguages.isEmpty() && typicalLanguages.isEmpty()) {
 			return officialLanguages.get(0).getName();
-		} else {
-			final Language language1 = officialLanguages.get(0);
-			final Language language2 = typicalLanguages.get(0);
-			if (language2.getPercentage().subtract(language1.getPercentage()).compareTo(BigDecimal.valueOf(35L)) <= 0) {
-				return language1.getName();
-			} else {
-				return language2.getName();
-			}
 		}
+		final Language language1 = officialLanguages.get(0);
+		final Language language2 = typicalLanguages.get(0);
+		if (language2.getPercentage().subtract(language1.getPercentage()).compareTo(BigDecimal.valueOf(35L)) <= 0) {
+			return language1.getName();
+		}
+		return language2.getName();
 	}
 
 	@Override
@@ -211,14 +212,14 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		return this.cityRepository.findAll(example);
 	}
 
-	private Page<CityInfoDto> getCityInfoDtos(final Page<CityView> pages) {
-		final List<CityInfoDto> findByNames = pages.getContent().stream().map(item -> {
+	private Page<CityInfoDto> getCityInfoDtos(final Page<CityView> pages, final Pageable pageable, final Long total) {
+		final List<CityInfoDto> cityInfoDtos = pages.getContent().stream().map(item -> {
 			final CityInfoDto cityInfoDto = new CityInfoDto();
 			BeanUtils.copyProperties(item, cityInfoDto);
 			final String language = this.findLanguageByCty(item.getNation());
 			cityInfoDto.setLanguage(language);
 			return cityInfoDto;
 		}).collect(Collectors.toList());
-		return new PageImpl<>(findByNames);
+		return new PageImpl<>(cityInfoDtos, pageable, total);
 	}
 }
