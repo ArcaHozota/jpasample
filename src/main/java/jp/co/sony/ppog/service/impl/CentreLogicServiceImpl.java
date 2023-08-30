@@ -38,6 +38,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class CentreLogicServiceImpl implements CentreLogicService {
 
+	private static final Integer PAGESIZE = 17;
+
 	/**
 	 * 都市リポジトリ
 	 */
@@ -71,7 +73,9 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	@Override
 	public Page<CityInfoDto> getPageInfo(final Integer pageNum, final String keyword) {
 		// ページングコンストラクタを宣言する；
-		final PageRequest pageRequest = PageRequest.of(pageNum - 1, 17);
+		final PageRequest pageRequest = PageRequest.of(pageNum - 1, PAGESIZE);
+		final Integer pageMax = PAGESIZE * pageNum;
+		final Integer pageMin = PAGESIZE * (pageNum - 1);
 		// キーワードの属性を判断する；
 		if (StringUtils.isNotEmpty(keyword)) {
 			// ページング検索；
@@ -94,7 +98,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 					cityInfoDto.setLanguage(language);
 					return cityInfoDto;
 				}).collect(Collectors.toList());
-				return new PageImpl<>(minimumRanks);
+				return new PageImpl<>(minimumRanks.subList(pageMin, pageMax), pageRequest, minimumRanks.size());
 			}
 			if (StringUtils.isEqual("max(pop)", keyword)) {
 				// 人口数量降順で最初の15個都市の情報を吹き出します；
@@ -105,7 +109,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 					cityInfoDto.setLanguage(language);
 					return cityInfoDto;
 				}).collect(Collectors.toList());
-				return new PageImpl<>(maximumRanks);
+				return new PageImpl<>(maximumRanks.subList(pageMin, pageMax), pageRequest, maximumRanks.size());
 			}
 			cityView.setNation(null);
 			cityView.setName(keyword);
