@@ -1,6 +1,7 @@
 package jp.co.sony.ppog.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,7 +15,7 @@ import oracle.jdbc.driver.OracleSQLException;
  *
  * @author Administrator
  */
-public interface CityRepository extends JpaRepository<City, Long> {
+public interface CityRepository extends JpaRepository<City, Long>, JpaSpecificationExecutor<City> {
 
 	/**
 	 * 論理削除

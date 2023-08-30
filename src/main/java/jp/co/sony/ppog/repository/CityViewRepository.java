@@ -4,6 +4,7 @@ import jp.co.sony.ppog.entity.CityView;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -14,7 +15,7 @@ import java.util.List;
  *
  * @author Administrator
  */
-public interface CityViewRepository extends JpaRepository<CityView, Long> {
+public interface CityViewRepository extends JpaRepository<CityView, Long>, JpaSpecificationExecutor<CityView> {
 
     /**
      * 国名によって都市情報を検索する

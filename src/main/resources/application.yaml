@@ -15,7 +15,7 @@ spring:
     hibernate:
       ddl-auto: update
       naming:
-        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
     database: ORACLE
     database-platform: jp.co.sony.ppog.config.Oracle18cDialect
     show-sql: true
