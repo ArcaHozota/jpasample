@@ -109,7 +109,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 				}
 				return new PageImpl<>(minimumRanks.subList(pageMin, pageMax), pageRequest, minimumRanks.size());
 			}
-			if (StringUtils.isEqual("max(pop)", keyword)) {
+			if (keyword.startsWith("max(pop)")) {
 				final int indexOf = keyword.indexOf(")");
 				final Integer sort = Integer.parseInt(keyword.substring(indexOf + 1));
 				// 人口数量降順で最初の15個都市の情報を吹き出します；
