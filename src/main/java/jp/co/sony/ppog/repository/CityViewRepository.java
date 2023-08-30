@@ -21,7 +21,7 @@ public interface CityViewRepository extends JpaRepository<CityView, Long>, JpaSp
 	 * @return List<CityView>
 	 */
 	@Query(value = "SELECT WCV.CITY_ID, WCV.CITY_NAME, WCV.CONTINENT, WCV.COUNTRY_NAME, WCV.DISTRICT, WCV.POPULATION "
-			+ "FROM WORLD_CITY_VIEW WCV ORDER BY WCV.POPULATION FETCH FIRST 90 ROWS ONLY", nativeQuery = true)
+			+ "FROM WORLD_CITY_VIEW WCV ORDER BY WCV.POPULATION ASC FETCH FIRST 90 ROWS ONLY", nativeQuery = true)
 	List<CityView> findMinimumRanks();
 
 	/**
