@@ -130,8 +130,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		final String nationCode = this.countryRepository.findNationCode(nationName);
 		city.setCountryCode(nationCode);
 		city.setLogicDeleteFlg("visible");
-		this.cityRepository.updateById(city.getId(), city.getName(), city.getCountryCode(), city.getDistrict(),
-				city.getPopulation());
+		this.cityRepository.save(city);
 	}
 
 	@Override

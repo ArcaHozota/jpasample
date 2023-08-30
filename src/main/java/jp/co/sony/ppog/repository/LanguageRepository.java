@@ -15,12 +15,4 @@ import jp.co.sony.ppog.entity.LanguageId;
  * @author Administrator
  */
 public interface LanguageRepository extends JpaRepository<Language, LanguageId>, JpaSpecificationExecutor<Language> {
-
-	/**
-	 * 都市のすべての言語を検索する
-	 *
-	 * @param countryCode 国家コード
-	 * @return List<String>
-	 */
-	List<Language> findLanguagesByCity(@Param("countryCode") String countryCode);
 }
