@@ -1,5 +1,7 @@
 package jp.co.sony.ppog.utils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 /**
  * 共通メッセージクラス
@@ -7,11 +9,8 @@ package jp.co.sony.ppog.utils;
  * @author Administrator
  * @since 2023-07-28
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Messages {
-
-	private Messages() {
-		throw new IllegalStateException("Utility class");
-	}
 
 	public static final String MSG001 = "拡張メッセージコンバーターの設置は完了しました。";
 
