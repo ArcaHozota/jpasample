@@ -37,7 +37,6 @@ public interface CountryRepository extends JpaRepository<Country, String>, JpaSp
 	 * @param name 国名
 	 * @return String
 	 */
-	@Query(value = "SELECT WCY.CODE FROM WORLD_COUNTRY WCY WHERE "
-			+ "LOGIC_DELETE_FLG = 'visible' AND WCY.NAME=:name", nativeQuery = true)
+	@Query(value = "SELECT WCY.CODE FROM WORLD_COUNTRY WCY WHERE LOGIC_DELETE_FLG = 'visible' AND WCY.NAME=:name", nativeQuery = true)
 	String findNationCode(@Param("name") String name);
 }
