@@ -46,7 +46,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	/**
 	 * デフォルトソート設定値
 	 */
-	private static final Integer SORT_INTEGER = 100;
+	private static final Integer SORT_INTEGER = 99;
 
 	/**
 	 * 都市リポジトリ
