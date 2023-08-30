@@ -44,6 +44,11 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	private static final Integer PAGESIZE = 17;
 
 	/**
+	 * ページサイズ
+	 */
+	private static final Integer DEFAULT_SORT = 100;
+
+	/**
 	 * 都市リポジトリ
 	 */
 	private final CityRepository cityRepository;
@@ -92,9 +97,13 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 				final Page<CityView> pages = this.cityViewRepository.findAll(example, pageRequest);
 				return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
 			}
+			Integer sort = DEFAULT_SORT;
 			if (keyword.startsWith("min(pop)")) {
 				final int indexOf = keyword.indexOf(")");
-				final Integer sort = Integer.parseInt(keyword.substring(indexOf + 1));
+				final String keisan = keyword.substring(indexOf + 1);
+				if (StringUtils.isNotEmpty(keisan)) {
+					sort = Integer.parseInt(keisan);
+				}
 				// 人口数量昇順で最初の15個都市の情報を吹き出します；
 				final List<CityInfoDto> minimumRanks = this.cityViewRepository.findMinimumRanks(sort).stream()
 						.map(item -> {
@@ -111,7 +120,10 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 			}
 			if (keyword.startsWith("max(pop)")) {
 				final int indexOf = keyword.indexOf(")");
-				final Integer sort = Integer.parseInt(keyword.substring(indexOf + 1));
+				final String keisan = keyword.substring(indexOf + 1);
+				if (StringUtils.isNotEmpty(keisan)) {
+					sort = Integer.parseInt(keisan);
+				}
 				// 人口数量降順で最初の15個都市の情報を吹き出します；
 				final List<CityInfoDto> maximumRanks = this.cityViewRepository.findMaximumRanks(sort).stream()
 						.map(item -> {
