@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import jp.co.sony.ppog.entity.CityView;
 
@@ -21,8 +22,8 @@ public interface CityViewRepository extends JpaRepository<CityView, Long>, JpaSp
 	 * @return List<CityView>
 	 */
 	@Query(value = "SELECT WCV.CITY_ID, WCV.CITY_NAME, WCV.CONTINENT, WCV.COUNTRY_NAME, WCV.DISTRICT, WCV.POPULATION "
-			+ "FROM WORLD_CITY_VIEW WCV ORDER BY WCV.POPULATION ASC FETCH FIRST 90 ROWS ONLY", nativeQuery = true)
-	List<CityView> findMinimumRanks();
+			+ "FROM WORLD_CITY_VIEW WCV ORDER BY WCV.POPULATION ASC FETCH FIRST :sortNumber ROWS ONLY", nativeQuery = true)
+	List<CityView> findMinimumRanks(@Param("sortNumber") Integer sort);
 
 	/**
 	 * 人口数量降順で都市情報を検索する
@@ -30,6 +31,6 @@ public interface CityViewRepository extends JpaRepository<CityView, Long>, JpaSp
 	 * @return List<CityView>
 	 */
 	@Query(value = "SELECT WCV.CITY_ID, WCV.CITY_NAME, WCV.CONTINENT, WCV.COUNTRY_NAME, WCV.DISTRICT, WCV.POPULATION "
-			+ "FROM WORLD_CITY_VIEW WCV ORDER BY WCV.POPULATION DESC FETCH FIRST 90 ROWS ONLY", nativeQuery = true)
-	List<CityView> findMaximumRanks();
+			+ "FROM WORLD_CITY_VIEW WCV ORDER BY WCV.POPULATION DESC FETCH FIRST :sortNumber ROWS ONLY", nativeQuery = true)
+	List<CityView> findMaximumRanks(@Param("sortNumber") Integer sort);
 }
