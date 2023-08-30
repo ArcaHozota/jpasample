@@ -81,7 +81,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 			final Example<CityView> example = Example.of(cityView, matcher);
 			final List<CityView> findByNations = this.cityViewRepository.findAll(example);
 			if (!findByNations.isEmpty()) {
-				return getCityInfoDtos(this.cityViewRepository.findAll(example, pageRequest));
+				return this.getCityInfoDtos(this.cityViewRepository.findAll(example, pageRequest));
 			}
 			if (StringUtils.isEqual("min(pop)", keyword)) {
 				// 人口数量昇順で最初の15個都市の情報を吹き出します；
@@ -93,7 +93,8 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 					return cityInfoDto;
 				}).collect(Collectors.toList());
 				return new PageImpl<>(minimumRanks);
-			} else if (StringUtils.isEqual("max(pop)", keyword)) {
+			}
+			if (StringUtils.isEqual("max(pop)", keyword)) {
 				// 人口数量降順で最初の15個都市の情報を吹き出します；
 				final List<CityInfoDto> maximumRanks = this.cityViewRepository.findMaximumRanks().stream().map(item -> {
 					final CityInfoDto cityInfoDto = new CityInfoDto();
@@ -109,11 +110,11 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 						GenericPropertyMatchers.exact());
 				final Example<CityView> example2 = Example.of(cityView, exampleMatcher);
 				// ページング検索；
-				return getCityInfoDtos(this.cityViewRepository.findAll(example2, pageRequest));
+				return this.getCityInfoDtos(this.cityViewRepository.findAll(example2, pageRequest));
 			}
 		}
 		// ページング検索；
-		return getCityInfoDtos(this.cityViewRepository.findAll(pageRequest));
+		return this.getCityInfoDtos(this.cityViewRepository.findAll(pageRequest));
 	}
 
 	@Override
@@ -185,7 +186,8 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 				.filter(al -> StringUtils.isEqual("False", al.getIsOfficial())).collect(Collectors.toList());
 		if (officialLanguages.isEmpty() && !typicalLanguages.isEmpty()) {
 			return typicalLanguages.get(0).getName();
-		} else if (!officialLanguages.isEmpty() && typicalLanguages.isEmpty()) {
+		}
+		if (!officialLanguages.isEmpty() && typicalLanguages.isEmpty()) {
 			return officialLanguages.get(0).getName();
 		} else {
 			final Language language1 = officialLanguages.get(0);
