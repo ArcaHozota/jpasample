@@ -2,13 +2,13 @@ package jp.co.sony.ppog.config;
 
 import java.util.List;
 
-import jp.co.sony.ppog.utils.Messages;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
+import jp.co.sony.ppog.utils.Messages;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -47,7 +47,5 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 		log.info(Messages.MSG002);
 		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
 		registry.addResourceHandler("/jquery/**").addResourceLocations("classpath:/static/jquery/");
-		registry.addResourceHandler("/bootstrap-3.4.1-dist/**")
-				.addResourceLocations("classpath:/static/bootstrap-3.4.1-dist/");
 	}
 }

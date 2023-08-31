@@ -5,12 +5,15 @@ import java.nio.charset.StandardCharsets;
 
 import org.springframework.lang.Nullable;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * 通用判斷工具類
  *
  * @author Administrator
- *
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class StringUtils {
 
 	/**
@@ -24,20 +27,13 @@ public final class StringUtils {
 	public static final String EMPTY_STRING = "";
 
 	/**
-	 * コンストラクタ
-	 */
-	private StringUtils() {
-		throw new IllegalStateException("Utility class");
-	}
-
-	/**
 	 * 判斷該字符串是否爲空
 	 *
 	 * @param str 目標字符串
 	 * @return boolean
 	 */
 	public static boolean isEmpty(@Nullable final String str) {
-		return (str == null || str.length() == 0 || str.isBlank());
+		return str == null || str.length() == 0 || str.isBlank();
 	}
 
 	/**
@@ -61,13 +57,11 @@ public final class StringUtils {
 		final boolean isEqual;
 		if (str1 == null && str2 == null) {
 			return true;
-		} else if (str1 == null || str2 == null) {
-			return false;
-		} else if (str1.length() != str2.length()) {
-			return false;
-		} else {
-			isEqual = str1.trim().equals(str2.trim());
 		}
+		if (str1 == null || str2 == null || str1.length() != str2.length()) {
+			return false;
+		}
+		isEqual = str1.trim().equals(str2.trim());
 		return isEqual;
 	}
 

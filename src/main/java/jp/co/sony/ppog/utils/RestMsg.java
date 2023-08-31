@@ -22,6 +22,7 @@ public class RestMsg {
 	 * data returned to browsers
 	 */
 	private final Map<String, Object> extend = new HashMap<>();
+
 	/**
 	 * status code
 	 */
