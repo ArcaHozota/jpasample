@@ -43,7 +43,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	/**
 	 * ページサイズ
 	 */
-	private static final Integer PAGESIZE = 17;
+	private static final Integer PAGE_SIZE = 17;
 
 	/**
 	 * デフォルトソート値
@@ -83,23 +83,12 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	@Override
 	public Page<CityInfoDto> getPageInfo(final Integer pageNum, final String keyword) {
 		// ページングコンストラクタを宣言する；
-		final PageRequest pageRequest = PageRequest.of(pageNum - 1, PAGESIZE, Sort.by(Direction.ASC, "id"));
+		final PageRequest pageRequest = PageRequest.of(pageNum - 1, PAGE_SIZE, Sort.by(Direction.ASC, "id"));
 		// キーワードの属性を判断する；
 		if (StringUtils.isNotEmpty(keyword)) {
-			// ページング検索；
-			final CityView cityView = new CityView();
-			cityView.setNation(keyword);
-			final ExampleMatcher matcher = ExampleMatcher.matching().withMatcher("nation",
-					GenericPropertyMatchers.exact());
-			final Example<CityView> example = Example.of(cityView, matcher);
-			final List<CityView> findByNations = this.cityViewRepository.findAll(example);
-			final Integer pageMin = PAGESIZE * (pageNum - 1);
-			final Integer pageMax = PAGESIZE * pageNum;
-			if (!findByNations.isEmpty()) {
-				final Page<CityView> pages = this.cityViewRepository.findAll(example, pageRequest);
-				return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
-			}
-			Integer sort = SORT_NUMBER;
+			final int pageMin = PAGE_SIZE * (pageNum - 1);
+			final int pageMax = PAGE_SIZE * pageNum;
+			int sort = SORT_NUMBER;
 			if (keyword.startsWith("min(pop)")) {
 				final int indexOf = keyword.indexOf(")");
 				final String keisan = keyword.substring(indexOf + 1);
@@ -140,12 +129,22 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 				}
 				return new PageImpl<>(maximumRanks.subList(pageMin, pageMax), pageRequest, maximumRanks.size());
 			}
+			// ページング検索；
+			final CityView cityView = new CityView();
+			cityView.setNation(keyword);
+			final ExampleMatcher matcher = ExampleMatcher.matching().withMatcher("nation",
+					GenericPropertyMatchers.exact());
+			final Example<CityView> example = Example.of(cityView, matcher);
+			final List<CityView> findByNations = this.cityViewRepository.findAll(example);
+			if (!findByNations.isEmpty()) {
+				final Page<CityView> pages = this.cityViewRepository.findAll(example, pageRequest);
+				return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
+			}
 			cityView.setNation(null);
 			cityView.setName(keyword);
 			final ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("name",
 					GenericPropertyMatchers.contains());
 			final Example<CityView> example2 = Example.of(cityView, exampleMatcher);
-			// ページング検索；
 			final Page<CityView> pages = this.cityViewRepository.findAll(example2, pageRequest);
 			return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
 		}
@@ -174,7 +173,6 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		final String nationName = cityInfoDto.getNation();
 		final String nationCode = this.countryRepository.findNationCode(nationName);
 		city.setCountryCode(nationCode);
-		city.setLogicDeleteFlg("visible");
 		this.cityRepository.save(city);
 	}
 
