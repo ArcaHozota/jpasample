@@ -186,6 +186,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		final String nationCode = this.countryRepository.findNationCode(cityInfoDto.getNation());
 		city.setId(saiban);
 		city.setCountryCode(nationCode);
+		city.setLogicDeleteFlg("visible");
 		this.cityRepository.save(city);
 	}
 
