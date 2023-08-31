@@ -13,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -81,7 +83,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	@Override
 	public Page<CityInfoDto> getPageInfo(final Integer pageNum, final String keyword) {
 		// ページングコンストラクタを宣言する；
-		final PageRequest pageRequest = PageRequest.of(pageNum - 1, PAGESIZE);
+		final PageRequest pageRequest = PageRequest.of(pageNum - 1, PAGESIZE, Sort.by(Direction.ASC, "id"));
 		// キーワードの属性を判断する；
 		if (StringUtils.isNotEmpty(keyword)) {
 			// ページング検索；
