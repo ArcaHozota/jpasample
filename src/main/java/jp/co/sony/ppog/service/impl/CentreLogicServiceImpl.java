@@ -182,8 +182,9 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	public void save(final CityInfoDto cityInfoDto) {
 		final City city = new City();
 		BeanUtils.copyProperties(cityInfoDto, city, "continent", "nation", "language");
-		final String nationName = cityInfoDto.getNation();
-		final String nationCode = this.countryRepository.findNationCode(nationName);
+		final Long saiban = this.cityRepository.saiban();
+		final String nationCode = this.countryRepository.findNationCode(cityInfoDto.getNation());
+		city.setId(saiban);
 		city.setCountryCode(nationCode);
 		this.cityRepository.save(city);
 	}

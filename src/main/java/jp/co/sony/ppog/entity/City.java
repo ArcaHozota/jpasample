@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -28,7 +26,7 @@ import lombok.Setter;
 @Table(name = "WORLD_CITY")
 @Proxy(lazy = false)
 @NamedQuery(name = "City.removeById", query = "update City as c set c.logicDeleteFlg = 'removed' where c.id =:id")
-@NamedQuery(name = "City.saiban", query = "select count(c.id) from City c")
+@NamedQuery(name = "City.saiban", query = "select count(c.id) + 1 from City c")
 public class City implements Serializable {
 
 	private static final long serialVersionUID = 1815689293387304425L;
@@ -37,7 +35,6 @@ public class City implements Serializable {
 	 * This field corresponds to the database column ID
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	/**
