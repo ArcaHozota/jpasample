@@ -182,8 +182,7 @@ public class CentreController {
 	@GetMapping(value = "/check")
 	@ResponseBody
 	public RestMsg checkName(@RequestParam("cityName") final String cityName) {
-		final String regex = "^[a-zA-Z-\\p{IsWhiteSpace}]{4,17}$";
-		if (!cityName.matches(regex)) {
+		if (!cityName.matches(Messages.MSG006)) {
 			return RestMsg.failure().add("validatedMsg", Messages.MSG005);
 		}
 		final List<City> lists = this.centreLogicService.checkDuplicate(cityName);
