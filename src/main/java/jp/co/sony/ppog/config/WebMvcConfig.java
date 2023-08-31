@@ -47,5 +47,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 		log.info(Messages.MSG002);
 		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
 		registry.addResourceHandler("/jquery/**").addResourceLocations("classpath:/static/jquery/");
+		registry.addResourceHandler("/bootstrap-3.4.1-dist/**")
+				.addResourceLocations("classpath:/static/bootstrap-3.4.1-dist/");
 	}
 }
