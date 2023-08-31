@@ -20,6 +20,7 @@ import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.service.CentreLogicService;
 import jp.co.sony.ppog.utils.Messages;
 import jp.co.sony.ppog.utils.RestMsg;
+import jp.co.sony.ppog.utils.StringUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
@@ -45,7 +46,7 @@ public class CentreController {
 	 */
 	@GetMapping(value = "/city")
 	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
-			@RequestParam(value = "keyword", defaultValue = "") final String keyword) {
+			@RequestParam(value = "keyword", defaultValue = StringUtils.EMPTY_STRING) final String keyword) {
 		// ページング検索結果を吹き出します；
 		final Page<CityInfoDto> pageInfo = this.centreLogicService.getPageInfo(pageNum, keyword);
 		// modelAndViewオブジェクトを宣言する；
