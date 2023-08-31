@@ -28,6 +28,7 @@ import lombok.Setter;
 @Table(name = "WORLD_CITY")
 @Proxy(lazy = false)
 @NamedQuery(name = "City.removeById", query = "update City as c set c.logicDeleteFlg = 'removed' where c.id =:id")
+@NamedQuery(name = "City.saiban", query = "select count(c.id) from City c")
 public class City implements Serializable {
 
 	private static final long serialVersionUID = 1815689293387304425L;

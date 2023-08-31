@@ -17,6 +17,13 @@ import oracle.jdbc.driver.OracleSQLException;
 public interface CityRepository extends JpaRepository<City, Long>, JpaSpecificationExecutor<City> {
 
 	/**
+	 * 採番を行います
+	 *
+	 * @return 採番値
+	 */
+	Long saiban();
+
+	/**
 	 * 論理削除
 	 *
 	 * @param id id of the selected city
