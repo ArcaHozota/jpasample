@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import jp.co.sony.ppog.entity.CityView;
 
@@ -14,6 +15,7 @@ import jp.co.sony.ppog.entity.CityView;
  *
  * @author Administrator
  */
+@Repository
 public interface CityViewRepository extends JpaRepository<CityView, Long>, JpaSpecificationExecutor<CityView> {
 
 	/**

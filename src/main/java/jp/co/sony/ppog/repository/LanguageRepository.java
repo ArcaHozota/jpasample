@@ -2,6 +2,7 @@ package jp.co.sony.ppog.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 
 import jp.co.sony.ppog.entity.Language;
 import jp.co.sony.ppog.entity.LanguageId;
@@ -11,5 +12,6 @@ import jp.co.sony.ppog.entity.LanguageId;
  *
  * @author Administrator
  */
+@Repository
 public interface LanguageRepository extends JpaRepository<Language, LanguageId>, JpaSpecificationExecutor<Language> {
 }
