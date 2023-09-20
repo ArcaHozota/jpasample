@@ -23,7 +23,6 @@ import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.entity.CityView;
 import jp.co.sony.ppog.entity.Language;
 import jp.co.sony.ppog.repository.CityRepository;
-import jp.co.sony.ppog.repository.CityViewRepository;
 import jp.co.sony.ppog.repository.CountryRepository;
 import jp.co.sony.ppog.repository.LanguageRepository;
 import jp.co.sony.ppog.service.CentreLogicService;
@@ -54,11 +53,6 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	 * 都市リポジトリ
 	 */
 	private final CityRepository cityRepository;
-
-	/**
-	 * 都市情報リポジトリ
-	 */
-	private final CityViewRepository cityViewRepository;
 
 	/**
 	 * 国家リポジトリ
