@@ -201,7 +201,8 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	}
 
 	@Override
-	public String findLanguageByCty(final String nationCode) {
+	public String findLanguageByCty(final String nationVal) {
+		final String nationCode = this.countryRepository.findNationCode(nationVal);
 		final Specification<Language> specification1 = (root, query, criteriaBuilder) -> criteriaBuilder
 				.equal(root.get("countryCode"), nationCode);
 		final Specification<Language> specification2 = (root, query, criteriaBuilder) -> {
