@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import jp.co.sony.ppog.dto.CityDto;
 import jp.co.sony.ppog.entity.City;
+import jp.co.sony.ppog.entity.Country;
 import jp.co.sony.ppog.entity.Language;
 import jp.co.sony.ppog.repository.CityRepository;
 import jp.co.sony.ppog.repository.CountryRepository;
@@ -66,9 +67,12 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	@Override
 	public CityDto getCityInfoById(final Long id) {
 		final City city = this.cityRepository.findById(id).orElseGet(City::new);
+		final Country country = this.countryRepository.findById(city.getCountryCode()).orElseGet(Country::new);
+		final String language = this.findLanguageByCty(city.getCountryCode());
 		final CityDto cityDto = new CityDto();
 		BeanUtils.copyProperties(city, cityDto);
-		final String language = this.findLanguageByCty(cityDto.getNation());
+		cityDto.setContinent(country.getContinent());
+		cityDto.setNation(country.getName());
 		cityDto.setLanguage(language);
 		return cityDto;
 	}
@@ -197,9 +201,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	}
 
 	@Override
-	public String findLanguageByCty(final String nationVal) {
-		final String hankaku = StringUtils.toHankaku(nationVal);
-		final String nationCode = this.countryRepository.findNationCode(hankaku);
+	public String findLanguageByCty(final String nationCode) {
 		final Specification<Language> specification1 = (root, query, criteriaBuilder) -> criteriaBuilder
 				.equal(root.get("countryCode"), nationCode);
 		final Specification<Language> specification2 = (root, query, criteriaBuilder) -> {
