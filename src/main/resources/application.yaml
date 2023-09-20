@@ -4,7 +4,7 @@ spring:
   application:
     name: jpassmcrud
   datasource:
-    driver-class-name: oracle.jdbc.OracleDriver
+    driver-class-name: org.driver.PostgresDriver
     url: jdbc:oracle:thin:@//localhost:1521/XEPDB1
     username: ORACLECT
     password: ORACLECT
@@ -17,7 +17,7 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
     database: ORACLE
-    database-platform: jp.co.sony.ppog.config.Oracle18cDialect
+    database-platform: 77
     show-sql: true
     open-in-view: false
   output:
