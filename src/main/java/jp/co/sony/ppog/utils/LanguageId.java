@@ -1,4 +1,4 @@
-package jp.co.sony.ppog.entity;
+package jp.co.sony.ppog.utils;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

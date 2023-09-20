@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import jp.co.sony.ppog.entity.Language;
-import jp.co.sony.ppog.entity.LanguageId;
+import jp.co.sony.ppog.utils.LanguageId;
 
 /**
  * 言語リポジトリ
