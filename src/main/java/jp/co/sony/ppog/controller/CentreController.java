@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import jp.co.sony.ppog.dto.CityInfoDto;
+import jp.co.sony.ppog.dto.CityDto;
 import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.service.CentreLogicService;
 import jp.co.sony.ppog.utils.Messages;
@@ -48,7 +48,7 @@ public class CentreController {
 	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
 			@RequestParam(value = "keyword", defaultValue = StringUtils.EMPTY_STRING) final String keyword) {
 		// ページング検索結果を吹き出します；
-		final Page<CityInfoDto> pageInfo = this.centreLogicService.getPageInfo(pageNum, keyword);
+		final Page<CityDto> pageInfo = this.centreLogicService.getPageInfo(pageNum, keyword);
 		// modelAndViewオブジェクトを宣言する；
 		final ModelAndView mav = new ModelAndView("index");
 		// 前のページを取得する；
@@ -80,7 +80,7 @@ public class CentreController {
 	@GetMapping(value = "/city/{id}")
 	@ResponseBody
 	public RestMsg getCityInfo(@PathVariable("id") final Long id) {
-		final CityInfoDto cityInfoDto = this.centreLogicService.getCityInfoById(id);
+		final CityDto cityInfoDto = this.centreLogicService.getCityInfoById(id);
 		return RestMsg.success().add("citySelected", cityInfoDto);
 	}
 
@@ -105,7 +105,7 @@ public class CentreController {
 	 */
 	@PutMapping(value = "/city/{id}")
 	@ResponseBody
-	public RestMsg updateCityInfo(@RequestBody final CityInfoDto cityInfoDto) {
+	public RestMsg updateCityInfo(@RequestBody final CityDto cityInfoDto) {
 		this.centreLogicService.update(cityInfoDto);
 		return RestMsg.success();
 	}
@@ -118,7 +118,7 @@ public class CentreController {
 	 */
 	@PostMapping(value = "/city")
 	@ResponseBody
-	public RestMsg saveCityInfo(@RequestBody final CityInfoDto cityInfoDto) {
+	public RestMsg saveCityInfo(@RequestBody final CityDto cityInfoDto) {
 		this.centreLogicService.save(cityInfoDto);
 		return RestMsg.success();
 	}
