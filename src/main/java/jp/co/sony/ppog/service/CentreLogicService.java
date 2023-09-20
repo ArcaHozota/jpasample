@@ -78,10 +78,10 @@ public interface CentreLogicService {
 	/**
 	 * 指定された国の公用語を取得する
 	 *
-	 * @param nationVal 国名
+	 * @param nationCode 国家コード
 	 * @return List<String>
 	 */
-	String findLanguageByCty(String nationVal);
+	String findLanguageByCty(String nationCode);
 
 	/**
 	 * 入力した都市名の重複するかどうかを検証する
