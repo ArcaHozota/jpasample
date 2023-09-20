@@ -208,7 +208,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 				.equal(root.get("countryCode"), nationCode);
 		final Specification<Language> specification2 = (root, query, criteriaBuilder) -> {
 			query.orderBy(criteriaBuilder.desc(root.get("percentage")));
-			return criteriaBuilder.equal(root.get("logicDeleteFlg"), "visible");
+			return criteriaBuilder.equal(root.get("deleteFlg"), Messages.MSG007);
 		};
 		final Specification<Language> languageSpecification = Specification.where(specification1).and(specification2);
 		final List<Language> languages = this.languageRepository.findAll(languageSpecification);
