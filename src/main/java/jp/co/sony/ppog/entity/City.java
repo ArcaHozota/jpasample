@@ -23,10 +23,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "WORLD_CITY")
+@Table(name = "city")
 @Proxy(lazy = false)
-@NamedQuery(name = "City.removeById", query = "update City as c set c.logicDeleteFlg = 'removed' where c.id =:id")
 @NamedQuery(name = "City.saiban", query = "select count(c.id) + 1 from City c")
+@NamedQuery(name = "City.removeById", query = "update City as c set c.logicDeleteFlg = 'removed' where c.id =:id")
 public class City implements Serializable {
 
 	private static final long serialVersionUID = 1815689293387304425L;
@@ -65,5 +65,5 @@ public class City implements Serializable {
 	 * This field corresponds to the database column LOGIC_DELETE_FLG
 	 */
 	@Column(nullable = false)
-	private String logicDeleteFlg;
+	private String deleteFlg;
 }

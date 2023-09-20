@@ -40,10 +40,10 @@ public interface CityRepository extends JpaRepository<City, Long>, JpaSpecificat
 	/**
 	 * 人口数量昇順で都市情報を検索する
 	 *
-	 * @return List<CityView>
+	 * @return List<City>
 	 */
-	@Query(value = "SELECT WCV.ID, WCV.CONTINENT, WCV.NATION, WCV.NAME, WCV.DISTRICT, WCV.POPULATION "
-			+ "FROM WORLD_CITY_VIEW WCV ORDER BY WCV.POPULATION ASC FETCH FIRST :sortNumber ROWS ONLY", nativeQuery = true)
+	@Query(value = "select cn.id, cn.name, cn.country_code, cn.district, cn.population from city as cn "
+			+ "where cn.delete_flg = 'visible' order by cn.population limit :sortNumber", nativeQuery = true)
 	List<City> findMinimumRanks(@Param("sortNumber") Integer sort);
 
 	/**
@@ -51,7 +51,7 @@ public interface CityRepository extends JpaRepository<City, Long>, JpaSpecificat
 	 *
 	 * @return List<CityView>
 	 */
-	@Query(value = "SELECT WCV.ID, WCV.CONTINENT, WCV.NATION, WCV.NAME, WCV.DISTRICT, WCV.POPULATION "
-			+ "FROM WORLD_CITY_VIEW WCV ORDER BY WCV.POPULATION DESC FETCH FIRST :sortNumber ROWS ONLY", nativeQuery = true)
+	@Query(value = "select cn.id, cn.name, cn.country_code, cn.district, cn.population from city as cn "
+			+ "where cn.delete_flg = 'visible' order by cn.population desc limit :sortNumber", nativeQuery = true)
 	List<City> findMaximumRanks(@Param("sortNumber") Integer sort);
 }
