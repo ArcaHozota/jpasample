@@ -26,6 +26,7 @@ import jp.co.sony.ppog.repository.CityRepository;
 import jp.co.sony.ppog.repository.CountryRepository;
 import jp.co.sony.ppog.repository.LanguageRepository;
 import jp.co.sony.ppog.service.CentreLogicService;
+import jp.co.sony.ppog.utils.Messages;
 import jp.co.sony.ppog.utils.StringUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -180,7 +181,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		final String nationCode = this.countryRepository.findNationCode(cityInfoDto.getNation());
 		city.setId(saiban);
 		city.setCountryCode(nationCode);
-		city.setDeleteFlg("visible");
+		city.setDeleteFlg(Messages.MSG007);
 		this.cityRepository.save(city);
 	}
 
