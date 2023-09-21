@@ -67,10 +67,10 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 
 	@Override
 	public CityDto getCityInfoById(final Long id) {
+		final CityDto cityDto = new CityDto();
 		final City city = this.cityRepository.findById(id).orElseGet(City::new);
 		final Country country = this.countryRepository.findById(city.getCountryCode()).orElseGet(Country::new);
-		final String language = this.findLanguageByCty(city.getCountryCode());
-		final CityDto cityDto = new CityDto();
+		final String language = this.getLanguage(city.getCountryCode());
 		BeanUtils.copyProperties(city, cityDto);
 		cityDto.setContinent(country.getContinent());
 		cityDto.setNation(country.getName());
@@ -204,33 +204,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	@Override
 	public String findLanguageByCty(final String nationVal) {
 		final String nationCode = this.countryRepository.findNationCode(nationVal);
-		final Specification<Language> specification1 = (root, query, criteriaBuilder) -> criteriaBuilder
-				.equal(root.get("countryCode"), nationCode);
-		final Specification<Language> specification2 = (root, query, criteriaBuilder) -> {
-			query.orderBy(criteriaBuilder.desc(root.get("percentage")));
-			return criteriaBuilder.equal(root.get("deleteFlg"), Messages.MSG007);
-		};
-		final Specification<Language> languageSpecification = Specification.where(specification1).and(specification2);
-		final List<Language> languages = this.languageRepository.findAll(languageSpecification);
-		if (languages.size() == 1) {
-			return languages.get(0).getName();
-		}
-		final List<Language> officialLanguages = languages.stream()
-				.filter(al -> StringUtils.isEqual("True", al.getIsOfficial())).collect(Collectors.toList());
-		final List<Language> typicalLanguages = languages.stream()
-				.filter(al -> StringUtils.isEqual("False", al.getIsOfficial())).collect(Collectors.toList());
-		if (officialLanguages.isEmpty() && !typicalLanguages.isEmpty()) {
-			return typicalLanguages.get(0).getName();
-		}
-		if (!officialLanguages.isEmpty() && typicalLanguages.isEmpty()) {
-			return officialLanguages.get(0).getName();
-		}
-		final Language language1 = officialLanguages.get(0);
-		final Language language2 = typicalLanguages.get(0);
-		if (language2.getPercentage().subtract(language1.getPercentage()).compareTo(BigDecimal.valueOf(35L)) <= 0) {
-			return language1.getName();
-		}
-		return language2.getName();
+		return this.getLanguage(nationCode);
 	}
 
 	@Override
@@ -251,5 +225,35 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 			return cityInfoDto;
 		}).collect(Collectors.toList());
 		return new PageImpl<>(cityInfoDtos, pageable, total);
+	}
+
+	private String getLanguage(final String nationCode) {
+		final Specification<Language> specification1 = (root, query, criteriaBuilder) -> criteriaBuilder
+				.equal(root.get("countryCode"), nationCode);
+		final Specification<Language> specification2 = (root, query, criteriaBuilder) -> {
+			query.orderBy(criteriaBuilder.desc(root.get("percentage")));
+			return criteriaBuilder.equal(root.get("deleteFlg"), Messages.MSG007);
+		};
+		final Specification<Language> languageSpecification = Specification.where(specification1).and(specification2);
+		final List<Language> languages = this.languageRepository.findAll(languageSpecification);
+		if (languages.size() == 1) {
+			return languages.get(0).getName();
+		}
+		final List<Language> officialLanguages = languages.stream()
+				.filter(al -> StringUtils.isEqual("T", al.getIsOfficial())).collect(Collectors.toList());
+		final List<Language> typicalLanguages = languages.stream()
+				.filter(al -> StringUtils.isEqual("F", al.getIsOfficial())).collect(Collectors.toList());
+		if (officialLanguages.isEmpty() && !typicalLanguages.isEmpty()) {
+			return typicalLanguages.get(0).getName();
+		}
+		if (!officialLanguages.isEmpty() && typicalLanguages.isEmpty()) {
+			return officialLanguages.get(0).getName();
+		}
+		final Language language1 = officialLanguages.get(0);
+		final Language language2 = typicalLanguages.get(0);
+		if (language2.getPercentage().subtract(language1.getPercentage()).compareTo(BigDecimal.valueOf(35L)) <= 0) {
+			return language1.getName();
+		}
+		return language2.getName();
 	}
 }
