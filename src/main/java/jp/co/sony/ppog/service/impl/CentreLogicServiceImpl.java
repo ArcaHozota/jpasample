@@ -163,11 +163,11 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	public List<String> getListOfNationsById(final Long id) {
 		final List<String> list = new ArrayList<>();
 		final City city = this.cityRepository.findById(id).orElseGet(City::new);
-		final String countryCode = city.getCountryCode();
-		list.add(countryCode);
-		final String continent = this.countryRepository.findById(countryCode).orElseGet(Country::new).getContinent();
-		final List<String> nations = this.countryRepository.findNationsByCnt(continent).stream()
-				.filter(item -> StringUtils.isNotEqual(item, countryCode)).collect(Collectors.toList());
+		final Country country = this.countryRepository.findById(city.getCountryCode()).orElseGet(Country::new);
+		final String nation = country.getName();
+		list.add(nation);
+		final List<String> nations = this.countryRepository.findNationsByCnt(country.getContinent()).stream()
+				.filter(item -> StringUtils.isNotEqual(item, nation)).collect(Collectors.toList());
 		list.addAll(nations);
 		return list;
 	}
