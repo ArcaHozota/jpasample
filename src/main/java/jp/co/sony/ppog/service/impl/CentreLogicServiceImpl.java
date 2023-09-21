@@ -163,33 +163,32 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	public List<String> getListOfNationsById(final Long id) {
 		final List<String> list = new ArrayList<>();
 		final City city = this.cityRepository.findById(id).orElseGet(City::new);
-		final List<String> nations = this.countryRepository.findNationsByCnt(city.getCountryCode());
 		final String countryCode = city.getCountryCode();
 		list.add(countryCode);
-		final List<String> collect = nations.stream().filter(item -> StringUtils.isNotEqual(item, countryCode))
-				.collect(Collectors.toList());
-		list.addAll(collect);
+		final String continent = this.countryRepository.findById(countryCode).orElseGet(Country::new).getContinent();
+		final List<String> nations = this.countryRepository.findNationsByCnt(continent).stream()
+				.filter(item -> StringUtils.isNotEqual(item, countryCode)).collect(Collectors.toList());
+		list.addAll(nations);
 		return list;
 	}
 
 	@Override
-	public void update(final CityDto cityInfoDto) {
+	public void update(final CityDto cityDto) {
 		final City city = new City();
-		BeanUtils.copyProperties(cityInfoDto, city, "continent", "nation", "language");
-		final String nationName = cityInfoDto.getNation();
-		final String nationCode = this.countryRepository.findNationCode(nationName);
-		city.setCountryCode(nationCode);
+		BeanUtils.copyProperties(cityDto, city, "continent", "nation", "language");
+		final String countryCode = this.countryRepository.findNationCode(cityDto.getNation());
+		city.setCountryCode(countryCode);
 		this.cityRepository.save(city);
 	}
 
 	@Override
-	public void save(final CityDto cityInfoDto) {
+	public void save(final CityDto cityDto) {
 		final City city = new City();
-		BeanUtils.copyProperties(cityInfoDto, city, "continent", "nation", "language");
+		BeanUtils.copyProperties(cityDto, city, "continent", "nation", "language");
 		final Long saiban = this.cityRepository.saiban();
-		final String nationCode = this.countryRepository.findNationCode(cityInfoDto.getNation());
+		final String countryCode = this.countryRepository.findNationCode(cityDto.getNation());
 		city.setId(saiban);
-		city.setCountryCode(nationCode);
+		city.setCountryCode(countryCode);
 		city.setDeleteFlg(Messages.MSG007);
 		this.cityRepository.save(city);
 	}
