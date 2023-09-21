@@ -25,7 +25,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "WORLD_LANGUAGE")
+@Table(name = "language")
 @Proxy(lazy = false)
 @IdClass(LanguageId.class)
 public class Language implements Serializable {
