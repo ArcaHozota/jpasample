@@ -80,8 +80,8 @@ public class CentreController {
 	@GetMapping(value = "/city/{id}")
 	@ResponseBody
 	public RestMsg getCityInfo(@PathVariable("id") final Long id) {
-		final CityDto cityInfoDto = this.centreLogicService.getCityInfoById(id);
-		return RestMsg.success().add("citySelected", cityInfoDto);
+		final CityDto cityDto = this.centreLogicService.getCityInfoById(id);
+		return RestMsg.success().add("citySelected", cityDto);
 	}
 
 	/**
@@ -157,8 +157,8 @@ public class CentreController {
 	@GetMapping(value = "/nations")
 	@ResponseBody
 	public RestMsg getListOfNationsById(@RequestParam("continentVal") final String continentVal) {
-		final List<String> nationList = this.centreLogicService.findNationsByCnt(continentVal);
-		return RestMsg.success().add("nationList", nationList);
+		final List<String> nations = this.centreLogicService.findNationsByCnt(continentVal);
+		return RestMsg.success().add("nationList", nations);
 	}
 
 	/**
