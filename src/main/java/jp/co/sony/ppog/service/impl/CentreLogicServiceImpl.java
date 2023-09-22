@@ -213,7 +213,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 
 	@Override
 	public String findLanguageByCty(final String nationVal) {
-		final String nationCode = this.countryRepository.findNationCode(nationVal);
+		final String nationCode = this.countryRepository.findNationCode(StringUtils.toHankaku(nationVal));
 		return this.getLanguage(nationCode);
 	}
 
@@ -221,8 +221,8 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	public List<City> checkDuplicate(final String cityName) {
 		final City city = new City();
 		city.setName(StringUtils.toHankaku(cityName));
-		final ExampleMatcher matcher = ExampleMatcher.matching().withMatcher("name", GenericPropertyMatchers.exact());
-		final Example<City> example = Example.of(city, matcher);
+		city.setDeleteFlg(Messages.MSG007);
+		final Example<City> example = Example.of(city, ExampleMatcher.matchingAll());
 		return this.cityRepository.findAll(example);
 	}
 
