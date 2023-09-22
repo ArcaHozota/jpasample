@@ -155,7 +155,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 			return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
 		}
 		// ページング検索；
-		final Page<City> pages = this.cityRepository.getCityInfos(pageRequest);
+		final Page<City> pages = this.cityRepository.findAll(pageRequest);
 		return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
 	}
 
@@ -228,8 +228,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		final List<CityDto> cityDtos = pages.getContent().stream().map(item -> {
 			final CityDto cityDto = new CityDto();
 			BeanUtils.copyProperties(item, cityDto);
-			final City city = this.cityRepository.findById(item.getId()).orElseGet(City::new);
-			final Country country = this.countryRepository.findById(city.getCountryCode()).orElseGet(Country::new);
+			final Country country = this.countryRepository.findById(item.getCountryCode()).orElseGet(Country::new);
 			final String language = this.getLanguage(item.getCountryCode());
 			cityDto.setContinent(country.getContinent());
 			cityDto.setNation(country.getName());
