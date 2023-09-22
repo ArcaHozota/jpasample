@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -67,4 +69,11 @@ public class City implements Serializable {
 	 */
 	@Column(nullable = false)
 	private String deleteFlg;
+
+	/**
+	 * This field corresponds to the database table country
+	 */
+	@ManyToOne
+	@JoinColumn(name = "countryCode", insertable = false, updatable = false)
+	private Country country;
 }
