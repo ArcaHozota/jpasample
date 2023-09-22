@@ -66,13 +66,4 @@ public interface CityRepository extends JpaRepository<City, Long>, JpaSpecificat
 	 * @return Page<City>
 	 */
 	Page<City> getCityInfos(Pageable pageable);
-
-	/**
-	 * 名称によってすべての都市情報を取得する
-	 *
-	 * @param name     都市名
-	 * @param pageable ページングパラメータ
-	 * @return Page<City>
-	 */
-	Page<City> getCityInfosByName(@Param("name") String name, Pageable pageable);
 }
