@@ -155,7 +155,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 			return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
 		}
 		// ページング検索；
-		final Page<City> pages = this.cityRepository.findAll(pageRequest);
+		final Page<City> pages = this.cityRepository.getCityInfos(pageRequest);
 		return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
 	}
 
