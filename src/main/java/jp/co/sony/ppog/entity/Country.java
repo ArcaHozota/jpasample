@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * 国家テーブルWORLD_COUNTRYのエンティティ
+ * 国家テーブルcountryのエンティティ
  *
  * @author Administrator
  */
