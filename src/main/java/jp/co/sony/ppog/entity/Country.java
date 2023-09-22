@@ -2,14 +2,11 @@ package jp.co.sony.ppog.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
@@ -126,7 +123,4 @@ public class Country implements Serializable {
 	 */
 	@Column(nullable = false)
 	private String deleteFlg;
-
-	@OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
-	private List<City> cities;
 }
