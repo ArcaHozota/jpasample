@@ -3,7 +3,7 @@ package jp.co.sony.ppog.dto;
 import lombok.Data;
 
 @Data
-public class CityDto {
+public final class CityDto {
 
 	/**
 	 * 都市ID
@@ -36,7 +36,7 @@ public class CityDto {
 	private Long population;
 
 	/**
-	 * 言語
+	 * 公用語
 	 */
 	private String language;
 }

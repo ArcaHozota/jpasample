@@ -31,7 +31,7 @@ import lombok.Setter;
 @NamedQuery(name = "City.saiban", query = "select count(cn.id) + 1 from City as cn")
 @NamedQuery(name = "City.getCityInfos", query = "select cn from City as cn where cn.deleteFlg = 'visible' order by cn.id")
 @NamedQuery(name = "City.removeById", query = "update City as cn set cn.deleteFlg = 'removed' where cn.id =:id")
-public class City implements Serializable {
+public final class City implements Serializable {
 
 	private static final long serialVersionUID = 1815689293387304425L;
 
