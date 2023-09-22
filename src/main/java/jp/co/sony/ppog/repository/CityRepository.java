@@ -18,7 +18,8 @@ import jp.co.sony.ppog.entity.City;
 /**
  * 都市リポジトリ
  *
- * @author Administrator
+ * @author ArcaHozota
+ * @since 3.66
  */
 @Repository
 public interface CityRepository extends JpaRepository<City, Long>, JpaSpecificationExecutor<City> {

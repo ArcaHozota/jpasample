@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * 言語テーブルlanguageのエンティティ
+ * 言語テーブルのエンティティ
  *
  * @author ArcaHozota
  * @since 4.07

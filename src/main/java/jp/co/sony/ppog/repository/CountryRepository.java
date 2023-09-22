@@ -12,7 +12,8 @@ import jp.co.sony.ppog.entity.Country;
 /**
  * 国家リポジトリ
  *
- * @author Administrator
+ * @author ArcaHozota
+ * @since 3.56
  */
 @Repository
 public interface CountryRepository extends JpaRepository<Country, String>, JpaSpecificationExecutor<Country> {

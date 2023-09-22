@@ -2,6 +2,12 @@ package jp.co.sony.ppog.dto;
 
 import lombok.Data;
 
+/**
+ * 都市情報データ交換クラス
+ *
+ * @author ArcaHozota
+ * @since 3.69
+ */
 @Data
 public final class CityDto {
 

@@ -14,7 +14,7 @@ import lombok.extern.log4j.Log4j2;
 /**
  * ウェブコンフィギュレーション
  *
- * @author Administrator
+ * @author ArcaHozota
  * @since 1.00beta
  */
 @Log4j2

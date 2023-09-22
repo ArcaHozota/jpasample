@@ -9,14 +9,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * The common class of JSON-data response.
+ * JSONData返信用クラス
  *
- * @author Administrator
+ * @author ArcaHozota
+ * @since 2.44
  */
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class RestMsg {
+public final class RestMsg {
 
 	/**
 	 * data returned to browsers

@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * 都市テーブルcityのエンティティ
+ * 都市テーブルのエンティティ
  *
  * @author ArcaHozota
  * @since 2.17

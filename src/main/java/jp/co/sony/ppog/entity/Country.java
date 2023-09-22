@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * 国家テーブルcountryのエンティティ
+ * 国家テーブルのエンティティ
  *
  * @author ArcaHozota
  * @since 1.00beta

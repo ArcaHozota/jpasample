@@ -10,7 +10,8 @@ import jp.co.sony.ppog.entity.City;
 /**
  * 中央処理サービスインターフェス
  *
- * @author Administrator
+ * @author ArcaHozota
+ * @since 4.40
  */
 public interface CentreLogicService {
 
