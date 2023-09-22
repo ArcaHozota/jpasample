@@ -28,8 +28,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "city")
 @Proxy(lazy = false)
-@NamedQuery(name = "City.saiban", query = "select count(c.id) + 1 from City c")
-@NamedQuery(name = "City.removeById", query = "update City as c set c.deleteFlg = 'removed' where c.id =:id")
+@NamedQuery(name = "City.saiban", query = "select count(cn.id) + 1 from City cn")
+@NamedQuery(name = "City.getCityInfos", query = "select cn from City cn where cn.country.code = cn.countryCode")
+@NamedQuery(name = "City.removeById", query = "update City as cn set cn.deleteFlg = 'removed' where cn.id =:id")
 public class City implements Serializable {
 
 	private static final long serialVersionUID = 1815689293387304425L;
