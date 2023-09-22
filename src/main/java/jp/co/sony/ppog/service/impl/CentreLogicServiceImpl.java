@@ -174,10 +174,12 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 
 	@Override
 	public void update(final CityDto cityDto) {
-		final City city = new City();
-		BeanUtils.copyProperties(cityDto, city, "continent", "nation", "language");
+		final City city = this.cityRepository.findById(cityDto.getId()).orElseGet(City::new);
 		final String countryCode = this.countryRepository.findNationCode(cityDto.getNation());
 		city.setCountryCode(countryCode);
+		city.setName(cityDto.getName());
+		city.setDistrict(cityDto.getDistrict());
+		city.setPopulation(cityDto.getPopulation());
 		this.cityRepository.save(city);
 	}
 
