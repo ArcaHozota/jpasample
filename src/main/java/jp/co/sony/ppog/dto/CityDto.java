@@ -1,18 +1,42 @@
 package jp.co.sony.ppog.dto;
 
-import jp.co.sony.ppog.entity.City;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
-public class CityDto extends City {
+public class CityDto {
 
-	private static final long serialVersionUID = 9053927948255512241L;
+	/**
+	 * 都市ID
+	 */
+	private Long id;
 
+	/**
+	 * 都市名
+	 */
+	private String name;
+
+	/**
+	 * 大陸
+	 */
 	private String continent;
 
+	/**
+	 * 国家
+	 */
 	private String nation;
 
+	/**
+	 * 地域
+	 */
+	private String district;
+
+	/**
+	 * 人口
+	 */
+	private Long population;
+
+	/**
+	 * 言語
+	 */
 	private String language;
 }
