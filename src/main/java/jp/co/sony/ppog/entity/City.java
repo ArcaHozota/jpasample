@@ -29,7 +29,8 @@ import lombok.Setter;
 @Table(name = "city")
 @Proxy(lazy = false)
 @NamedQuery(name = "City.saiban", query = "select count(cn.id) + 1 from City cn")
-@NamedQuery(name = "City.getCityInfos", query = "select cn from City cn where cn.country.code = cn.countryCode")
+@NamedQuery(name = "City.getCityInfos", query = "select cn from City cn where cn.country.code = cn.countryCode"
+		+ "and cn.deleteFlg = 'visible' order by cn.id")
 @NamedQuery(name = "City.removeById", query = "update City as cn set cn.deleteFlg = 'removed' where cn.id =:id")
 public class City implements Serializable {
 
