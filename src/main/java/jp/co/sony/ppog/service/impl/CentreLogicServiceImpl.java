@@ -228,10 +228,9 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		final List<CityDto> cityDtos = pages.getContent().stream().map(item -> {
 			final CityDto cityDto = new CityDto();
 			BeanUtils.copyProperties(item, cityDto);
-			final Country country = this.countryRepository.findById(item.getCountryCode()).orElseGet(Country::new);
 			final String language = this.getLanguage(item.getCountryCode());
-			cityDto.setContinent(country.getContinent());
-			cityDto.setNation(country.getName());
+			cityDto.setContinent(item.getCountry().getContinent());
+			cityDto.setNation(item.getCountry().getName());
 			cityDto.setLanguage(language);
 			return cityDto;
 		}).collect(Collectors.toList());
