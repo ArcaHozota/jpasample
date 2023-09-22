@@ -51,7 +51,7 @@ public class CentreController {
 		// ページング検索結果を吹き出します；
 		final Page<CityDto> pageInfo = this.centreLogicService.getPageInfo(pageNum, keyword);
 		// modelAndViewオブジェクトを宣言する；
-		final ModelAndView mav = new ModelAndView("index");
+		final ModelAndView modelAndView = new ModelAndView("index");
 		// 前のページを取得する；
 		final int current = pageInfo.getNumber();
 		// ページングナビゲーションの数を定義する；
@@ -64,12 +64,12 @@ public class CentreController {
 		} else {
 			pageLastIndex = (current / naviNums + 1) * naviNums - 1;
 		}
-		mav.addObject("pageInfo", pageInfo);
-		mav.addObject("keyword", keyword);
-		mav.addObject("pageFirstIndex", pageFirstIndex);
-		mav.addObject("pageLastIndex", pageLastIndex);
-		mav.addObject("title", "CityList");
-		return mav;
+		modelAndView.addObject("pageInfo", pageInfo);
+		modelAndView.addObject("keyword", keyword);
+		modelAndView.addObject("pageFirstIndex", pageFirstIndex);
+		modelAndView.addObject("pageLastIndex", pageLastIndex);
+		modelAndView.addObject("title", "CityList");
+		return modelAndView;
 	}
 
 	/**
@@ -101,26 +101,26 @@ public class CentreController {
 	/**
 	 * 入力した都市情報を変更する
 	 *
-	 * @param cityInfoDto 都市情報DTO
+	 * @param cityDto 都市情報DTO
 	 * @return 処理成功のメッセージ
 	 */
 	@PutMapping(value = "/city/{id}")
 	@ResponseBody
-	public RestMsg updateCityInfo(@RequestBody final CityDto cityInfoDto) {
-		this.centreLogicService.update(cityInfoDto);
+	public RestMsg updateCityInfo(@RequestBody final CityDto cityDto) {
+		this.centreLogicService.update(cityDto);
 		return RestMsg.success();
 	}
 
 	/**
 	 * 入力した都市情報を保存する
 	 *
-	 * @param cityInfoDto 都市情報DTO
+	 * @param cityDto 都市情報DTO
 	 * @return 処理成功のメッセージ
 	 */
 	@PostMapping(value = "/city")
 	@ResponseBody
-	public RestMsg saveCityInfo(@RequestBody final CityDto cityInfoDto) {
-		this.centreLogicService.save(cityInfoDto);
+	public RestMsg saveCityInfo(@RequestBody final CityDto cityDto) {
+		this.centreLogicService.save(cityDto);
 		return RestMsg.success();
 	}
 
