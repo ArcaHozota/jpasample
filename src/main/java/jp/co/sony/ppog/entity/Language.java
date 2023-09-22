@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * 言語テーブルWORLD_LANGUAGEのエンティティ
+ * 言語テーブルlanguageのエンティティ
  *
  * @author Administrator
  */

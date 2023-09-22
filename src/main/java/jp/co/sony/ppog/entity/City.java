@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * 都市テーブルWORLD_CITYのエンティティ
+ * 都市テーブルcityのエンティティ
  *
  * @author Administrator
  */
