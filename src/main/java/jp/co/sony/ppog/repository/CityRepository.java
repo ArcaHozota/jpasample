@@ -3,6 +3,8 @@ package jp.co.sony.ppog.repository;
 import java.util.List;
 
 import org.postgresql.util.PSQLException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -40,6 +42,7 @@ public interface CityRepository extends JpaRepository<City, Long>, JpaSpecificat
 	/**
 	 * 人口数量昇順で都市情報を検索する
 	 *
+	 * @param sort ソート
 	 * @return List<City>
 	 */
 	@Query(value = "select cn.id, cn.name, cn.country_code, cn.district, cn.population from city as cn "
@@ -49,9 +52,17 @@ public interface CityRepository extends JpaRepository<City, Long>, JpaSpecificat
 	/**
 	 * 人口数量降順で都市情報を検索する
 	 *
-	 * @return List<CityView>
+	 * @param sort ソート
+	 * @return List<City>
 	 */
 	@Query(value = "select cn.id, cn.name, cn.country_code, cn.district, cn.population from city as cn "
 			+ "where cn.delete_flg = 'visible' order by cn.population desc limit :sortNumber", nativeQuery = true)
 	List<City> findMaximumRanks(@Param("sortNumber") Integer sort);
+
+	/**
+	 * すべての都市情報を取得する
+	 *
+	 * @return Page<City>
+	 */
+	Page<City> getCityInfos(Pageable pageable);
 }
