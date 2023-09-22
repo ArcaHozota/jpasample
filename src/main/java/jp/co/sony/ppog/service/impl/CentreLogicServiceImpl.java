@@ -138,17 +138,15 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 			final String nationCode = this.countryRepository.findNationCode(hankakuKeyword);
 			if (StringUtils.isNotEmpty(nationCode)) {
 				city.setCountryCode(nationCode);
-				final ExampleMatcher matcher = ExampleMatcher.matching().withMatcher("countryCode",
-						GenericPropertyMatchers.exact());
+				city.setDeleteFlg(Messages.MSG007);
+				final ExampleMatcher matcher = ExampleMatcher.matching()
+						.withMatcher("countryCode", GenericPropertyMatchers.exact())
+						.withMatcher("deleteFlg", GenericPropertyMatchers.exact());
 				final Example<City> example = Example.of(city, matcher);
 				final Page<City> pages = this.cityRepository.findAll(example, pageRequest);
 				return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
 			}
-			city.setName(hankakuKeyword);
-			final ExampleMatcher exampleMatcher = ExampleMatcher.matching().withMatcher("name",
-					GenericPropertyMatchers.contains());
-			final Example<City> example = Example.of(city, exampleMatcher);
-			final Page<City> pages = this.cityRepository.findAll(example, pageRequest);
+			final Page<City> pages = this.cityRepository.getCityInfosByName(hankakuKeyword, pageRequest);
 			return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
 		}
 		// ページング検索；
