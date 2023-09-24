@@ -7208,4 +7208,9 @@ button.close {
     }
 }
 
+a.disabled {
+    pointer-events: none;
+    color: gray;
+}
+
 /*# sourceMappingURL=bootstrap.min.css.map */
