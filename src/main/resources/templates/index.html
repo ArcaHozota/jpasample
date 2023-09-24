@@ -111,7 +111,7 @@
 					</li>
 					<li><a
 						th:href="@{'/ssmcrud/city?pageNum='+${previousPage < 1 ? 1 : previousPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
-						th:class="${pageInfo.hasPrevious()} eq true ? 'enable' : 'disabled'">&laquo;</a>
+						th:class="${pageInfo.hasPrevious() ? 'enable' : 'disabled'}">&laquo;</a>
 					</li>
 					<li th:each="i:${#numbers.sequence(pageFirstIndex,pageLastIndex)}"
 						th:class="${pageInfo.getNumber()} eq ${i} ? 'active' : 'enable'">
@@ -120,11 +120,11 @@
 					</li>
 					<li><a
 						th:href="@{'/ssmcrud/city?pageNum='+${nextPage > totalPg ? totalPg : nextPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
-						th:class="${pageInfo.hasNext()} eq true ? 'enable' : 'disabled'">&raquo;</a>
+						th:class="${pageInfo.hasNext() ? 'enable' : 'disabled'}">&raquo;</a>
 					</li>
 					<li><a
 						th:href="@{'/ssmcrud/city?pageNum='+${totalPg}+'&keyword='+${keyword eq null ? '' : keyword}}"
-						th:class="${pageInfo.isLast()} eq true ? 'disabled' : 'enable'">最後のページへ</a>
+						th:class="${pageInfo.isLast() ? 'disabled' : 'enable'}">最後のページへ</a>
 					</li>
 				</ul>
 			</nav>
@@ -264,19 +264,17 @@
 	        }
 	    }
 	    document.querySelector('a').addEventListener('click', disableLink);
-		$("#searchBtn").on(
-			'click',
-			function () {
-				let keyword = $("#keywordInput").val().trim().toString();
-				$.ajax({
-					url: '/ssmcrud/city?pageNum=' + pageNum + '&keyword=' + keyword,
-					type: 'GET',
-					dataType: 'html',
-					success: function () {
-						window.location.replace('/ssmcrud/city?pageNum=1&keyword=' + keyword);
-					}
-				});
+		$("#searchBtn").on('click', function () {
+			let keyword = $("#keywordInput").val().trim().toString();
+			$.ajax({
+				url: '/ssmcrud/city?pageNum=' + pageNum + '&keyword=' + keyword,
+				type: 'GET',
+				dataType: 'html',
+				success: function () {
+					window.location.replace('/ssmcrud/city?pageNum=1&keyword=' + keyword);
+				}
 			});
+		});
 		$("#cityAddModalBtn").on('click', function () {
 			formReset("#cityAddModal form");
 			getContinents("#continentInput");
