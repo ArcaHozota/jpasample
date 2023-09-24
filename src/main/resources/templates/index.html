@@ -107,7 +107,7 @@
 				<ul th:class="'pagination'">
 					<li><a
 						th:href="@{'/ssmcrud/city?pageNum=1&keyword='+${keyword eq null ? '' : keyword}}"
-						th:class="${pageInfo.isFirst()} eq true ? 'disabled' : 'enable'">最初のページへ</a>
+						th:class="${pageInfo.isFirst() ? 'disabled' : 'enable'}">最初のページへ</a>
 					</li>
 					<li><a
 						th:href="@{'/ssmcrud/city?pageNum='+${previousPage < 1 ? 1 : previousPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
@@ -258,6 +258,12 @@
 	<script type="text/javascript" th:inline="javascript">
 		let pageNum = /*[[${pageInfo.getNumber()+1}]]*/{};
 		let pageTotal = /*[[${pageInfo.getTotalPages()}]]*/{};
+		function disableLink(e) {
+		    if (e.target.classList.contains('disabled')) {
+	            e.preventDefault();
+	        }
+	    }
+	    document.querySelector('a').addEventListener('click', disableLink);
 		$("#searchBtn").on(
 			'click',
 			function () {
