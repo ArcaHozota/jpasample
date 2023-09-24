@@ -258,12 +258,6 @@
 	<script type="text/javascript" th:inline="javascript">
 		let pageNum = /*[[${pageInfo.getNumber()+1}]]*/{};
 		let pageTotal = /*[[${pageInfo.getTotalPages()}]]*/{};
-		function disableLink(e) {
-		    if (e.target.classList.contains('disabled')) {
-	            e.preventDefault();
-	        }
-	    }
-	    document.querySelector('a').addEventListener('click', disableLink);
 		$("#searchBtn").on('click', function () {
 			let keyword = $("#keywordInput").val().trim().toString();
 			$.ajax({
