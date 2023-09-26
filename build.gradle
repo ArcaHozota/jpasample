@@ -18,6 +18,14 @@ repositories {
     }
 }
 
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Javadoc) {
+    options.encoding = 'UTF-8'
+}
+
 dependencyManagement {
     imports {
         mavenBom 'org.springframework.boot:spring-boot-starter-parent:2.7.16'
