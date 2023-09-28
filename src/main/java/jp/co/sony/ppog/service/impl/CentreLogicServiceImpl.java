@@ -1,6 +1,5 @@
 package jp.co.sony.ppog.service.impl;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,17 +14,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import jp.co.sony.ppog.dto.CityDto;
 import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.entity.CityInfo;
-import jp.co.sony.ppog.entity.Language;
 import jp.co.sony.ppog.repository.CityInfoRepository;
 import jp.co.sony.ppog.repository.CityRepository;
 import jp.co.sony.ppog.repository.CountryRepository;
-import jp.co.sony.ppog.repository.LanguageRepository;
 import jp.co.sony.ppog.service.CentreLogicService;
 import jp.co.sony.ppog.utils.Messages;
 import jp.co.sony.ppog.utils.StringUtils;
@@ -66,11 +62,6 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	 * 国家リポジトリ
 	 */
 	private final CountryRepository countryRepository;
-
-	/**
-	 * 言語リポジトリ
-	 */
-	private final LanguageRepository languageRepository;
 
 	@Override
 	public CityDto getCityInfoById(final Long id) {
@@ -198,34 +189,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 
 	@Override
 	public String findLanguageByCty(final String nationVal) {
-		final String nationCode = this.countryRepository.findNationCode(StringUtils.toHankaku(nationVal));
-		final Specification<Language> specification1 = (root, query, criteriaBuilder) -> criteriaBuilder
-				.equal(root.get("countryCode"), nationCode);
-		final Specification<Language> specification2 = (root, query, criteriaBuilder) -> {
-			query.orderBy(criteriaBuilder.desc(root.get("percentage")));
-			return criteriaBuilder.equal(root.get("deleteFlg"), Messages.MSG007);
-		};
-		final Specification<Language> languageSpecification = Specification.where(specification1).and(specification2);
-		final List<Language> languages = this.languageRepository.findAll(languageSpecification);
-		if (languages.size() == 1) {
-			return languages.get(0).getName();
-		}
-		final List<Language> officialLanguages = languages.stream()
-				.filter(al -> StringUtils.isEqual("T", al.getIsOfficial())).collect(Collectors.toList());
-		final List<Language> typicalLanguages = languages.stream()
-				.filter(al -> StringUtils.isEqual("F", al.getIsOfficial())).collect(Collectors.toList());
-		if (officialLanguages.isEmpty() && !typicalLanguages.isEmpty()) {
-			return typicalLanguages.get(0).getName();
-		}
-		if (!officialLanguages.isEmpty() && typicalLanguages.isEmpty()) {
-			return officialLanguages.get(0).getName();
-		}
-		final Language language1 = officialLanguages.get(0);
-		final Language language2 = typicalLanguages.get(0);
-		if (language2.getPercentage().subtract(language1.getPercentage()).compareTo(BigDecimal.valueOf(35L)) <= 0) {
-			return language1.getName();
-		}
-		return language2.getName();
+		return this.cityInfoRepository.getLanguage(nationVal);
 	}
 
 	@Override
