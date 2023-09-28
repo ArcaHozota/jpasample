@@ -33,5 +33,5 @@ public interface CityRepository extends JpaRepository<City, Integer>, JpaSpecifi
 	 */
 	@Modifying
 	@Transactional(rollbackFor = PSQLException.class)
-	void removeById(@Param("id") Long id);
+	void removeById(@Param("id") Integer id);
 }
