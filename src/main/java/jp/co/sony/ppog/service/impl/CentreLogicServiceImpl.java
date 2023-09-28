@@ -2,7 +2,6 @@ package jp.co.sony.ppog.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -139,7 +138,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		final String nationName = city.getCountry().getName();
 		list.add(nationName);
 		final List<String> nations = this.countryRepository.findNationsByCnt(city.getCountry().getContinent()).stream()
-				.filter(item -> StringUtils.isNotEqual(item, nationName)).collect(Collectors.toList());
+				.filter(item -> StringUtils.isNotEqual(item, nationName)).toList();
 		list.addAll(nations);
 		return list;
 	}
