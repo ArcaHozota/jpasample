@@ -9,7 +9,7 @@ plugins {
 group = 'jp.co.sony.ppog'
 version = '1.0-SNAPSHOT'
 description = 'jpasample'
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
@@ -28,7 +28,7 @@ tasks.withType(Javadoc) {
 
 dependencyManagement {
     imports {
-        mavenBom 'org.springframework.boot:spring-boot-starter-parent:2.7.16'
+        mavenBom 'org.springframework.boot:spring-boot-starter-parent:3.1.4'
     }
 }
 
@@ -43,8 +43,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools
     implementation 'org.springframework.boot:spring-boot-devtools'
-    // https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator
-    implementation 'org.hibernate.validator:hibernate-validator'
     // https://mvnrepository.com/artifact/com.google.guava/guava
 	implementation 'com.google.guava:guava:32.1.2-jre'
     // https://mvnrepository.com/artifact/org.postgresql/postgresql
