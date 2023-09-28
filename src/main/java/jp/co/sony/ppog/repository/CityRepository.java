@@ -24,7 +24,7 @@ public interface CityRepository extends JpaRepository<City, Integer>, JpaSpecifi
 	 *
 	 * @return 採番値
 	 */
-	Long saiban();
+	Integer saiban();
 
 	/**
 	 * 論理削除

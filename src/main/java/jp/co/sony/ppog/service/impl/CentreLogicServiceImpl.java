@@ -62,7 +62,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	private final CountryRepository countryRepository;
 
 	@Override
-	public CityDto getCityInfoById(final Long id) {
+	public CityDto getCityInfoById(final Integer id) {
 		final CityInfo cityInfo = this.cityInfoRepository.findById(id).orElseGet(CityInfo::new);
 		return new CityDto(cityInfo.getId(), cityInfo.getName(), cityInfo.getContinent(), cityInfo.getNation(),
 				cityInfo.getDistrict(), cityInfo.getPopulation(), cityInfo.getLanguage());
@@ -132,7 +132,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	}
 
 	@Override
-	public List<String> getListOfNationsById(final Long id) {
+	public List<String> getListOfNationsById(final Integer id) {
 		final List<String> list = new ArrayList<>();
 		final City city = this.cityRepository.findById(id).orElseGet(City::new);
 		final String nationName = city.getCountry().getName();
@@ -157,7 +157,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	@Override
 	public void save(final CityDto cityDto) {
 		final String countryCode = this.countryRepository.findNationCode(cityDto.nation());
-		final Long saiban = this.cityRepository.saiban();
+		final Integer saiban = this.cityRepository.saiban();
 		final City city = new City();
 		city.setId(saiban);
 		city.setName(cityDto.name());
@@ -169,7 +169,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	}
 
 	@Override
-	public void removeById(final Long id) {
+	public void removeById(final Integer id) {
 		this.cityRepository.removeById(id);
 	}
 
