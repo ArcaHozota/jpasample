@@ -39,7 +39,7 @@ public final class Language implements Serializable {
 	 * This field corresponds to the database column LANGUAGE
 	 */
 	@Id
-	@Column(name = "LANGUAGE")
+	@Column(name = "language")
 	private String name;
 
 	/**
