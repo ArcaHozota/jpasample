@@ -66,7 +66,7 @@ public final class Country implements Serializable {
 	/**
 	 * This field corresponds to the database column INDEPENDENCE_YEAR
 	 */
-	private Integer independenceYear;
+	private Short independenceYear;
 
 	/**
 	 * This field corresponds to the database column POPULATION
