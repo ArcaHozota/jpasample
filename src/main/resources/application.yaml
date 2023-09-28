@@ -30,4 +30,4 @@ spring:
       content-type: text/html
     prefix: classpath:/templates/
     suffix: .html
-#The DBfile is in the classpath:dbfile/world.sql
+#The DBfile is in the classpath:static/dbfiles/*
