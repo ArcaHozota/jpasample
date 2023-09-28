@@ -12,6 +12,15 @@ import jp.co.sony.ppog.entity.CityInfo;
 public interface CityInfoRepository extends JpaRepository<CityInfo, Long>, JpaSpecificationExecutor<CityInfo> {
 
 	/**
+	 * 国名によって公用語を取得する
+	 *
+	 * @param nationVal 国名
+	 * @return String
+	 */
+	@Query(value = "select max(cnf.language) from CityInfo as cnf where cnf.nation =:nation group by cnf.nation")
+	String getLanguage(@Param("nation") String nationVal);
+
+	/**
 	 * 人口数量昇順で都市情報を検索する
 	 *
 	 * @param sort ソート
