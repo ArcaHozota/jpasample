@@ -72,7 +72,7 @@ public final class Country implements Serializable {
 	 * This field corresponds to the database column POPULATION
 	 */
 	@Column(nullable = false)
-	private Long population;
+	private Integer population;
 
 	/**
 	 * This field corresponds to the database column LIFE_EXPECTANCY
@@ -112,7 +112,7 @@ public final class Country implements Serializable {
 	/**
 	 * This field corresponds to the database column CAPITAL
 	 */
-	private Long capital;
+	private Integer capital;
 
 	/**
 	 * This field corresponds to the database column CODE2

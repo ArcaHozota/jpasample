@@ -19,7 +19,7 @@ public class CityInfo {
 	 * 都市ID
 	 */
 	@Id
-	private Long id;
+	private Integer id;
 
 	/**
 	 * 都市名
@@ -49,7 +49,7 @@ public class CityInfo {
 	 * 人口
 	 */
 	@Column(nullable = false)
-	private Long population;
+	private Integer population;
 
 	/**
 	 * 公用語
