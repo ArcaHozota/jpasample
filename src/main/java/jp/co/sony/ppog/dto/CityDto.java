@@ -6,6 +6,6 @@ package jp.co.sony.ppog.dto;
  * @author ArcaHozota
  * @since 3.69
  */
-public record CityDto(Long id, String name, String continent, String nation, String district, Long population,
+public record CityDto(Integer id, String name, String continent, String nation, String district, Integer population,
 		String language) {
 }
