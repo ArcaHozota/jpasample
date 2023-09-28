@@ -66,7 +66,7 @@ public final class Country implements Serializable {
 	/**
 	 * This field corresponds to the database column INDEPENDENCE_YEAR
 	 */
-	private Long independenceYear;
+	private Integer independenceYear;
 
 	/**
 	 * This field corresponds to the database column POPULATION
@@ -78,7 +78,7 @@ public final class Country implements Serializable {
 	 * This field corresponds to the database column LIFE_EXPECTANCY
 	 */
 	@Column(precision = 5, scale = 2)
-	private Long lifeExpectancy;
+	private BigDecimal lifeExpectancy;
 
 	/**
 	 * This field corresponds to the database column GNP
