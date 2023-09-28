@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
@@ -65,10 +64,9 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 
 	@Override
 	public CityDto getCityInfoById(final Long id) {
-		final CityDto cityDto = new CityDto();
 		final CityInfo cityInfo = this.cityInfoRepository.findById(id).orElseGet(CityInfo::new);
-		BeanUtils.copyProperties(cityInfo, cityDto);
-		return cityDto;
+		return new CityDto(cityInfo.getId(), cityInfo.getName(), cityInfo.getContinent(), cityInfo.getNation(),
+				cityInfo.getDistrict(), cityInfo.getPopulation(), cityInfo.getLanguage());
 	}
 
 	@Override
@@ -88,11 +86,10 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 					sort = Integer.parseInt(keisan);
 				}
 				// 人口数量昇順で最初の15個都市の情報を吹き出します；
-				final List<CityDto> minimumRanks = this.cityInfoRepository.findMinimumRanks(sort).stream().map(item -> {
-					final CityDto cityDto = new CityDto();
-					BeanUtils.copyProperties(item, cityDto);
-					return cityDto;
-				}).collect(Collectors.toList());
+				final List<CityDto> minimumRanks = this.cityInfoRepository.findMinimumRanks(sort).stream()
+						.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
+								item.getDistrict(), item.getPopulation(), item.getLanguage()))
+						.toList();
 				if (pageMax >= sort) {
 					return new PageImpl<>(minimumRanks.subList(pageMin, sort), pageRequest, minimumRanks.size());
 				}
@@ -105,11 +102,10 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 					sort = Integer.parseInt(keisan);
 				}
 				// 人口数量降順で最初の15個都市の情報を吹き出します；
-				final List<CityDto> maximumRanks = this.cityInfoRepository.findMaximumRanks(sort).stream().map(item -> {
-					final CityDto cityDto = new CityDto();
-					BeanUtils.copyProperties(item, cityDto);
-					return cityDto;
-				}).collect(Collectors.toList());
+				final List<CityDto> maximumRanks = this.cityInfoRepository.findMaximumRanks(sort).stream()
+						.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
+								item.getDistrict(), item.getPopulation(), item.getLanguage()))
+						.toList();
 				if (pageMax >= sort) {
 					return new PageImpl<>(maximumRanks.subList(pageMin, sort), pageRequest, maximumRanks.size());
 				}
@@ -150,23 +146,25 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 
 	@Override
 	public void update(final CityDto cityDto) {
-		final City city = this.cityRepository.findById(cityDto.getId()).orElseGet(City::new);
-		final String countryCode = this.countryRepository.findNationCode(cityDto.getNation());
+		final City city = this.cityRepository.findById(cityDto.id()).orElseGet(City::new);
+		final String countryCode = this.countryRepository.findNationCode(cityDto.nation());
 		city.setCountryCode(countryCode);
-		city.setName(cityDto.getName());
-		city.setDistrict(cityDto.getDistrict());
-		city.setPopulation(cityDto.getPopulation());
+		city.setName(cityDto.name());
+		city.setDistrict(cityDto.district());
+		city.setPopulation(cityDto.population());
 		this.cityRepository.save(city);
 	}
 
 	@Override
 	public void save(final CityDto cityDto) {
-		final City city = new City();
-		BeanUtils.copyProperties(cityDto, city, "continent", "nation", "language");
+		final String countryCode = this.countryRepository.findNationCode(cityDto.nation());
 		final Long saiban = this.cityRepository.saiban();
-		final String countryCode = this.countryRepository.findNationCode(cityDto.getNation());
+		final City city = new City();
 		city.setId(saiban);
+		city.setName(cityDto.name());
 		city.setCountryCode(countryCode);
+		city.setDistrict(cityDto.district());
+		city.setPopulation(cityDto.population());
 		city.setDeleteFlg(Messages.MSG007);
 		this.cityRepository.save(city);
 	}
@@ -202,11 +200,9 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	}
 
 	private Page<CityDto> getCityInfoDtos(final Page<CityInfo> pages, final Pageable pageable, final Long total) {
-		final List<CityDto> cityDtos = pages.getContent().stream().map(item -> {
-			final CityDto cityDto = new CityDto();
-			BeanUtils.copyProperties(item, cityDto);
-			return cityDto;
-		}).collect(Collectors.toList());
+		final List<CityDto> cityDtos = pages.getContent().stream().map(item -> new CityDto(item.getId(), item.getName(),
+				item.getContinent(), item.getNation(), item.getDistrict(), item.getPopulation(), item.getLanguage()))
+				.toList();
 		return new PageImpl<>(cityDtos, pageable, total);
 	}
 }

@@ -5,6 +5,8 @@ import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -63,4 +65,11 @@ public final class City implements Serializable {
 	 */
 	@Column(nullable = false)
 	private String deleteFlg;
+
+	/**
+	 * This field corresponds to the database table country
+	 */
+	@ManyToOne
+	@JoinColumn(name = "countryCode", insertable = false, updatable = false)
+	private Country country;
 }
