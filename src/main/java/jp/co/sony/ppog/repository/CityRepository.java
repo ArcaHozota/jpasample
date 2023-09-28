@@ -17,7 +17,7 @@ import jp.co.sony.ppog.entity.City;
  * @since 3.66
  */
 @Repository
-public interface CityRepository extends JpaRepository<City, Long>, JpaSpecificationExecutor<City> {
+public interface CityRepository extends JpaRepository<City, Integer>, JpaSpecificationExecutor<City> {
 
 	/**
 	 * 採番を行います

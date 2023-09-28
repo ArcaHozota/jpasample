@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import jp.co.sony.ppog.entity.CityInfo;
 
-public interface CityInfoRepository extends JpaRepository<CityInfo, Long>, JpaSpecificationExecutor<CityInfo> {
+public interface CityInfoRepository extends JpaRepository<CityInfo, Integer>, JpaSpecificationExecutor<CityInfo> {
 
 	/**
 	 * 国名によって公用語を取得する
