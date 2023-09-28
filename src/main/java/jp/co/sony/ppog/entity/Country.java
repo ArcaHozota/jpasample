@@ -2,16 +2,12 @@ package jp.co.sony.ppog.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -123,10 +119,4 @@ public final class Country implements Serializable {
 	 */
 	@Column(nullable = false)
 	private String deleteFlg;
-
-	/**
-	 * This field corresponds to the database table city
-	 */
-	@OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
-	private List<City> cities;
 }
