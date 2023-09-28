@@ -26,8 +26,8 @@ public interface CityInfoRepository extends JpaRepository<CityInfo, Long>, JpaSp
 	 * @param sort ソート
 	 * @return List<City>
 	 */
-	@Query(value = "select cn.id, cn.name, cn.country_code, cn.district, cn.population from city as cn "
-			+ "where cn.delete_flg = 'visible' order by cn.population limit :sortNumber", nativeQuery = true)
+	@Query(value = "select cnf.id, cnf.name, cnf.continent, cnf.nation, cnf.district, cnf.population, cnf.language from city_info as cnf "
+			+ "where cn.delete_flg = 'visible' order by cn.population asc limit :sortNumber", nativeQuery = true)
 	List<CityInfo> findMinimumRanks(@Param("sortNumber") Integer sort);
 
 	/**
@@ -36,7 +36,7 @@ public interface CityInfoRepository extends JpaRepository<CityInfo, Long>, JpaSp
 	 * @param sort ソート
 	 * @return List<City>
 	 */
-	@Query(value = "select cn.id, cn.name, cn.country_code, cn.district, cn.population from city as cn "
+	@Query(value = "select cnf.id, cnf.name, cnf.continent, cnf.nation, cnf.district, cnf.population, cnf.language from city_info as cnf "
 			+ "where cn.delete_flg = 'visible' order by cn.population desc limit :sortNumber", nativeQuery = true)
 	List<CityInfo> findMaximumRanks(@Param("sortNumber") Integer sort);
 }
