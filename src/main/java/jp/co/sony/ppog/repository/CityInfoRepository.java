@@ -12,13 +12,14 @@ import jp.co.sony.ppog.entity.CityInfo;
 public interface CityInfoRepository extends JpaRepository<CityInfo, Integer>, JpaSpecificationExecutor<CityInfo> {
 
 	/**
-	 * 国名によって公用語を取得する
+	 * 人口数量降順で都市情報を検索する
 	 *
-	 * @param nationVal 国名
-	 * @return String
+	 * @param sort ソート
+	 * @return List<City>
 	 */
-	@Query(value = "select max(cnf.language) from CityInfo as cnf where cnf.nation =:nation group by cnf.nation")
-	String getLanguage(@Param("nation") String nationVal);
+	@Query(value = "select cnf.id, cnf.name, cnf.continent, cnf.nation, cnf.district, cnf.population, cnf.language from city_info as cnf "
+			+ "where cn.delete_flg = 'visible' order by cn.population desc limit :sortNumber", nativeQuery = true)
+	List<CityInfo> findMaximumRanks(@Param("sortNumber") Integer sort);
 
 	/**
 	 * 人口数量昇順で都市情報を検索する
@@ -31,12 +32,17 @@ public interface CityInfoRepository extends JpaRepository<CityInfo, Integer>, Jp
 	List<CityInfo> findMinimumRanks(@Param("sortNumber") Integer sort);
 
 	/**
-	 * 人口数量降順で都市情報を検索する
+	 * 国名によって公用語を取得する
 	 *
-	 * @param sort ソート
-	 * @return List<City>
+	 * @param nationVal 国名
+	 * @return String
 	 */
-	@Query(value = "select cnf.id, cnf.name, cnf.continent, cnf.nation, cnf.district, cnf.population, cnf.language from city_info as cnf "
-			+ "where cn.delete_flg = 'visible' order by cn.population desc limit :sortNumber", nativeQuery = true)
-	List<CityInfo> findMaximumRanks(@Param("sortNumber") Integer sort);
+	@Query(value = "select max(cnf.language) from CityInfo as cnf where cnf.nation =:nation group by cnf.nation")
+	String getLanguage(@Param("nation") String nationVal);
+
+	/**
+	 * ビューリフレッシュ
+	 */
+	@Query(value = "refresh materialized view city_info", nativeQuery = true)
+	void refresh();
 }

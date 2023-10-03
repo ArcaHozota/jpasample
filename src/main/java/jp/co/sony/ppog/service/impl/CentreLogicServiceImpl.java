@@ -62,22 +62,67 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	private final CountryRepository countryRepository;
 
 	@Override
+	public List<City> checkDuplicate(final String cityName) {
+		final City city = new City();
+		city.setName(StringUtils.toHankaku(cityName));
+		city.setDeleteFlg(Messages.MSG007);
+		final Example<City> example = Example.of(city, ExampleMatcher.matchingAll());
+		return this.cityRepository.findAll(example);
+	}
+
+	@Override
+	public List<String> findAllContinents() {
+		return this.countryRepository.findAllContinents();
+	}
+
+	@Override
+	public String findLanguageByCty(final String nationVal) {
+		return this.cityInfoRepository.getLanguage(nationVal);
+	}
+
+	@Override
+	public List<String> findNationsByCnt(final String continentVal) {
+		final String hankaku = StringUtils.toHankaku(continentVal);
+		return this.countryRepository.findNationsByCnt(hankaku);
+	}
+
+	@Override
 	public CityDto getCityInfoById(final Integer id) {
 		final CityInfo cityInfo = this.cityInfoRepository.findById(id).orElseGet(CityInfo::new);
 		return new CityDto(cityInfo.getId(), cityInfo.getName(), cityInfo.getContinent(), cityInfo.getNation(),
 				cityInfo.getDistrict(), cityInfo.getPopulation(), cityInfo.getLanguage());
 	}
 
+	private Page<CityDto> getCityInfoDtos(final Page<CityInfo> pages, final Pageable pageable, final Long total) {
+		final List<CityDto> cityDtos = pages.getContent().stream().map(item -> new CityDto(item.getId(), item.getName(),
+				item.getContinent(), item.getNation(), item.getDistrict(), item.getPopulation(), item.getLanguage()))
+				.toList();
+		return new PageImpl<>(cityDtos, pageable, total);
+	}
+
+	@Override
+	public List<String> getListOfNationsById(final Integer id) {
+		final List<String> list = new ArrayList<>();
+		final City city = this.cityRepository.findById(id).orElseGet(City::new);
+		final String nationName = city.getCountry().getName();
+		list.add(nationName);
+		final List<String> nations = this.countryRepository.findNationsByCnt(city.getCountry().getContinent()).stream()
+				.filter(item -> StringUtils.isNotEqual(item, nationName)).toList();
+		list.addAll(nations);
+		return list;
+	}
+
 	@Override
 	public Page<CityDto> getPageInfo(final Integer pageNum, final String keyword) {
 		// ページングコンストラクタを宣言する；
-		final PageRequest pageRequest = PageRequest.of(pageNum - 1, PAGE_SIZE, Sort.by(Direction.ASC, "id"));
+		final PageRequest pageRequest = PageRequest.of(pageNum - 1, CentreLogicServiceImpl.PAGE_SIZE,
+				Sort.by(Direction.ASC, "id"));
 		// キーワードの属性を判断する；
 		if (StringUtils.isNotEmpty(keyword)) {
 			final String hankakuKeyword = StringUtils.toHankaku(keyword);
-			final int pageMin = PAGE_SIZE * (pageNum - 1);
-			final int pageMax = PAGE_SIZE * pageNum;
-			int sort = SORT_NUMBER;
+			final int pageMin = CentreLogicServiceImpl.PAGE_SIZE * (pageNum - 1);
+			final int pageMax = CentreLogicServiceImpl.PAGE_SIZE * pageNum;
+			int sort = CentreLogicServiceImpl.SORT_NUMBER;
 			if (hankakuKeyword.startsWith("min(pop)")) {
 				final int indexOf = hankakuKeyword.indexOf(")");
 				final String keisan = hankakuKeyword.substring(indexOf + 1);
@@ -132,26 +177,9 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	}
 
 	@Override
-	public List<String> getListOfNationsById(final Integer id) {
-		final List<String> list = new ArrayList<>();
-		final City city = this.cityRepository.findById(id).orElseGet(City::new);
-		final String nationName = city.getCountry().getName();
-		list.add(nationName);
-		final List<String> nations = this.countryRepository.findNationsByCnt(city.getCountry().getContinent()).stream()
-				.filter(item -> StringUtils.isNotEqual(item, nationName)).toList();
-		list.addAll(nations);
-		return list;
-	}
-
-	@Override
-	public void update(final CityDto cityDto) {
-		final City city = this.cityRepository.findById(cityDto.id()).orElseGet(City::new);
-		final String countryCode = this.countryRepository.findNationCode(cityDto.nation());
-		city.setCountryCode(countryCode);
-		city.setName(cityDto.name());
-		city.setDistrict(cityDto.district());
-		city.setPopulation(cityDto.population());
-		this.cityRepository.save(city);
+	public void removeById(final Integer id) {
+		this.cityRepository.removeById(id);
+		this.cityInfoRepository.refresh();
 	}
 
 	@Override
@@ -166,42 +194,18 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		city.setPopulation(cityDto.population());
 		city.setDeleteFlg(Messages.MSG007);
 		this.cityRepository.save(city);
+		this.cityInfoRepository.refresh();
 	}
 
 	@Override
-	public void removeById(final Integer id) {
-		this.cityRepository.removeById(id);
-	}
-
-	@Override
-	public List<String> findAllContinents() {
-		return this.countryRepository.findAllContinents();
-	}
-
-	@Override
-	public List<String> findNationsByCnt(final String continentVal) {
-		final String hankaku = StringUtils.toHankaku(continentVal);
-		return this.countryRepository.findNationsByCnt(hankaku);
-	}
-
-	@Override
-	public String findLanguageByCty(final String nationVal) {
-		return this.cityInfoRepository.getLanguage(nationVal);
-	}
-
-	@Override
-	public List<City> checkDuplicate(final String cityName) {
-		final City city = new City();
-		city.setName(StringUtils.toHankaku(cityName));
-		city.setDeleteFlg(Messages.MSG007);
-		final Example<City> example = Example.of(city, ExampleMatcher.matchingAll());
-		return this.cityRepository.findAll(example);
-	}
-
-	private Page<CityDto> getCityInfoDtos(final Page<CityInfo> pages, final Pageable pageable, final Long total) {
-		final List<CityDto> cityDtos = pages.getContent().stream().map(item -> new CityDto(item.getId(), item.getName(),
-				item.getContinent(), item.getNation(), item.getDistrict(), item.getPopulation(), item.getLanguage()))
-				.toList();
-		return new PageImpl<>(cityDtos, pageable, total);
+	public void update(final CityDto cityDto) {
+		final City city = this.cityRepository.findById(cityDto.id()).orElseGet(City::new);
+		final String countryCode = this.countryRepository.findNationCode(cityDto.nation());
+		city.setCountryCode(countryCode);
+		city.setName(cityDto.name());
+		city.setDistrict(cityDto.district());
+		city.setPopulation(cityDto.population());
+		this.cityRepository.save(city);
+		this.cityInfoRepository.refresh();
 	}
 }
