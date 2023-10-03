@@ -20,13 +20,6 @@ import jp.co.sony.ppog.entity.City;
 public interface CityRepository extends JpaRepository<City, Integer>, JpaSpecificationExecutor<City> {
 
 	/**
-	 * 採番を行います
-	 *
-	 * @return 採番値
-	 */
-	Integer saiban();
-
-	/**
 	 * 論理削除
 	 *
 	 * @param id id of the selected city
@@ -34,4 +27,11 @@ public interface CityRepository extends JpaRepository<City, Integer>, JpaSpecifi
 	@Modifying
 	@Transactional(rollbackFor = PSQLException.class)
 	void removeById(@Param("id") Integer id);
+
+	/**
+	 * 採番を行います
+	 *
+	 * @return 採番値
+	 */
+	Integer saiban();
 }
