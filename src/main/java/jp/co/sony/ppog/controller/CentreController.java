@@ -41,86 +41,21 @@ public class CentreController {
 	private final CentreLogicService centreLogicService;
 
 	/**
-	 * 都市情報を検索する
+	 * 入力した都市名を重複かどうかをチェックする
 	 *
-	 * @return modelAndView
+	 * @param cityName 都市名称
+	 * @return 処理成功のメッセージ
 	 */
-	@GetMapping(value = "/city")
-	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
-			@RequestParam(value = "keyword", defaultValue = StringUtils.EMPTY_STRING) final String keyword) {
-		// ページング検索結果を吹き出します；
-		final Page<CityDto> pageInfo = this.centreLogicService.getPageInfo(pageNum, keyword);
-		// modelAndViewオブジェクトを宣言する；
-		final ModelAndView modelAndView = new ModelAndView("index");
-		// 前のページを取得する；
-		final int current = pageInfo.getNumber();
-		// ページングナビゲーションの数を定義する；
-		final int naviNums = 7;
-		// ページングナビの最初と最後の数を取得する；
-		final int pageFirstIndex = current / naviNums * naviNums;
-		int pageLastIndex = (current / naviNums + 1) * naviNums - 1;
-		if (pageLastIndex > pageInfo.getTotalPages() - 1) {
-			pageLastIndex = pageInfo.getTotalPages() - 1;
-		} else {
-			pageLastIndex = (current / naviNums + 1) * naviNums - 1;
+	@GetMapping(value = "/check")
+	@ResponseBody
+	public RestMsg checkName(@RequestParam("cityName") final String cityName) {
+		if (!cityName.matches(Messages.MSG006)) {
+			return RestMsg.failure().add("validatedMsg", Messages.MSG005);
 		}
-		modelAndView.addObject("pageInfo", pageInfo);
-		modelAndView.addObject("keyword", keyword);
-		modelAndView.addObject("pageFirstIndex", pageFirstIndex);
-		modelAndView.addObject("pageLastIndex", pageLastIndex);
-		modelAndView.addObject("title", "CityList");
-		return modelAndView;
-	}
-
-	/**
-	 * 指定された都市の情報を取得する
-	 *
-	 * @param id 都市ID
-	 * @return 都市情報
-	 */
-	@GetMapping(value = "/city/{id}")
-	@ResponseBody
-	public RestMsg getCityInfo(@PathVariable("id") final Integer id) {
-		final CityDto cityDto = this.centreLogicService.getCityInfoById(id);
-		return RestMsg.success().add("citySelected", cityDto);
-	}
-
-	/**
-	 * 指定された都市の大陸に位置するすべての国を取得する
-	 *
-	 * @param id 都市ID
-	 * @return 国のリスト
-	 */
-	@GetMapping(value = "/nations/{id}")
-	@ResponseBody
-	public RestMsg getListOfNationsById(@PathVariable("id") final Integer id) {
-		final List<String> nations = this.centreLogicService.getListOfNationsById(id);
-		return RestMsg.success().add("nationsWithName", nations);
-	}
-
-	/**
-	 * 入力した都市情報を変更する
-	 *
-	 * @param cityDto 都市情報DTO
-	 * @return 処理成功のメッセージ
-	 */
-	@PutMapping(value = "/city/{id}")
-	@ResponseBody
-	public RestMsg updateCityInfo(@RequestBody final CityDto cityDto) {
-		this.centreLogicService.update(cityDto);
-		return RestMsg.success();
-	}
-
-	/**
-	 * 入力した都市情報を保存する
-	 *
-	 * @param cityDto 都市情報DTO
-	 * @return 処理成功のメッセージ
-	 */
-	@PostMapping(value = "/city")
-	@ResponseBody
-	public RestMsg saveCityInfo(@RequestBody final CityDto cityDto) {
-		this.centreLogicService.save(cityDto);
+		final List<City> lists = this.centreLogicService.checkDuplicate(cityName);
+		if (!lists.isEmpty()) {
+			return RestMsg.failure().add("validatedMsg", Messages.MSG004);
+		}
 		return RestMsg.success();
 	}
 
@@ -138,6 +73,51 @@ public class CentreController {
 	}
 
 	/**
+	 * 指定された都市の情報を取得する
+	 *
+	 * @param id 都市ID
+	 * @return 都市情報
+	 */
+	@GetMapping(value = "/city/{id}")
+	@ResponseBody
+	public RestMsg getCityInfo(@PathVariable("id") final Integer id) {
+		final CityDto cityDto = this.centreLogicService.getCityInfoById(id);
+		return RestMsg.success().add("citySelected", cityDto);
+	}
+
+	/**
+	 * 都市情報を検索する
+	 *
+	 * @return modelAndView
+	 */
+	@GetMapping(value = "/city")
+	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
+			@RequestParam(value = "keyword", defaultValue = StringUtils.EMPTY_STRING) final String keyword) {
+		// ページング検索結果を吹き出します；
+		final Page<CityDto> pageInfo = this.centreLogicService.getPageInfo(pageNum, keyword);
+		// modelAndViewオブジェクトを宣言する；
+		final ModelAndView modelAndView = new ModelAndView("index");
+		// 前のページを取得する；
+		final int current = pageInfo.getNumber();
+		// ページングナビゲーションの数を定義する；
+		final int naviNums = 7;
+		// ページングナビの最初と最後の数を取得する；
+		final int pageFirstIndex = (current / naviNums) * naviNums;
+		int pageLastIndex = (((current / naviNums) + 1) * naviNums) - 1;
+		if (pageLastIndex > (pageInfo.getTotalPages() - 1)) {
+			pageLastIndex = pageInfo.getTotalPages() - 1;
+		} else {
+			pageLastIndex = (((current / naviNums) + 1) * naviNums) - 1;
+		}
+		modelAndView.addObject("pageInfo", pageInfo);
+		modelAndView.addObject("keyword", keyword);
+		modelAndView.addObject("pageFirstIndex", pageFirstIndex);
+		modelAndView.addObject("pageLastIndex", pageLastIndex);
+		modelAndView.addObject("title", "CityList");
+		return modelAndView;
+	}
+
+	/**
 	 * 大陸情報を取得する
 	 *
 	 * @return 大陸名称のリスト
@@ -147,19 +127,6 @@ public class CentreController {
 	public RestMsg getContinents() {
 		final List<String> continents = this.centreLogicService.findAllContinents();
 		return RestMsg.success().add("continentList", continents);
-	}
-
-	/**
-	 * 指定された大陸に位置するすべての国を取得する
-	 *
-	 * @param continentVal 大陸名称
-	 * @return 国のリスト
-	 */
-	@GetMapping(value = "/nations")
-	@ResponseBody
-	public RestMsg getListOfNationsById(@RequestParam("continentVal") final String continentVal) {
-		final List<String> nations = this.centreLogicService.findNationsByCnt(continentVal);
-		return RestMsg.success().add("nationList", nations);
 	}
 
 	/**
@@ -176,21 +143,54 @@ public class CentreController {
 	}
 
 	/**
-	 * 入力した都市名を重複かどうかをチェックする
+	 * 指定された都市の大陸に位置するすべての国を取得する
 	 *
-	 * @param cityName 都市名称
+	 * @param id 都市ID
+	 * @return 国のリスト
+	 */
+	@GetMapping(value = "/nations/{id}")
+	@ResponseBody
+	public RestMsg getListOfNationsById(@PathVariable("id") final Integer id) {
+		final List<String> nations = this.centreLogicService.getListOfNationsById(id);
+		return RestMsg.success().add("nationsWithName", nations);
+	}
+
+	/**
+	 * 指定された大陸に位置するすべての国を取得する
+	 *
+	 * @param continentVal 大陸名称
+	 * @return 国のリスト
+	 */
+	@GetMapping(value = "/nations")
+	@ResponseBody
+	public RestMsg getListOfNationsById(@RequestParam("continentVal") final String continentVal) {
+		final List<String> nations = this.centreLogicService.findNationsByCnt(continentVal);
+		return RestMsg.success().add("nationList", nations);
+	}
+
+	/**
+	 * 入力した都市情報を保存する
+	 *
+	 * @param cityDto 都市情報DTO
 	 * @return 処理成功のメッセージ
 	 */
-	@GetMapping(value = "/check")
+	@PostMapping(value = "/city")
 	@ResponseBody
-	public RestMsg checkName(@RequestParam("cityName") final String cityName) {
-		if (!cityName.matches(Messages.MSG006)) {
-			return RestMsg.failure().add("validatedMsg", Messages.MSG005);
-		}
-		final List<City> lists = this.centreLogicService.checkDuplicate(cityName);
-		if (!lists.isEmpty()) {
-			return RestMsg.failure().add("validatedMsg", Messages.MSG004);
-		}
+	public RestMsg saveCityInfo(@RequestBody final CityDto cityDto) {
+		this.centreLogicService.save(cityDto);
+		return RestMsg.success();
+	}
+
+	/**
+	 * 入力した都市情報を変更する
+	 *
+	 * @param cityDto 都市情報DTO
+	 * @return 処理成功のメッセージ
+	 */
+	@PutMapping(value = "/city/{id}")
+	@ResponseBody
+	public RestMsg updateCityInfo(@RequestBody final CityDto cityDto) {
+		this.centreLogicService.update(cityDto);
 		return RestMsg.success();
 	}
 }
