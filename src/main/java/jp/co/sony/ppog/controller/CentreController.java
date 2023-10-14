@@ -3,6 +3,7 @@ package jp.co.sony.ppog.controller;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import jp.co.sony.ppog.dto.CityDto;
@@ -29,7 +30,7 @@ import lombok.RequiredArgsConstructor;
  * @author ArcaHozota
  * @since 1.00beta
  */
-@RestController
+@Controller
 @RequestMapping("/ssmcrud")
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class CentreController {
@@ -46,6 +47,7 @@ public class CentreController {
 	 * @return 処理成功のメッセージ
 	 */
 	@GetMapping(value = "/check")
+	@ResponseBody
 	public RestMsg checkName(@RequestParam("cityName") final String cityName) {
 		if (!cityName.matches(Messages.MSG006)) {
 			return RestMsg.failure().add("validatedMsg", Messages.MSG005);
@@ -64,6 +66,7 @@ public class CentreController {
 	 * @return 処理成功のメッセージ
 	 */
 	@DeleteMapping(value = "/city/{id}")
+	@ResponseBody
 	public RestMsg deleteCityInfo(@PathVariable("id") final Integer id) {
 		this.centreLogicService.removeById(id);
 		return RestMsg.success();
@@ -76,6 +79,7 @@ public class CentreController {
 	 * @return 都市情報
 	 */
 	@GetMapping(value = "/city/{id}")
+	@ResponseBody
 	public RestMsg getCityInfo(@PathVariable("id") final Integer id) {
 		final CityDto cityDto = this.centreLogicService.getCityInfoById(id);
 		return RestMsg.success().add("citySelected", cityDto);
@@ -87,6 +91,7 @@ public class CentreController {
 	 * @return 大陸名称のリスト
 	 */
 	@GetMapping(value = "/continents")
+	@ResponseBody
 	public RestMsg getContinents() {
 		final List<String> continents = this.centreLogicService.findAllContinents();
 		return RestMsg.success().add("continentList", continents);
@@ -99,6 +104,7 @@ public class CentreController {
 	 * @return 言語のリスト
 	 */
 	@GetMapping(value = "/languages")
+	@ResponseBody
 	public RestMsg getListOfLanguages(@RequestParam("nationVal") final String nationVal) {
 		final String language = this.centreLogicService.findLanguageByCty(nationVal);
 		return RestMsg.success().add("languages", language);
@@ -111,6 +117,7 @@ public class CentreController {
 	 * @return 国のリスト
 	 */
 	@GetMapping(value = "/nations/{id}")
+	@ResponseBody
 	public RestMsg getListOfNationsById(@PathVariable("id") final Integer id) {
 		final List<String> nations = this.centreLogicService.getListOfNationsById(id);
 		return RestMsg.success().add("nationsWithName", nations);
@@ -123,6 +130,7 @@ public class CentreController {
 	 * @return 国のリスト
 	 */
 	@GetMapping(value = "/nations")
+	@ResponseBody
 	public RestMsg getListOfNationsById(@RequestParam("continentVal") final String continentVal) {
 		final List<String> nations = this.centreLogicService.findNationsByCnt(continentVal);
 		return RestMsg.success().add("nationList", nations);
@@ -164,6 +172,7 @@ public class CentreController {
 	 * @return modelAndView
 	 */
 	@GetMapping(value = "/city")
+	@ResponseBody
 	public RestMsg pagination(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
 			@RequestParam(value = "keyword", defaultValue = StringUtils.EMPTY_STRING) final String keyword) {
 		// ページング検索結果を吹き出します；
@@ -178,6 +187,7 @@ public class CentreController {
 	 * @return 処理成功のメッセージ
 	 */
 	@PostMapping(value = "/city")
+	@ResponseBody
 	public RestMsg saveCityInfo(@RequestBody final CityDto cityDto) {
 		this.centreLogicService.save(cityDto);
 		return RestMsg.success();
@@ -190,6 +200,7 @@ public class CentreController {
 	 * @return 処理成功のメッセージ
 	 */
 	@PutMapping(value = "/city/{id}")
+	@ResponseBody
 	public RestMsg updateCityInfo(@RequestBody final CityDto cityDto) {
 		this.centreLogicService.update(cityDto);
 		return RestMsg.success();
