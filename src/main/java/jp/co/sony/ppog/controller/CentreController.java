@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import jp.co.sony.ppog.dto.CityDto;
 import jp.co.sony.ppog.entity.City;
@@ -125,6 +126,36 @@ public class CentreController {
 	public RestMsg getListOfNationsById(@RequestParam("continentVal") final String continentVal) {
 		final List<String> nations = this.centreLogicService.findNationsByCnt(continentVal);
 		return RestMsg.success().add("nationList", nations);
+	}
+
+	/**
+	 * 都市情報を検索する
+	 *
+	 * @return modelAndView
+	 */
+	@GetMapping(value = "/index")
+	public ModelAndView initial(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
+			@RequestParam(value = "keyword", defaultValue = StringUtils.EMPTY_STRING) final String keyword) {
+		// ページング検索結果を吹き出します；
+		final Page<CityDto> pageInfo = this.centreLogicService.getPageInfo(pageNum, keyword);
+		// modelAndViewオブジェクトを宣言する；
+		final ModelAndView modelAndView = new ModelAndView("index");
+		// 前のページを取得する；
+		final int current = pageInfo.getNumber();
+		// ページングナビゲーションの数を定義する；
+		final int naviNums = 7;
+		// ページングナビの最初と最後の数を取得する；
+		final int pageFirstIndex = (current / naviNums) * naviNums;
+		int pageLastIndex = (((current / naviNums) + 1) * naviNums) - 1;
+		if (pageLastIndex > (pageInfo.getTotalPages() - 1)) {
+			pageLastIndex = pageInfo.getTotalPages() - 1;
+		} else {
+			pageLastIndex = (((current / naviNums) + 1) * naviNums) - 1;
+		}
+		modelAndView.addObject("pageInfo", pageInfo);
+		modelAndView.addObject("pageFirstIndex", pageFirstIndex);
+		modelAndView.addObject("pageLastIndex", pageLastIndex);
+		return modelAndView;
 	}
 
 	/**
