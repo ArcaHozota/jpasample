@@ -22,6 +22,17 @@ import lombok.extern.log4j.Log4j2;
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
 	/**
+	 * 静的リソースマッピングを設定する
+	 *
+	 * @param registry 登録
+	 */
+	@Override
+	protected void addResourceHandlers(final ResourceHandlerRegistry registry) {
+		log.info(Messages.MSG002);
+		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+	}
+
+	/**
 	 * SpringMVCフレームワークを拡張するメッセージ・コンバーター
 	 *
 	 * @param converters コンバーター
@@ -35,19 +46,5 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 		messageConverter.setObjectMapper(new JacksonObjectMapper());
 		// 將上述消息轉換器追加到SpringMVC框架的轉換器容器中；
 		converters.add(0, messageConverter);
-	}
-
-	/**
-	 * 静的リソースマッピングを設定する
-	 *
-	 * @param registry 登録
-	 */
-	@Override
-	protected void addResourceHandlers(final ResourceHandlerRegistry registry) {
-		log.info(Messages.MSG002);
-		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-		registry.addResourceHandler("/jquery/**").addResourceLocations("classpath:/static/jquery/");
-		registry.addResourceHandler("/bootstrap-3.4.1-dist/**")
-				.addResourceLocations("classpath:/static/bootstrap-3.4.1-dist/");
 	}
 }
