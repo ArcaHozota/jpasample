@@ -81,19 +81,6 @@ public class CentreController {
 	}
 
 	/**
-	 * 都市情報を検索する
-	 *
-	 * @return modelAndView
-	 */
-	@GetMapping(value = "/city")
-	public RestMsg getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
-			@RequestParam(value = "keyword", defaultValue = StringUtils.EMPTY_STRING) final String keyword) {
-		// ページング検索結果を吹き出します；
-		final Page<CityDto> pageInfo = this.centreLogicService.getPageInfo(pageNum, keyword);
-		return RestMsg.success().add("pageInfo", pageInfo);
-	}
-
-	/**
 	 * 大陸情報を取得する
 	 *
 	 * @return 大陸名称のリスト
@@ -138,6 +125,19 @@ public class CentreController {
 	public RestMsg getListOfNationsById(@RequestParam("continentVal") final String continentVal) {
 		final List<String> nations = this.centreLogicService.findNationsByCnt(continentVal);
 		return RestMsg.success().add("nationList", nations);
+	}
+
+	/**
+	 * 都市情報を検索する
+	 *
+	 * @return modelAndView
+	 */
+	@GetMapping(value = "/city")
+	public RestMsg pagination(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
+			@RequestParam(value = "keyword", defaultValue = StringUtils.EMPTY_STRING) final String keyword) {
+		// ページング検索結果を吹き出します；
+		final Page<CityDto> pageInfo = this.centreLogicService.getPageInfo(pageNum, keyword);
+		return RestMsg.success().add("pageInfo", pageInfo);
 	}
 
 	/**
