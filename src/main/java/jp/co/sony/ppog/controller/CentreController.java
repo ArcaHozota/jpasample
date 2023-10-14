@@ -143,10 +143,11 @@ public class CentreController {
 	 *
 	 * @return modelAndView
 	 */
-	@GetMapping(value = "/index")
-	public ModelAndView initial() {
+	@GetMapping(value = "/city")
+	public ModelAndView pagination(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
+			@RequestParam(value = "keyword", defaultValue = StringUtils.EMPTY_STRING) final String keyword) {
 		// ページング検索結果を吹き出します；
-		final Page<CityDto> pageInfo = this.centreLogicService.getPageInfo(1, StringUtils.EMPTY_STRING);
+		final Page<CityDto> pageInfo = this.centreLogicService.getPageInfo(pageNum, keyword);
 		// modelAndViewオブジェクトを宣言する；
 		final ModelAndView modelAndView = new ModelAndView("index");
 		// 前のページを取得する；
@@ -165,38 +166,9 @@ public class CentreController {
 		extendMap.put("pageInfo", pageInfo);
 		extendMap.put("pageFirstIndex", pageFirstIndex);
 		extendMap.put("pageLastIndex", pageLastIndex);
+		extendMap.put("keyword", keyword);
 		modelAndView.addObject("extend", extendMap);
 		return modelAndView;
-	}
-
-	/**
-	 * 都市情報を検索する
-	 *
-	 * @return modelAndView
-	 */
-	@GetMapping(value = "/city")
-	@ResponseBody
-	public RestMsg pagination(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
-			@RequestParam(value = "keyword", defaultValue = StringUtils.EMPTY_STRING) final String keyword) {
-		// ページング検索結果を吹き出します；
-		final Page<CityDto> pageInfo = this.centreLogicService.getPageInfo(pageNum, keyword);
-		// 前のページを取得する；
-		final int current = pageInfo.getNumber();
-		// ページングナビゲーションの数を定義する；
-		final int naviNums = 7;
-		// ページングナビの最初と最後の数を取得する；
-		final int pageFirstIndex = (current / naviNums) * naviNums;
-		int pageLastIndex = (((current / naviNums) + 1) * naviNums) - 1;
-		if (pageLastIndex > (pageInfo.getTotalPages() - 1)) {
-			pageLastIndex = pageInfo.getTotalPages() - 1;
-		} else {
-			pageLastIndex = (((current / naviNums) + 1) * naviNums) - 1;
-		}
-		final RestMsg success = RestMsg.success();
-		success.add("pageInfo", pageInfo);
-		success.add("pageFirstIndex", pageFirstIndex);
-		success.add("pageLastIndex", pageLastIndex);
-		return success;
 	}
 
 	/**
