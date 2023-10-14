@@ -104,7 +104,7 @@
 					<li><a th:href="@{'/ssmcrud/city?pageNum='+${previousPage < 1 ? 1 : previousPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
 							th:class="${extend.pageInfo.hasPrevious() ? 'enable' : 'disabled'}">&laquo;</a>
 					</li>
-					<li th:each="i:${#numbers.sequence((extend.pageInfo.getNumber()/7)*7,((extend.pageInfo.getNumber()/7)+1)*7-1)}"
+					<li th:each="i:${#numbers.sequence(extend.pageFirstIndex,extend.pageLastIndex)}"
 						th:class="${extend.pageInfo.getNumber()} eq ${i} ? 'active' : 'enable'">
 						<a th:text="${i+1}"
 							th:href="@{'/ssmcrud/city?pageNum='+${i+1}+'&keyword='+${keyword eq null ? '' : keyword}}"></a>

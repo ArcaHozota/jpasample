@@ -142,10 +142,9 @@ public class CentreController {
 	 * @return modelAndView
 	 */
 	@GetMapping(value = "/index")
-	public ModelAndView initial(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
-			@RequestParam(value = "keyword", defaultValue = StringUtils.EMPTY_STRING) final String keyword) {
+	public ModelAndView initial() {
 		// ページング検索結果を吹き出します；
-		final Page<CityDto> pageInfo = this.centreLogicService.getPageInfo(pageNum, keyword);
+		final Page<CityDto> pageInfo = this.centreLogicService.getPageInfo(1, StringUtils.EMPTY_STRING);
 		// modelAndViewオブジェクトを宣言する；
 		final ModelAndView modelAndView = new ModelAndView("index");
 		// 前のページを取得する；
@@ -161,8 +160,8 @@ public class CentreController {
 			pageLastIndex = (((current / naviNums) + 1) * naviNums) - 1;
 		}
 		modelAndView.addObject("extend.pageInfo", pageInfo);
-		modelAndView.addObject("pageFirstIndex", pageFirstIndex);
-		modelAndView.addObject("pageLastIndex", pageLastIndex);
+		modelAndView.addObject("extend.pageFirstIndex", pageFirstIndex);
+		modelAndView.addObject("extend.pageLastIndex", pageLastIndex);
 		return modelAndView;
 	}
 
@@ -177,7 +176,23 @@ public class CentreController {
 			@RequestParam(value = "keyword", defaultValue = StringUtils.EMPTY_STRING) final String keyword) {
 		// ページング検索結果を吹き出します；
 		final Page<CityDto> pageInfo = this.centreLogicService.getPageInfo(pageNum, keyword);
-		return RestMsg.success().add("pageInfo", pageInfo);
+		// 前のページを取得する；
+		final int current = pageInfo.getNumber();
+		// ページングナビゲーションの数を定義する；
+		final int naviNums = 7;
+		// ページングナビの最初と最後の数を取得する；
+		final int pageFirstIndex = (current / naviNums) * naviNums;
+		int pageLastIndex = (((current / naviNums) + 1) * naviNums) - 1;
+		if (pageLastIndex > (pageInfo.getTotalPages() - 1)) {
+			pageLastIndex = pageInfo.getTotalPages() - 1;
+		} else {
+			pageLastIndex = (((current / naviNums) + 1) * naviNums) - 1;
+		}
+		final RestMsg success = RestMsg.success();
+		success.add("pageInfo", pageInfo);
+		success.add("pageFirstIndex", pageFirstIndex);
+		success.add("pageLastIndex", pageLastIndex);
+		return success;
 	}
 
 	/**
