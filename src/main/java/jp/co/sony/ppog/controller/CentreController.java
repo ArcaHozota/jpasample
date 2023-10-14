@@ -152,7 +152,7 @@ public class CentreController {
 		} else {
 			pageLastIndex = (((current / naviNums) + 1) * naviNums) - 1;
 		}
-		modelAndView.addObject("pageInfo", pageInfo);
+		modelAndView.addObject("extend.pageInfo", pageInfo);
 		modelAndView.addObject("pageFirstIndex", pageFirstIndex);
 		modelAndView.addObject("pageLastIndex", pageLastIndex);
 		return modelAndView;
