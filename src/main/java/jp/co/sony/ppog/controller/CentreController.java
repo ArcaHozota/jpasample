@@ -1,6 +1,8 @@
 package jp.co.sony.ppog.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -159,9 +161,11 @@ public class CentreController {
 		} else {
 			pageLastIndex = (((current / naviNums) + 1) * naviNums) - 1;
 		}
-		modelAndView.addObject("extend.pageInfo", pageInfo);
-		modelAndView.addObject("extend.pageFirstIndex", pageFirstIndex);
-		modelAndView.addObject("extend.pageLastIndex", pageLastIndex);
+		final Map<String, Object> extendMap = new HashMap<>();
+		extendMap.put("pageInfo", pageInfo);
+		extendMap.put("pageFirstIndex", pageFirstIndex);
+		extendMap.put("pageLastIndex", pageLastIndex);
+		modelAndView.addObject("extend", extendMap);
 		return modelAndView;
 	}
 
