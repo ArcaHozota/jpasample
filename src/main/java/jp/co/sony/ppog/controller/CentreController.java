@@ -91,7 +91,7 @@ public class CentreController {
 	 * @return modelAndView
 	 */
 	@GetMapping(value = "/city")
-	public ModelAndView getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
+	public RestMsg getCityInfo(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
 			@RequestParam(value = "keyword", defaultValue = StringUtils.EMPTY_STRING) final String keyword) {
 		// ページング検索結果を吹き出します；
 		final Page<CityDto> pageInfo = this.centreLogicService.getPageInfo(pageNum, keyword);
@@ -114,7 +114,7 @@ public class CentreController {
 		modelAndView.addObject("pageFirstIndex", pageFirstIndex);
 		modelAndView.addObject("pageLastIndex", pageLastIndex);
 		modelAndView.addObject("title", "CityList");
-		return modelAndView;
+		return RestMsg.success().add("pageInfo", pageInfo);
 	}
 
 	/**

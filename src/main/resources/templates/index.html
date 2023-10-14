@@ -2,10 +2,10 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+	<title>GlobalCityList</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title th:text="${title}">Default</title>
 	<!--フレームワークjQueryを導入-->
 	<script th:type="'text/javascript'" th:src="@{/static/jquery/jquery-3.6.2.min.js}"></script>
 	<!--フレームワークBootstrapを導入-->
@@ -312,22 +312,18 @@
 				return false;
 			} else if (!regularDistrict.test(inputDistrict)
 				&& !regularPopulation.test(inputPopulation)) {
-				showValidationMsg("#districtInput", "error",
-					"入力した地域名称が2桁から23桁までのローマ字にしなければなりません。");
-				showValidationMsg("#populationInput", "error",
-					"入力した人口数量が4桁から18桁までの数字にしなければなりません。");
+				showValidationMsg("#districtInput", "error", "入力した地域名称が2桁から23桁までのローマ字にしなければなりません。");
+				showValidationMsg("#populationInput", "error", "入力した人口数量が4桁から18桁までの数字にしなければなりません。");
 				return false;
 			} else if (!regularDistrict.test(inputDistrict)
 				&& regularPopulation.test(inputPopulation)) {
-				showValidationMsg("#districtInput", "error",
-					"入力した地域名称が2桁から23桁までのローマ字にしなければなりません。");
+				showValidationMsg("#districtInput", "error", "入力した地域名称が2桁から23桁までのローマ字にしなければなりません。");
 				showValidationMsg("#populationInput", "success", "√");
 				return false;
 			} else if (regularDistrict.test(inputDistrict)
 				&& !regularPopulation.test(inputPopulation)) {
 				showValidationMsg("#districtInput", "success", "√");
-				showValidationMsg("#populationInput", "error",
-					"入力した人口数量が4桁から18桁までの数字にしなければなりません。");
+				showValidationMsg("#populationInput", "error", "入力した人口数量が4桁から18桁までの数字にしなければなりません。");
 				return false;
 			} else {
 				showValidationMsg("#districtInput", "success", "√");
@@ -457,8 +453,7 @@
 				contentType: 'application/json;charset=UTF-8',
 				success: function () {
 					$("#cityEditModal").modal('hide');
-					window.location.replace('/ssmcrud/city?pageNum='
-						+ pageNum + '&keyword=');
+					window.location.replace('/ssmcrud/city?pageNum=' + pageNum + '&keyword=');
 				}
 			});
 		});
