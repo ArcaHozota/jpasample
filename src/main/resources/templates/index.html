@@ -233,6 +233,21 @@
 	<script type="text/javascript" th:inline="javascript">
 		let pageNum = /*[[${pageInfo.getNumber()+1}]]*/{};
 		let pageTotal = /*[[${pageInfo.getTotalPages()}]]*/{};
+		// ページの読み込み後、ajaxリクエストを送信してページ情報を取得する
+		$(document).ready(function () {
+			$.ajax({
+				url: '/ssmcrud/city',
+				data: {
+					pageNum: 1,
+					keyword: ''
+				},
+				type: 'GET',
+				dataType: 'application/json',
+				success: function () {
+					window.location.replace('/ssmcrud/city?pageNum=1&keyword=');
+				}
+			});
+		});
 		$("#searchBtn").on('click', function () {
 			let keyword = $("#keywordInput").val().trim().toString();
 			$.ajax({
