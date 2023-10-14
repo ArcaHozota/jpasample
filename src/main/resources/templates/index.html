@@ -30,7 +30,7 @@
 					<div th:class="'input-group'" th:style="'width:100%;'">
 						<label for="keywordInput" th:class="'input-group-addon'">@</label>
 						<input id="keywordInput" th:class="'form-control has-success'" th:type="'text'"
-							th:placeholder="'検索条件を入力してください'">
+							th:value="${extend.keyword}" th:placeholder="'検索条件を入力してください'">
 					</div>
 				</div>
 				<button th:type="'button'" th:class="'btn btn-warning'" th:id="'searchBtn'">
