@@ -98,21 +98,21 @@
 			<nav th:class="'col-lg-7'"
 				th:with="previousPage=${extend.pageInfo.getNumber()},nextPage=${extend.pageInfo.getNumber()+2},totalPg=${extend.pageInfo.getTotalPages()}">
 				<ul th:class="'pagination'">
-					<li><a th:href="@{'/ssmcrud/city?pageNum=1&keyword='+${keyword eq null ? '' : keyword}}"
+					<li><a th:href="@{'/ssmcrud/city?pageNum=1&keyword='+${extend.keyword eq null ? '' : keyword}}"
 							th:class="${extend.pageInfo.isFirst() ? 'disabled' : 'enable'}">最初のページへ</a>
 					</li>
-					<li><a th:href="@{'/ssmcrud/city?pageNum='+${previousPage < 1 ? 1 : previousPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
+					<li><a th:href="@{'/ssmcrud/city?pageNum='+${previousPage < 1 ? 1 : previousPage}+'&keyword='+${extend.keyword eq null ? '' : keyword}}"
 							th:class="${extend.pageInfo.hasPrevious() ? 'enable' : 'disabled'}">&laquo;</a>
 					</li>
 					<li th:each="i:${#numbers.sequence(extend.pageFirstIndex,extend.pageLastIndex)}"
 						th:class="${extend.pageInfo.getNumber()} eq ${i} ? 'active' : 'enable'">
 						<a th:text="${i+1}"
-							th:href="@{'/ssmcrud/city?pageNum='+${i+1}+'&keyword='+${keyword eq null ? '' : keyword}}"></a>
+							th:href="@{'/ssmcrud/city?pageNum='+${i+1}+'&keyword='+${extend.keyword eq null ? '' : keyword}}"></a>
 					</li>
-					<li><a th:href="@{'/ssmcrud/city?pageNum='+${nextPage > totalPg ? totalPg : nextPage}+'&keyword='+${keyword eq null ? '' : keyword}}"
+					<li><a th:href="@{'/ssmcrud/city?pageNum='+${nextPage > totalPg ? totalPg : nextPage}+'&keyword='+${extend.keyword eq null ? '' : keyword}}"
 							th:class="${extend.pageInfo.hasNext() ? 'enable' : 'disabled'}">&raquo;</a>
 					</li>
-					<li><a th:href="@{'/ssmcrud/city?pageNum='+${totalPg}+'&keyword='+${keyword eq null ? '' : keyword}}"
+					<li><a th:href="@{'/ssmcrud/city?pageNum='+${totalPg}+'&keyword='+${extend.keyword eq null ? '' : keyword}}"
 							th:class="${extend.pageInfo.isLast() ? 'disabled' : 'enable'}">最後のページへ</a>
 					</li>
 				</ul>
@@ -231,8 +231,8 @@
 		</div>
 	</div>
 	<script type="text/javascript" th:inline="javascript">
-		let pageNum = /*[[${pageInfo.getNumber()+1}]]*/{};
-		let pageTotal = /*[[${pageInfo.getTotalPages()}]]*/{};
+		let pageNum = /*[[${extend.pageInfo.getNumber()+1}]]*/{};
+		let pageTotal = /*[[${extend.pageInfo.getTotalPages()}]]*/{};
 		$("#searchBtn").on('click', function () {
 			let keyword = $("#keywordInput").val().trim().toString();
 			$.ajax({
