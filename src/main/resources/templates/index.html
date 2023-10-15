@@ -98,21 +98,21 @@
 			<nav th:class="'col-lg-7'"
 				th:with="previousPage=${extend.pageInfo.getNumber()},nextPage=${extend.pageInfo.getNumber()+2},totalPg=${extend.pageInfo.getTotalPages()}">
 				<ul th:class="'pagination'">
-					<li><a th:href="@{'/ssmcrud/city?pageNum=1&keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
+					<li><a th:href="@{'/jpasample/city?pageNum=1&keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
 							th:class="${extend.pageInfo.isFirst() ? 'disabled' : 'enable'}">最初のページへ</a>
 					</li>
-					<li><a th:href="@{'/ssmcrud/city?pageNum='+${previousPage < 1 ? 1 : previousPage}+'&keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
+					<li><a th:href="@{'/jpasample/city?pageNum='+${previousPage < 1 ? 1 : previousPage}+'&keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
 							th:class="${extend.pageInfo.hasPrevious() ? 'enable' : 'disabled'}">&laquo;</a>
 					</li>
 					<li th:each="i:${#numbers.sequence(extend.pageFirstIndex,extend.pageLastIndex)}"
 						th:class="${extend.pageInfo.getNumber()} eq ${i} ? 'active' : 'enable'">
 						<a th:text="${i+1}"
-							th:href="@{'/ssmcrud/city?pageNum='+${i+1}+'&keyword='+${extend.keyword eq null ? '' : extend.keyword}}"></a>
+							th:href="@{'/jpasample/city?pageNum='+${i+1}+'&keyword='+${extend.keyword eq null ? '' : extend.keyword}}"></a>
 					</li>
-					<li><a th:href="@{'/ssmcrud/city?pageNum='+${nextPage > totalPg ? totalPg : nextPage}+'&keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
+					<li><a th:href="@{'/jpasample/city?pageNum='+${nextPage > totalPg ? totalPg : nextPage}+'&keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
 							th:class="${extend.pageInfo.hasNext() ? 'enable' : 'disabled'}">&raquo;</a>
 					</li>
-					<li><a th:href="@{'/ssmcrud/city?pageNum='+${totalPg}+'&keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
+					<li><a th:href="@{'/jpasample/city?pageNum='+${totalPg}+'&keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
 							th:class="${extend.pageInfo.isLast() ? 'disabled' : 'enable'}">最後のページへ</a>
 					</li>
 				</ul>
@@ -236,11 +236,11 @@
 		$("#searchBtn").on('click', function () {
 			let keyword = $("#keywordInput").val().trim().toString();
 			$.ajax({
-				url: '/ssmcrud/city?pageNum=' + pageNum + '&keyword=' + keyword,
+				url: '/jpasample/city?pageNum=' + pageNum + '&keyword=' + keyword,
 				type: 'GET',
 				dataType: 'html',
 				success: function () {
-					window.location.replace('/ssmcrud/city?pageNum=1&keyword=' + keyword);
+					window.location.replace('/jpasample/city?pageNum=1&keyword=' + keyword);
 				}
 			});
 		});
@@ -255,7 +255,7 @@
 		function getContinents(element) {
 			$(element).empty();
 			$.ajax({
-				url: '/ssmcrud/continents',
+				url: '/jpasample/continents',
 				type: 'GET',
 				dataType: 'json',
 				success: function (result) {
@@ -274,7 +274,7 @@
 		function getNations(element, continentVal) {
 			$(element).empty();
 			$.ajax({
-				url: '/ssmcrud/nations',
+				url: '/jpasample/nations',
 				data: 'continentVal=' + continentVal,
 				type: 'GET',
 				dataType: 'json',
@@ -289,7 +289,7 @@
 		$("#nameInput").change(function () {
 			let cityName = this.value;
 			$.ajax({
-				url: '/ssmcrud/check',
+				url: '/jpasample/check',
 				data: 'cityName=' + cityName,
 				type: 'GET',
 				success: function (result) {
@@ -330,7 +330,7 @@
 				showValidationMsg("#populationInput", "success", "√");
 				// Send an ajax request to commit save options.
 				$.ajax({
-					url: '/ssmcrud/city',
+					url: '/jpasample/city',
 					type: 'POST',
 					dataType: 'json',
 					data: JSON.stringify({
@@ -345,7 +345,7 @@
 						if (result.code === 200) {
 							$("#cityAddModal").modal('hide');
 							window.location
-								.replace('/ssmcrud/city?pageNum=' + pageTotal + '&keyword=');
+								.replace('/jpasample/city?pageNum=' + pageTotal + '&keyword=');
 						} else if (undefined !== result.extend.errorFields.name) {
 							showValidationMsg("#nameInput", "error", result.extend.errorFields.name);
 						}
@@ -364,7 +364,7 @@
 		});
 		function getCityInfo(id) {
 			$.ajax({
-				url: '/ssmcrud/city/' + id,
+				url: '/jpasample/city/' + id,
 				type: 'GET',
 				dataType: 'json',
 				success: function (result) {
@@ -381,7 +381,7 @@
 		function getNationsById(element, id) {
 			$(element).empty();
 			$.ajax({
-				url: '/ssmcrud/nations/' + id,
+				url: '/jpasample/nations/' + id,
 				type: 'GET',
 				dataType: 'json',
 				success: function (result) {
@@ -399,7 +399,7 @@
 		function getLanguages(element, nationVal) {
 			$(element).empty();
 			$.ajax({
-				url: '/ssmcrud/languages',
+				url: '/jpasample/languages',
 				data: 'nationVal=' + nationVal,
 				type: 'GET',
 				dataType: 'json',
@@ -435,7 +435,7 @@
 			showValidationMsg("#districtEdit", "success", "√");
 			showValidationMsg("#populationEdit", "success", "√");
 			$.ajax({
-				url: '/ssmcrud/city/' + editId,
+				url: '/jpasample/city/' + editId,
 				type: 'PUT',
 				dataType: 'json',
 				data: JSON.stringify({
@@ -449,7 +449,7 @@
 				contentType: 'application/json;charset=UTF-8',
 				success: function () {
 					$("#cityEditModal").modal('hide');
-					window.location.replace('/ssmcrud/city?pageNum=' + pageNum + '&keyword=');
+					window.location.replace('/jpasample/city?pageNum=' + pageNum + '&keyword=');
 				}
 			});
 		});
@@ -458,11 +458,11 @@
 			let cityId = $(this).attr("deleteId");
 			if (confirm("この" + cityName + "という都市の情報を削除する、よろしいでしょうか。")) {
 				$.ajax({
-					url: '/ssmcrud/city/' + cityId,
+					url: '/jpasample/city/' + cityId,
 					type: 'DELETE',
 					dataType: 'json',
 					success: function (result) {
-						window.location.replace('/ssmcrud/city?pageNum=' + pageNum + '&keyword=');
+						window.location.replace('/jpasample/city?pageNum=' + pageNum + '&keyword=');
 					}
 				});
 			}

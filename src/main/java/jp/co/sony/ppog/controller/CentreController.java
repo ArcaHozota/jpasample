@@ -33,7 +33,7 @@ import lombok.RequiredArgsConstructor;
  * @since 1.00beta
  */
 @Controller
-@RequestMapping("/ssmcrud")
+@RequestMapping("/jpasample")
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class CentreController {
 
