@@ -8,6 +8,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * 都市情報マテリアライズドビューのエンティティ
+ *
+ * @author ArcaHozota
+ * @since 1.82
+ */
 @Entity
 @Getter
 @Setter
