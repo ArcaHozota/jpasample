@@ -71,7 +71,7 @@ function buildPageInfos(result) {
 	pageNum = result.extend.pageInfo.pageNum;
 	totalPages = result.extend.pageInfo.totalPages;
 	totalRecords = result.extend.pageInfo.totalRecords;
-	pageInfos.append("The " + currentPage + " page in " + totalPages
+	pageInfos.append("The " + pageNum + " page in " + totalPages
 		+ " pages, " + totalRecords + " records found.");
 }
 function buildPageNavi(result) {
