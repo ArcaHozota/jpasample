@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 
 import jp.co.sony.ppog.dto.CityDto;
 import jp.co.sony.ppog.entity.City;
+import jp.co.sony.ppog.utils.Pagination;
 
 /**
  * 中央処理サービスインターフェス
@@ -67,9 +68,18 @@ public interface CentreLogicService {
 	 *
 	 * @param pageNum ページングナンバー
 	 * @param keyword 検索キーワード
-	 * @return Page<CityInfoDto>
+	 * @return Page<CityDto>
 	 */
 	Page<CityDto> getPageInfo(Integer pageNum, String keyword);
+
+	/**
+	 * パージング情報を抽出する
+	 *
+	 * @param pageNum ページングナンバー
+	 * @param keyword 検索キーワード
+	 * @return Pagination<CityDto>
+	 */
+	Pagination<CityDto> getPagination(Integer pageNum, String keyword);
 
 	/**
 	 * 都市IDによって情報を削除する

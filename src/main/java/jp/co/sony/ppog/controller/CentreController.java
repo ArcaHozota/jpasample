@@ -21,6 +21,7 @@ import jp.co.sony.ppog.dto.CityDto;
 import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.service.CentreLogicService;
 import jp.co.sony.ppog.utils.Messages;
+import jp.co.sony.ppog.utils.Pagination;
 import jp.co.sony.ppog.utils.RestMsg;
 import jp.co.sony.ppog.utils.StringUtils;
 import lombok.AccessLevel;
@@ -180,7 +181,7 @@ public class CentreController {
 	public RestMsg pagination(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
 			@RequestParam(value = "keyword", defaultValue = StringUtils.EMPTY_STRING) final String keyword) {
 		// ページング検索結果を吹き出します；
-		final Page<CityDto> pageInfo = this.centreLogicService.getPageInfo(pageNum, keyword);
+		final Pagination<CityDto> pageInfo = this.centreLogicService.getPagination(pageNum, keyword);
 		return RestMsg.success().add("pageInfo", pageInfo);
 	}
 

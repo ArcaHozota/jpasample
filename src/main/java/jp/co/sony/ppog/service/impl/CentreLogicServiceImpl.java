@@ -9,7 +9,6 @@ import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
@@ -22,6 +21,7 @@ import jp.co.sony.ppog.repository.CityRepository;
 import jp.co.sony.ppog.repository.CountryRepository;
 import jp.co.sony.ppog.service.CentreLogicService;
 import jp.co.sony.ppog.utils.Messages;
+import jp.co.sony.ppog.utils.Pagination;
 import jp.co.sony.ppog.utils.StringUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -93,13 +93,6 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 				cityInfo.getDistrict(), cityInfo.getPopulation(), cityInfo.getLanguage());
 	}
 
-	private Page<CityDto> getCityInfoDtos(final Page<CityInfo> pages, final Pageable pageable, final Long total) {
-		final List<CityDto> cityDtos = pages.getContent().stream().map(item -> new CityDto(item.getId(), item.getName(),
-				item.getContinent(), item.getNation(), item.getDistrict(), item.getPopulation(), item.getLanguage()))
-				.toList();
-		return new PageImpl<>(cityDtos, pageable, total);
-	}
-
 	@Override
 	public List<String> getListOfNationsById(final Integer id) {
 		final List<String> list = new ArrayList<>();
@@ -115,13 +108,24 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	@Override
 	public Page<CityDto> getPageInfo(final Integer pageNum, final String keyword) {
 		// ページングコンストラクタを宣言する；
-		final PageRequest pageRequest = PageRequest.of(pageNum - 1, CentreLogicServiceImpl.PAGE_SIZE,
-				Sort.by(Direction.ASC, "id"));
+		final PageRequest pageRequest = PageRequest.of(pageNum - 1, PAGE_SIZE, Sort.by(Direction.ASC, "id"));
+		// ページング検索；
+		final Page<CityInfo> pages = this.cityInfoRepository.findAll(pageRequest);
+		final List<CityDto> cityDtos = pages.getContent().stream().map(item -> new CityDto(item.getId(), item.getName(),
+				item.getContinent(), item.getNation(), item.getDistrict(), item.getPopulation(), item.getLanguage()))
+				.toList();
+		return new PageImpl<>(cityDtos, pageRequest, pages.getTotalElements());
+	}
+
+	@Override
+	public Pagination<CityDto> getPagination(final Integer pageNum, final String keyword) {
+		// ページングコンストラクタを宣言する；
+		final PageRequest pageRequest = PageRequest.of(pageNum - 1, PAGE_SIZE, Sort.by(Direction.ASC, "id"));
 		// キーワードの属性を判断する；
 		if (StringUtils.isNotEmpty(keyword)) {
 			final String hankakuKeyword = StringUtils.toHankaku(keyword);
-			final int pageMin = CentreLogicServiceImpl.PAGE_SIZE * (pageNum - 1);
-			final int pageMax = CentreLogicServiceImpl.PAGE_SIZE * pageNum;
+			final int pageMin = PAGE_SIZE * (pageNum - 1);
+			final int pageMax = PAGE_SIZE * pageNum;
 			int sort = CentreLogicServiceImpl.SORT_NUMBER;
 			if (hankakuKeyword.startsWith("min(pop)")) {
 				final int indexOf = hankakuKeyword.indexOf(")");
@@ -135,9 +139,9 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 								item.getDistrict(), item.getPopulation(), item.getLanguage()))
 						.toList();
 				if (pageMax >= sort) {
-					return new PageImpl<>(minimumRanks.subList(pageMin, sort), pageRequest, minimumRanks.size());
+					return Pagination.of(minimumRanks.subList(pageMin, sort), minimumRanks.size(), pageNum);
 				}
-				return new PageImpl<>(minimumRanks.subList(pageMin, pageMax), pageRequest, minimumRanks.size());
+				return Pagination.of(minimumRanks.subList(pageMin, pageMax), minimumRanks.size(), pageNum);
 			}
 			if (hankakuKeyword.startsWith("max(pop)")) {
 				final int indexOf = hankakuKeyword.indexOf(")");
@@ -151,9 +155,9 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 								item.getDistrict(), item.getPopulation(), item.getLanguage()))
 						.toList();
 				if (pageMax >= sort) {
-					return new PageImpl<>(maximumRanks.subList(pageMin, sort), pageRequest, maximumRanks.size());
+					return Pagination.of(maximumRanks.subList(pageMin, sort), maximumRanks.size(), pageNum);
 				}
-				return new PageImpl<>(maximumRanks.subList(pageMin, pageMax), pageRequest, maximumRanks.size());
+				return Pagination.of(maximumRanks.subList(pageMin, pageMax), maximumRanks.size(), pageNum);
 			}
 			// ページング検索；
 			final CityInfo cityInfo = new CityInfo();
@@ -162,18 +166,29 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 				cityInfo.setNation(hankakuKeyword);
 				final Example<CityInfo> example = Example.of(cityInfo, ExampleMatcher.matching());
 				final Page<CityInfo> pages = this.cityInfoRepository.findAll(example, pageRequest);
-				return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
+				final List<CityDto> list = pages.getContent().stream()
+						.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
+								item.getDistrict(), item.getPopulation(), item.getLanguage()))
+						.toList();
+				return Pagination.of(list, pages.getTotalElements(), pageNum);
 			}
 			cityInfo.setName(hankakuKeyword);
 			final ExampleMatcher matcher = ExampleMatcher.matching().withMatcher("name",
 					GenericPropertyMatchers.contains());
 			final Example<CityInfo> example = Example.of(cityInfo, matcher);
 			final Page<CityInfo> pages = this.cityInfoRepository.findAll(example, pageRequest);
-			return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
+			final List<CityDto> list = pages.getContent().stream()
+					.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
+							item.getDistrict(), item.getPopulation(), item.getLanguage()))
+					.toList();
+			return Pagination.of(list, pages.getTotalElements(), pageNum);
 		}
 		// ページング検索；
 		final Page<CityInfo> pages = this.cityInfoRepository.findAll(pageRequest);
-		return this.getCityInfoDtos(pages, pageRequest, pages.getTotalElements());
+		final List<CityDto> list = pages.getContent().stream().map(item -> new CityDto(item.getId(), item.getName(),
+				item.getContinent(), item.getNation(), item.getDistrict(), item.getPopulation(), item.getLanguage()))
+				.toList();
+		return Pagination.of(list, pages.getTotalElements(), pageNum);
 	}
 
 	@Override
