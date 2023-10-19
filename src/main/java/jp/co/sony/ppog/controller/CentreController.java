@@ -165,6 +165,7 @@ public class CentreController {
 		extendMap.put("pageInfo", pageInfo);
 		extendMap.put("pageFirstIndex", pageFirstIndex);
 		extendMap.put("pageLastIndex", pageLastIndex);
+		extendMap.put("keyword", StringUtils.EMPTY_STRING);
 		modelAndView.addObject("extend", extendMap);
 		return modelAndView;
 	}
