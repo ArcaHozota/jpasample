@@ -30,7 +30,7 @@
 					<div th:class="'input-group'" th:style="'width:100%;'">
 						<label for="keywordInput" th:class="'input-group-addon'">@</label>
 						<input id="keywordInput" th:class="'form-control has-success'" th:type="'text'"
-							th:value="${extend.keyword}" th:placeholder="'検索条件を入力してください'">
+							th:placeholder="'検索条件を入力してください'">
 					</div>
 				</div>
 				<button th:type="'button'" th:class="'btn btn-warning'" th:id="'searchBtn'">
@@ -46,7 +46,7 @@
 		<!-- データ -->
 		<div th:class="'row'">
 			<div th:class="'col-lg-12'">
-				<table id="cityTable" th:class="'table table-condensed'">
+				<table id="cityTable" class="table table-condensed">
 					<thead>
 						<tr th:class="'active'">
 							<th scope="col" th:class="'text-center'" th:style="'width:70px;'">都市ID</th>
