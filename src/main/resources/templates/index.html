@@ -95,13 +95,13 @@
 			<div th:class="'col-lg-5'"
 				th:text="|The ${extend.pageInfo.getNumber()+1} page in ${extend.pageInfo.getTotalPages()} pages, ${extend.pageInfo.getTotalElements()} records found.|">
 			</div>
-			<nav th:class="'col-lg-7'"
+			<nav class="col-lg-7"
 				th:with="previousPage=${extend.pageInfo.getNumber()},nextPage=${extend.pageInfo.getNumber()+2},totalPg=${extend.pageInfo.getTotalPages()}">
-				<ul th:class="'pagination'">
-					<li><a th:href="@{'/jpasample/city?pageNum=1&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
+				<ul class="pagination">
+					<li id="toFirst"><a th:href="@{'/jpasample/city?pageNum=1&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
 							th:class="${extend.pageInfo.isFirst() ? 'disabled' : 'enable'}">最初のページへ</a>
 					</li>
-					<li><a th:href="@{'/jpasample/city?pageNum='+${previousPage &lt; 1 ? 1 : previousPage}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
+					<li id="toPrevious"><a th:href="@{'/jpasample/city?pageNum='+${previousPage &lt; 1 ? 1 : previousPage}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
 							th:class="${extend.pageInfo.hasPrevious() ? 'enable' : 'disabled'}">&laquo;</a>
 					</li>
 					<li th:each="i:${#numbers.sequence(extend.pageFirstIndex,extend.pageLastIndex)}"
@@ -109,10 +109,10 @@
 						<a th:text="${i+1}"
 							th:href="@{'/jpasample/city?pageNum='+${i+1}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"></a>
 					</li>
-					<li><a th:href="@{'/jpasample/city?pageNum='+${nextPage &gt; totalPg ? totalPg : nextPage}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
+					<li id="toNext"><a th:href="@{'/jpasample/city?pageNum='+${nextPage &gt; totalPg ? totalPg : nextPage}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
 							th:class="${extend.pageInfo.hasNext() ? 'enable' : 'disabled'}">&raquo;</a>
 					</li>
-					<li><a th:href="@{'/jpasample/city?pageNum='+${totalPg}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
+					<li id="toLast"><a th:href="@{'/jpasample/city?pageNum='+${totalPg}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
 							th:class="${extend.pageInfo.isLast() ? 'disabled' : 'enable'}">最後のページへ</a>
 					</li>
 				</ul>
