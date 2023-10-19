@@ -109,7 +109,7 @@
 						<a th:text="${i+1}"
 							th:href="@{'/jpasample/city?pageNum='+${i+1}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"></a>
 					</li>
-					<li><a th:href="@{'/jpasample/city?pageNum='+${nextPage > totalPg ? totalPg : nextPage}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
+					<li><a th:href="@{'/jpasample/city?pageNum='+${nextPage &gt; totalPg ? totalPg : nextPage}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
 							th:class="${extend.pageInfo.hasNext() ? 'enable' : 'disabled'}">&raquo;</a>
 					</li>
 					<li><a th:href="@{'/jpasample/city?pageNum='+${totalPg}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
