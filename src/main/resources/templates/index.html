@@ -91,8 +91,8 @@
 			</div>
 		</div>
 		<!-- ページナビ -->
-		<div th:class="'row'">
-			<div th:class="'col-lg-5'"
+		<div class="row">
+			<div id="pageInfos" class="col-lg-5"
 				th:text="|The ${extend.pageInfo.getNumber()+1} page in ${extend.pageInfo.getTotalPages()} pages, ${extend.pageInfo.getTotalElements()} records found.|">
 			</div>
 			<nav class="col-lg-7"
@@ -105,7 +105,7 @@
 							th:class="${extend.pageInfo.hasPrevious() ? 'enable' : 'disabled'}">&laquo;</a>
 					</li>
 					<li th:each="i:${#numbers.sequence(extend.pageFirstIndex,extend.pageLastIndex)}"
-						th:class="${extend.pageInfo.getNumber()} eq ${i} ? 'pagination active' : 'pagination enable'">
+						th:class="${extend.pageInfo.getNumber()} eq ${i} ? 'pagination2 active' : 'pagination2 enable'">
 						<a th:text="${i+1}"
 							th:href="@{'/jpasample/city?pageNum='+${i+1}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"></a>
 					</li>
