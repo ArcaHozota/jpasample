@@ -11,7 +11,7 @@
 	<!--フレームワークBootstrapを導入-->
 	<link rel="shortcut icon" type="image/png" th:href="@{/static/favicon.png}">
 	<link rel="stylesheet" type="text/css" th:href="@{/static/bootstrap/css/bootstrap.min.css}">
-	<script type="text/javascript" th:src="@{/static/bootstrap/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/static/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </head>
 
 <body>
@@ -59,7 +59,7 @@
 							<th scope="col" th:class="'text-center'" th:style="'width:120px;'">操作</th>
 						</tr>
 					</thead>
-					<tbody id="cityTableMain">
+					<tbody id="cityTableBody">
 						<tr th:each="pg:${extend.pageInfo.getContent()}">
 							<td th:text="${pg.id()}" th:class="'text-center'" th:style="'width:70px;'"></td>
 							<td th:text="${pg.name()}" th:class="'text-center'"
@@ -95,28 +95,34 @@
 			<div id="pageInfos" class="col-lg-5"
 				th:text="|The ${extend.pageInfo.getNumber()+1} page in ${extend.pageInfo.getTotalPages()} pages, ${extend.pageInfo.getTotalElements()} records found.|">
 			</div>
-			<nav class="col-lg-7"
-				th:with="previousPage=${extend.pageInfo.getNumber()},nextPage=${extend.pageInfo.getNumber()+2},totalPg=${extend.pageInfo.getTotalPages()}">
-				<ul class="pagination">
-					<li id="toFirst"><a th:href="@{'/jpasample/city?pageNum=1&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
-							th:class="${extend.pageInfo.isFirst() ? 'disabled' : 'enable'}">最初のページへ</a>
-					</li>
-					<li id="toPrevious"><a th:href="@{'/jpasample/city?pageNum='+${previousPage &lt; 1 ? 1 : previousPage}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
-							th:class="${extend.pageInfo.hasPrevious() ? 'enable' : 'disabled'}">&laquo;</a>
-					</li>
-					<li th:each="i:${#numbers.sequence(extend.pageFirstIndex,extend.pageLastIndex)}"
-						th:class="${extend.pageInfo.getNumber()} eq ${i} ? 'pagination2 active' : 'pagination2 enable'">
-						<a th:text="${i+1}"
-							th:href="@{'/jpasample/city?pageNum='+${i+1}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"></a>
-					</li>
-					<li id="toNext"><a th:href="@{'/jpasample/city?pageNum='+${nextPage &gt; totalPg ? totalPg : nextPage}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
-							th:class="${extend.pageInfo.hasNext() ? 'enable' : 'disabled'}">&raquo;</a>
-					</li>
-					<li id="toLast"><a th:href="@{'/jpasample/city?pageNum='+${totalPg}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
-							th:class="${extend.pageInfo.isLast() ? 'disabled' : 'enable'}">最後のページへ</a>
-					</li>
-				</ul>
-			</nav>
+			<div id="pageNavi" class="col-lg-7 d-flex justify-content-end">
+				<nav class="col-lg-7"
+					th:with="previousPage=${extend.pageInfo.getNumber()},nextPage=${extend.pageInfo.getNumber()+2},totalPg=${extend.pageInfo.getTotalPages()}">
+					<ul class="pagination">
+						<li id="toFirst"><a
+								th:href="@{'/jpasample/city?pageNum=1&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
+								th:class="${extend.pageInfo.isFirst() ? 'disabled' : 'enable'}">最初のページへ</a>
+						</li>
+						<li id="toPrevious"><a
+								th:href="@{'/jpasample/city?pageNum='+${previousPage &lt; 1 ? 1 : previousPage}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
+								th:class="${extend.pageInfo.hasPrevious() ? 'enable' : 'disabled'}">&laquo;</a>
+						</li>
+						<li th:each="i:${#numbers.sequence(extend.pageFirstIndex,extend.pageLastIndex)}"
+							th:class="${extend.pageInfo.getNumber()} eq ${i} ? 'pagination2 active' : 'pagination2 enable'">
+							<a th:text="${i+1}"
+								th:href="@{'/jpasample/city?pageNum='+${i+1}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"></a>
+						</li>
+						<li id="toNext"><a
+								th:href="@{'/jpasample/city?pageNum='+${nextPage &gt; totalPg ? totalPg : nextPage}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
+								th:class="${extend.pageInfo.hasNext() ? 'enable' : 'disabled'}">&raquo;</a>
+						</li>
+						<li id="toLast"><a
+								th:href="@{'/jpasample/city?pageNum='+${totalPg}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
+								th:class="${extend.pageInfo.isLast() ? 'disabled' : 'enable'}">最後のページへ</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
 		</div>
 	</div>
 	<!-- データ追加モーダル -->
