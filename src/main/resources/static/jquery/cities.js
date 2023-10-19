@@ -1,5 +1,7 @@
+const pathdeApp = "jpasample";
 let pageNum = /*[[${extend.pageInfo.getNumber()+1}]]*/{};
-let pageTotal = /*[[${extend.pageInfo.getTotalPages()}]]*/{};
+let totalPages = /*[[${extend.pageInfo.getTotalPages()}]]*/{};
+let totalRecords, searchName;
 $("#searchBtn").on('click', function() {
 	let keyword = $("#keywordInput").val().trim().toString();
 	$.ajax({
@@ -112,7 +114,7 @@ $("#infoSaveBtn").on('click', function() {
 				if (result.code === 200) {
 					$("#cityAddModal").modal('hide');
 					window.location
-						.replace('/jpasample/city?pageNum=' + pageTotal + '&keyword=');
+						.replace('/jpasample/city?pageNum=' + totalPages + '&keyword=');
 				} else if (undefined !== result.extend.errorFields.name) {
 					showValidationMsg("#nameInput", "error", result.extend.errorFields.name);
 				}
