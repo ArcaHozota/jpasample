@@ -94,7 +94,7 @@ function buildPageNavi(result) {
 			toSelectedPg(1, searchName);
 		});
 		previousPageLi.click(function() {
-			toSelectedPg(currentPage - 1, searchName);
+			toSelectedPg(pageNum - 1, searchName);
 		});
 	}
 	let nextPageLi = $("<li class='page-item'></li>").append(
@@ -107,7 +107,7 @@ function buildPageNavi(result) {
 	} else {
 		lastPageLi.addClass("success");
 		nextPageLi.click(function() {
-			toSelectedPg(currentPage + 1, searchName);
+			toSelectedPg(pageNum + 1, searchName);
 		});
 		lastPageLi.click(function() {
 			toSelectedPg(totalPages, searchName);
