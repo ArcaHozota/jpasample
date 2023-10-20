@@ -40,6 +40,14 @@ public interface CentreLogicService {
 	String findLanguageByCty(String nationVal);
 
 	/**
+	 * 指定された大陸に位置するすべての国を取得する
+	 *
+	 * @param continentVal 大陸名称
+	 * @return List<String>
+	 */
+	List<String> findNationsByCnt(String continentVal);
+
+	/**
 	 * 都市IDによって国家名を抽出する
 	 *
 	 * @param id 都市ID

@@ -82,6 +82,11 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	}
 
 	@Override
+	public List<String> findNationsByCnt(final String continentVal) {
+		return this.countryRepository.findNationsByCnt(continentVal);
+	}
+
+	@Override
 	public List<String> findNationsById(final Integer id) {
 		final List<String> nations = Lists.newArrayList();
 		final CityInfo cityInfo = this.cityInfoRepository.findById(id).orElseGet(CityInfo::new);
