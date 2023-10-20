@@ -3,8 +3,8 @@ let pageNum = /*[[${extend.pageInfo.getNumber()+1}]]*/{};
 let totalPages = /*[[${extend.pageInfo.getTotalPages()}]]*/{};
 let totalRecords, searchName;
 $("#searchBtn").on('click', function() {
-	let keyword = $("#keywordInput").val().trim().toString();
-	toSelectedPg(1, keyword);
+	searchName = $("#keywordInput").val().trim().toString();
+	toSelectedPg(1, searchName);
 });
 function toSelectedPg(pageNum, searchName) {
 	$.ajax({
