@@ -1,12 +1,12 @@
 const pathdeApp = "jpasample";
 let pageNum = 1;
 let totalRecords, totalPages, searchName;
+$(document).ready(function() {
+	toSelectedPg(pageNum, searchName);
+});
 $("#searchBtn").on('click', function() {
 	searchName = $("#keywordInput").val().trim().toString();
 	toSelectedPg(1, searchName);
-});
-$(document).ready(function() {
-	toSelectedPg(pageNum, searchName);
 });
 function toSelectedPg(pageNum, searchName) {
 	$.ajax({
@@ -147,8 +147,7 @@ function getContinents(element) {
 		dataType: 'json',
 		success: function(result) {
 			$.each(result.extend.continentList, function() {
-				let optionElement = $("<option></option>").append(this)
-					.attr("value", this);
+				let optionElement = $("<option></option>").append(this).attr("value", this);
 				optionElement.appendTo(element);
 			});
 		}
@@ -161,7 +160,7 @@ $("#continentInput").on('change', function() {
 function getNations(element, continentVal, id) {
 	$(element).empty();
 	$.ajax({
-		url: '/jpasample/nations' + id,
+		url: '/jpasample/nations/' + id,
 		data: 'continentVal=' + continentVal,
 		type: 'GET',
 		dataType: 'json',
@@ -322,7 +321,7 @@ $("#infoChangeBtn").on('click', function() {
 		contentType: 'application/json;charset=UTF-8',
 		success: function() {
 			$("#cityEditModal").modal('hide');
-			window.location.replace('/jpasample/city?pageNum=' + pageNum + '&keyword=');
+			toSelectedPg(pageNum, searchName);
 		}
 	});
 });
@@ -334,8 +333,8 @@ $(document).on('click', '.delete_btn', function() {
 			url: '/jpasample/city/' + cityId,
 			type: 'DELETE',
 			dataType: 'json',
-			success: function(result) {
-				window.location.replace('/jpasample/city?pageNum=' + pageNum + '&keyword=');
+			success: function() {
+				toSelectedPg(pageNum, searchName);
 			}
 		});
 	}
