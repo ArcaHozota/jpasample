@@ -40,22 +40,8 @@ public class IndexController {
 		final Page<CityDto> pageInfo = this.centreLogicService.getPageInfo(1, StringUtils.EMPTY_STRING);
 		// modelAndViewオブジェクトを宣言する；
 		final ModelAndView modelAndView = new ModelAndView("index");
-		// 前のページを取得する；
-		final int current = pageInfo.getNumber();
-		// ページングナビゲーションの数を定義する；
-		final int naviNums = 5;
-		// ページングナビの最初と最後の数を取得する；
-		final int pageFirstIndex = (current / naviNums) * naviNums;
-		int pageLastIndex = (((current / naviNums) + 1) * naviNums) - 1;
-		if (pageLastIndex > (pageInfo.getTotalPages() - 1)) {
-			pageLastIndex = pageInfo.getTotalPages() - 1;
-		} else {
-			pageLastIndex = (((current / naviNums) + 1) * naviNums) - 1;
-		}
 		final Map<String, Object> extendMap = new HashMap<>();
 		extendMap.put("pageInfo", pageInfo);
-		extendMap.put("pageFirstIndex", pageFirstIndex);
-		extendMap.put("pageLastIndex", pageLastIndex);
 		extendMap.put("keyword", StringUtils.EMPTY_STRING);
 		modelAndView.addObject("extend", extendMap);
 		return modelAndView;
