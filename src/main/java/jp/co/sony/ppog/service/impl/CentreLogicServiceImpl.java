@@ -12,6 +12,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Lists;
+
 import jp.co.sony.ppog.dto.CityDto;
 import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.entity.CityInfo;
@@ -81,8 +83,13 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 
 	@Override
 	public List<String> findNationsById(final Integer id) {
-		final String hankaku = StringUtils.toHankaku(continentVal);
-		return this.countryRepository.findNationsByCnt(hankaku);
+		final List<String> nations = Lists.newArrayList();
+		final CityInfo cityInfo = this.cityInfoRepository.findById(id).orElseGet(CityInfo::new);
+		nations.add(cityInfo.getNation());
+		final List<String> list = this.countryRepository.findNationsByCnt(cityInfo.getContinent()).stream()
+				.filter(a -> StringUtils.isNotEqual(a, cityInfo.getNation())).toList();
+		nations.addAll(list);
+		return nations;
 	}
 
 	@Override
