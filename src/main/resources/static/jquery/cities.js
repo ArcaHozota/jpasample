@@ -311,7 +311,7 @@ $("#cityInfoChangeBtn").on('click', function() {
 		dataType: 'json',
 		data: JSON.stringify({
 			'id': editId,
-			'name': $("#cityEdit").text(),
+			'name': $("#nameEdit").text(),
 			'continent': $("#continentEdit").text(),
 			'nation': $("#nationEdit option:selected").val(),
 			'district': inputDistrict,
