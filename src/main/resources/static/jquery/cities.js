@@ -7,7 +7,7 @@ $("#searchBtn").on('click', function() {
 	toSelectedPg(1, searchName);
 });
 $(document).ready(function() {
-	toSelectedPg(1, searchName);
+	toSelectedPg(pageNum, searchName);
 });
 function toSelectedPg(pageNum, searchName) {
 	$.ajax({

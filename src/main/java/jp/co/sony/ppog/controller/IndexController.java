@@ -42,7 +42,6 @@ public class IndexController {
 		final ModelAndView modelAndView = new ModelAndView("index");
 		final Map<String, Object> extendMap = new HashMap<>();
 		extendMap.put("pageInfo", pageInfo);
-		extendMap.put("keyword", StringUtils.EMPTY_STRING);
 		modelAndView.addObject("extend", extendMap);
 		return modelAndView;
 	}
