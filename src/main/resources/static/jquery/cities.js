@@ -262,21 +262,7 @@ function getCityInfo(id) {
 			$("#languageEdit").text(cityData.language);
 			$("#districtEdit").val(cityData.district);
 			$("#populationEdit").val(cityData.population);
-			getNationsById("#nationEdit", id);
-		}
-	});
-}
-function getNationsById(element, id) {
-	$(element).empty();
-	$.ajax({
-		url: '/jpasample/nations/' + id,
-		type: 'GET',
-		dataType: 'json',
-		success: function(result) {
-			$.each(result.extend.nationsWithName, function() {
-				let optionElement = $("<option></option>").append(this).attr("value", this);
-				optionElement.appendTo(element);
-			});
+			getNations("#nationEdit", cityData.continent);
 		}
 	});
 }
