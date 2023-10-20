@@ -79,6 +79,7 @@ function buildPageInfos(result) {
 		+ " pages, " + totalRecords + " records found.");
 }
 function buildPageNavi(result) {
+	$("#initial-pagenavi").remove();
 	$("#pageNavi").empty();
 	let ul = $("<ul></ul>").addClass("pagination");
 	let firstPageLi = $("<li class='page-item'></li>").append(
