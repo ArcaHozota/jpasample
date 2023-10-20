@@ -1,6 +1,7 @@
 package jp.co.sony.ppog.service.impl;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -83,8 +84,9 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 
 	@Override
 	public List<String> findNationsByCnt(final String continentVal) {
-		try {
-			final Integer id = Integer.valueOf(continentVal);
+		final Pattern pattern = Pattern.compile("[0-9]*");
+		if (pattern.matcher(continentVal).matches()) {
+			final Integer id = Integer.parseInt(continentVal);
 			final List<String> nations = Lists.newArrayList();
 			final CityInfo cityInfo = this.cityInfoRepository.findById(id).orElseGet(CityInfo::new);
 			nations.add(cityInfo.getNation());
@@ -92,8 +94,6 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 					.filter(a -> StringUtils.isNotEqual(a, cityInfo.getNation())).toList();
 			nations.addAll(list);
 			return nations;
-		} catch (final NumberFormatException e) {
-			// do nothing
 		}
 		return this.countryRepository.findNationsByCnt(continentVal);
 	}
