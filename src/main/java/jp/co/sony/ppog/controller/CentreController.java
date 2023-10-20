@@ -110,7 +110,12 @@ public class CentreController {
 	 * @return 国のリスト
 	 */
 	@GetMapping(value = "/nations/{id}")
-	public RestMsg getListOfNationsById(@PathVariable("id") final Integer id) {
+	public RestMsg getListOfNationsById(@PathVariable("id") final Integer id,
+			@RequestParam("continentVal") final String continentVal) {
+		if (id == null) {
+			final List<String> nations = this.centreLogicService.findNationsByCnt(continentVal);
+			return RestMsg.success().add("nationList", nations);
+		}
 		final List<String> nations = this.centreLogicService.findNationsById(id);
 		return RestMsg.success().add("nationList", nations);
 	}
