@@ -22,7 +22,7 @@
 		}
 
 		.reduce-margin {
-			margin-bottom: 10px;
+			margin-bottom: 1px;
 		}
 	</style>
 	<!-- ウェブページを構築する -->
@@ -35,8 +35,8 @@
 		</div>
 		<!-- 検索バーとボタン -->
 		<div class="row">
-			<form class="form-inline col-lg-7" role="form">
-				<div class="input-group has-feedback col-lg-7">
+			<form class="form-inline col-lg-8" role="form">
+				<div class="input-group has-feedback col-lg-8">
 					<div class="input-group-prepend">
 						<span class="input-group-text" id="basic-addon1">@</span>
 					</div>
@@ -49,7 +49,7 @@
 					</div>
 				</div>
 			</form>
-			<div class="col-lg-2 col-lg-offset-3">
+			<div class="col-lg-2 col-lg-offset-2">
 				<button class="btn btn-success" id="cityAddModalBtn">
 					<i class="bi bi-calendar2-plus-fill"></i> 情報追加
 				</button>
@@ -72,71 +72,14 @@
 							<th scope="col" th:class="'text-center'" th:style="'width:120px;'">操作</th>
 						</tr>
 					</thead>
-					<tbody id="cityTableBody">
-						<tr th:each="pg:${extend.pageInfo.getContent()}">
-							<td th:text="${pg.id()}" th:class="'text-center'" th:style="'width:70px;'"></td>
-							<td th:text="${pg.name()}" th:class="'text-center'"
-								th:style="${pg.name().trim().length() ge 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}">
-							</td>
-							<td th:text="${pg.continent()}" th:class="'text-center'" th:style="'width:100px;'"></td>
-							<td th:text="${pg.nation()}" th:class="'text-center'"
-								th:style="${pg.nation().trim().length() ge 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}">
-							</td>
-							<td th:text="${pg.district()}" th:class="'text-center'"
-								th:style="${pg.district().trim().length() ge 15 ? 'width:120px;font-size:12px;':'width:120px;font-size:15px;'}">
-							</td>
-							<td th:text="${pg.population()}" th:class="'text-center'" th:style="'width:70px;'"></td>
-							<td th:text="${pg.language()}" th:class="'text-center'"
-								th:style="${pg.language().trim().length() ge 15 ? 'width:80px;font-size:12px;':'width:80px;font-size:15px;'}">
-							</td>
-							<td th:class="'text-center'" th:style="'width:120px;'">
-								<button th:class="'btn btn-primary btn-sm edit_btn'" th:id="*{pg.id()}">
-									<span th:class="'glyphicon glyphicon-pencil'"></span>編集
-								</button>
-								<button th:class="'btn btn-danger btn-sm delete_btn'" th:id="*{pg.name()}"
-									th:deleteId="*{pg.id()}">
-									<span th:class="'glyphicon glyphicon-trash'"></span>削除
-								</button>
-							</td>
-						</tr>
-					</tbody>
+					<tbody id="cityTableBody"></tbody>
 				</table>
 			</div>
 		</div>
 		<!-- ページナビ -->
 		<div class="row">
-			<div id="pageInfos" class="col-lg-5"
-				th:text="|The ${extend.pageInfo.getNumber()+1} page in ${extend.pageInfo.getTotalPages()} pages, ${extend.pageInfo.getTotalElements()} records found.|">
-			</div>
-			<div id="pageNavi" class="col-lg-7 d-flex justify-content-end">
-				<nav id="initial-pagenavi"
-					th:with="previousPage=${extend.pageInfo.getNumber()},nextPage=${extend.pageInfo.getNumber()+2},totalPg=${extend.pageInfo.getTotalPages()}">
-					<ul class="pagination">
-						<li id="toFirst" class='page-item'><a
-								th:href="@{'/jpasample/city?pageNum=1&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
-								th:class="${extend.pageInfo.isFirst() ? 'page-link disabled' : 'page-link enable'}">最初のページへ</a>
-						</li>
-						<li id="toPrevious" class='page-item'><a
-								th:href="@{'/jpasample/city?pageNum='+${previousPage &lt; 1 ? 1 : previousPage}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
-								th:class="${extend.pageInfo.hasPrevious() ? 'page-link enable' : 'page-link disabled'}">&laquo;</a>
-						</li>
-						<li th:each="i:${#numbers.sequence(extend.pageFirstIndex,extend.pageLastIndex)}"
-							class="pagination2 page-item">
-							<a th:text="${i+1}"
-								th:href="@{'/jpasample/city?pageNum='+${i+1}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
-								th:class="${extend.pageInfo.getNumber()} eq ${i} ? 'page-link active' : 'page-link enable'"></a>
-						</li>
-						<li id="toNext" class='page-item'><a
-								th:href="@{'/jpasample/city?pageNum='+${nextPage &gt; totalPg ? totalPg : nextPage}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
-								th:class="${extend.pageInfo.hasNext() ? 'page-link enable' : 'page-link disabled'}">&raquo;</a>
-						</li>
-						<li id="toLast" class='page-item'><a
-								th:href="@{'/jpasample/city?pageNum='+${totalPg}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
-								th:class="${extend.pageInfo.isLast() ? 'page-link disabled' : 'page-link enable'}">最後のページへ</a>
-						</li>
-					</ul>
-				</nav>
-			</div>
+			<div id="pageInfos" class="col-lg-5"></div>
+			<div id="pageNavi" class="col-lg-7 d-flex justify-content-end"></div>
 		</div>
 	</div>
 	<!-- データ追加モーダル -->
