@@ -234,7 +234,7 @@ public final class StringUtils {
 	 * @return true: すべて数字, false: 文字も含める
 	 */
 	public static boolean isDigital(@Nullable final String string) {
-		final Pattern pattern = Pattern.compile("[0-9]*");
+		final Pattern pattern = Pattern.compile("\\d*");
 		return pattern.matcher(string).matches();
 	}
 
