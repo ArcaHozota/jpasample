@@ -43,7 +43,7 @@ public class IndexController {
 		// 前のページを取得する；
 		final int current = pageInfo.getNumber();
 		// ページングナビゲーションの数を定義する；
-		final int naviNums = 7;
+		final int naviNums = 5;
 		// ページングナビの最初と最後の数を取得する；
 		final int pageFirstIndex = (current / naviNums) * naviNums;
 		int pageLastIndex = (((current / naviNums) + 1) * naviNums) - 1;

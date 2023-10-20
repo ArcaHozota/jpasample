@@ -112,26 +112,26 @@
 				<nav class="col-lg-7"
 					th:with="previousPage=${extend.pageInfo.getNumber()},nextPage=${extend.pageInfo.getNumber()+2},totalPg=${extend.pageInfo.getTotalPages()}">
 					<ul class="pagination">
-						<li id="toFirst"><a
+						<li id="toFirst" class='page-item'><a
 								th:href="@{'/jpasample/city?pageNum=1&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
-								th:class="${extend.pageInfo.isFirst() ? 'disabled' : 'enable'}">最初のページへ</a>
+								th:class="${extend.pageInfo.isFirst() ? 'page-link disabled' : 'page-link enable'}">最初のページへ</a>
 						</li>
-						<li id="toPrevious"><a
+						<li id="toPrevious" class='page-item'><a
 								th:href="@{'/jpasample/city?pageNum='+${previousPage &lt; 1 ? 1 : previousPage}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
-								th:class="${extend.pageInfo.hasPrevious() ? 'enable' : 'disabled'}">&laquo;</a>
+								th:class="${extend.pageInfo.hasPrevious() ? 'page-link enable' : 'page-link disabled'}">&laquo;</a>
 						</li>
 						<li th:each="i:${#numbers.sequence(extend.pageFirstIndex,extend.pageLastIndex)}"
-							th:class="${extend.pageInfo.getNumber()} eq ${i} ? 'pagination2 active' : 'pagination2 enable'">
+							th:class="${extend.pageInfo.getNumber()} eq ${i} ? 'pagination2 page-item active' : 'pagination2 page-item enable'">
 							<a th:text="${i+1}"
 								th:href="@{'/jpasample/city?pageNum='+${i+1}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"></a>
 						</li>
-						<li id="toNext"><a
+						<li id="toNext" class='page-item'><a
 								th:href="@{'/jpasample/city?pageNum='+${nextPage &gt; totalPg ? totalPg : nextPage}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
-								th:class="${extend.pageInfo.hasNext() ? 'enable' : 'disabled'}">&raquo;</a>
+								th:class="${extend.pageInfo.hasNext() ? 'page-link enable' : 'page-link disabled'}">&raquo;</a>
 						</li>
-						<li id="toLast"><a
+						<li id="toLast" class='page-item'><a
 								th:href="@{'/jpasample/city?pageNum='+${totalPg}+'&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
-								th:class="${extend.pageInfo.isLast() ? 'disabled' : 'enable'}">最後のページへ</a>
+								th:class="${extend.pageInfo.isLast() ? 'page-link disabled' : 'page-link enable'}">最後のページへ</a>
 						</li>
 					</ul>
 				</nav>
@@ -139,112 +139,108 @@
 		</div>
 	</div>
 	<!-- データ追加モーダル -->
-	<div th:class="'modal fade'" th:id="'cityAddModal'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div th:class="'modal-dialog'" th:role="'document'">
-			<div th:class="'modal-content'">
-				<div th:class="'modal-header'">
-					<button th:type="'button'" th:class="'close'" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-					<h4 th:class="'modal-title'">都市情報追加</h4>
+	<div class="modal fade" id="cityAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">都市情報追加</h4>
 				</div>
-				<div th:class="'modal-body'">
-					<form th:class="'form-horizontal'">
-						<div th:class="'form-group'">
-							<label for="nameInput" th:class="'col-sm-2 control-label'">都市名</label>
-							<div th:class="'col-sm-10'">
-								<input th:type="'text'" th:class="'form-control'" id="nameInput"
-									th:placeholder="'都市の正式的な名称'"> <span th:class="'help-block'"></span>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div class="form-group row">
+							<label for="nameInput" class="col-sm-3 control-label text-right mb-4">都市名</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="nameInput" placeholder="都市の正式的な名称">
+								<span class="form-text"></span>
 							</div>
 						</div>
-						<div th:class="'form-group'">
-							<label for="continentInput" th:class="'col-sm-2 control-label'">大陸</label>
-							<div th:class="'col-sm-5'">
-								<select id="continentInput" th:class="'form-control'" th:name="'continent'"></select>
+						<div class="form-group row">
+							<label for="continentInput" class="col-sm-3 control-label text-right mb-4">大陸</label>
+							<div class="col-sm-9">
+								<select id="continentInput" class="form-control"></select>
 							</div>
 						</div>
-						<div th:class="'form-group'">
-							<label for="nationInput" th:class="'col-sm-2 control-label'">国家</label>
-							<div th:class="'col-sm-5'">
-								<select id="nationInput" th:class="'form-control'" th:name="'nation'"></select>
+						<div class="form-group row">
+							<label for="nationInput" class="col-sm-3 col-form-label text-right mb-3">国家</label>
+							<div class="col-sm-9">
+								<select id="nationInput" class="form-control"></select>
 							</div>
 						</div>
-						<div th:class="'form-group'">
-							<label for="districtInput" th:class="'col-sm-2 control-label'">地域</label>
-							<div th:class="'col-sm-10'">
-								<input th:type="'text'" th:class="'form-control'" id="districtInput"
-									th:placeholder="'都市の地域'"> <span th:class="'help-block'"></span>
+						<div class="form-group row">
+							<label for="districtInput" class="col-sm-3 control-label text-right mb-4">地域</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="districtInput" placeholder="都市の地域">
+								<span class="form-text"></span>
 							</div>
 						</div>
-						<div th:class="'form-group'">
-							<label for="populationInput" th:class="'col-sm-2 control-label'">人口数量</label>
-							<div th:class="'col-sm-10'">
-								<input th:type="'text'" th:class="'form-control'" id="populationInput"
-									th:placeholder="'都市の人口数量'"> <span th:class="'help-block'"></span>
+						<div class="form-group row">
+							<label for="populationInput" class="col-sm-3 control-label text-right mb-4">人口数量</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="populationInput" placeholder="都市の人口数量">
+								<span class="form-text"></span>
 							</div>
 						</div>
 					</form>
 				</div>
-				<div th:class="'modal-footer'">
-					<button th:type="'button'" th:class="'btn btn-primary'" th:id="'infoSaveBtn'">保存</button>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+					<button type="button" class="btn btn-primary" id="cityInfoSaveBtn">保存</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- データ編集モーダル -->
-	<div th:class="'modal fade'" th:id="'cityEditModal'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div th:class="'modal-dialog'" th:role="'document'">
-			<div th:class="'modal-content'">
-				<div th:class="'modal-header'">
-					<button th:type="'button'" th:class="'close'" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-					<h4 th:class="'modal-title'">都市情報修正</h4>
+	<div class="modal fade" id="cityEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">都市情報修正</h4>
 				</div>
-				<div th:class="'modal-body'">
-					<form th:class="'form-horizontal'">
-						<div th:class="'form-group'">
-							<label th:class="'col-sm-2 control-label'">都市名</label>
-							<div th:class="'col-sm-10'">
-								<p th:id="'cityEdit'" th:class="'form-control-static'"></p>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div class="form-group row">
+							<label for="nameEdit" class="col-sm-3 control-label text-right mb-4">都市名</label>
+							<div class="col-sm-9">
+								<p class="form-control-static" id="nameEdit"></p>
 							</div>
 						</div>
-						<div th:class="'form-group'">
-							<label th:class="'col-sm-2 control-label'">大陸</label>
-							<div th:class="'col-sm-5'">
-								<p th:id="'continentEdit'" th:class="'form-control-static'"></p>
+						<div class="form-group row">
+							<label for="continentEdit" class="col-sm-3 control-label text-right mb-4">大陸</label>
+							<div class="col-sm-9">
+								<p class="form-control-static" id="continentEdit"></p>
 							</div>
 						</div>
-						<div th:class="'form-group'">
-							<label for="nationEdit" th:class="'col-sm-2 control-label'">国家</label>
-							<div th:class="'col-sm-5'">
-								<select id="nationEdit" th:class="'form-control'" th:name="'nation'"></select>
+						<div class="form-group row">
+							<label for="nationEdit" class="col-sm-3 control-label text-right mb-3">国家</label>
+							<div class="col-sm-9">
+								<select id="nationEdit" class="form-control"></select>
 							</div>
 						</div>
-						<div th:class="'form-group'">
-							<label th:class="'col-sm-2 control-label'">公用語</label>
-							<div th:class="'col-sm-5'">
-								<p th:id="'languageEdit'" th:class="'form-control-static'"></p>
+						<div class="form-group row">
+							<label for="languageEdit" class="col-sm-3 control-label text-right mb-3">公用語</label>
+							<div class="col-sm-9">
+								<p class="form-control-static" id="languageEdit"></p>
 							</div>
 						</div>
-						<div th:class="'form-group'">
-							<label for="districtEdit" th:class="'col-sm-2 control-label'">地域</label>
-							<div th:class="'col-sm-10'">
-								<input th:type="'text'" th:name="'district'" th:class="'form-control'"
-									id="districtEdit"> <span th:class="'help-block'"></span>
+						<div class="form-group row">
+							<label for="districtEdit" class="col-sm-3 control-label text-right mb-4">地域</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="districtEdit" placeholder="都市の地域">
+								<span class="form-text"></span>
 							</div>
 						</div>
-						<div th:class="'form-group'">
-							<label for="populationEdit" th:class="'col-sm-2 control-label'">人口数量</label>
-							<div th:class="'col-sm-10'">
-								<input th:type="'text'" th:name="'population'" th:class="'form-control'"
-									id="populationEdit"> <span th:class="'help-block'"></span>
+						<div class="form-group row">
+							<label for="populationEdit" class="col-sm-3 control-label text-right mb-4">人口数量</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="populationEdit" placeholder="都市の人口数量">
+								<span class="form-text"></span>
 							</div>
 						</div>
 					</form>
 				</div>
-				<div th:class="'modal-footer'">
-					<button th:type="'button'" th:class="'btn btn-info'" th:id="'infoChangeBtn'">変更</button>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">閉じる</button>
+					<button type="button" class="btn btn-info" id="cityInfoChangeBtn">変更</button>
 				</div>
 			</div>
 		</div>
