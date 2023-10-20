@@ -325,7 +325,7 @@ $("#cityInfoChangeBtn").on('click', function() {
 	});
 });
 $(document).on('click', '.delete_btn', function() {
-	let cityName = $(this).attr("id");
+	let cityName = $(this).parents("tr").find("td:eq(0)").text().trim();
 	let cityId = $(this).attr("deleteId");
 	if (confirm("この" + cityName + "という都市の情報を削除する、よろしいでしょうか。")) {
 		$.ajax({
