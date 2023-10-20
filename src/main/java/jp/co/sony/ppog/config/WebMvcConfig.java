@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import jp.co.sony.ppog.utils.Messages;
@@ -24,12 +25,22 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 	/**
 	 * 静的リソースマッピングを設定する
 	 *
-	 * @param registry 登録
+	 * @param registry レジストリ
 	 */
 	@Override
 	protected void addResourceHandlers(final ResourceHandlerRegistry registry) {
 		log.info(Messages.MSG002);
 		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+	}
+
+	/**
+	 * ビューのコントローラを設定する
+	 *
+	 * @param registry レジストリ
+	 */
+	@Override
+	protected void addViewControllers(final ViewControllerRegistry registry) {
+		registry.addViewController("/index").setViewName("index");
 	}
 
 	/**

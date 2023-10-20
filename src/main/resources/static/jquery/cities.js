@@ -1,7 +1,6 @@
 const pathdeApp = "jpasample";
-let pageNum = /*[[${extend.pageInfo.getNumber()+1}]]*/{};
-let totalPages = /*[[${extend.pageInfo.getTotalPages()}]]*/{};
-let totalRecords, searchName;
+let pageNum = 1;
+let totalRecords, totalPages, searchName;
 $("#searchBtn").on('click', function() {
 	searchName = $("#keywordInput").val().trim().toString();
 	toSelectedPg(1, searchName);
