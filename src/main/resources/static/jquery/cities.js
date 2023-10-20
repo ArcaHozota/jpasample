@@ -2,6 +2,10 @@ const pathdeApp = "jpasample";
 let pageNum = /*[[${extend.pageInfo.getNumber()+1}]]*/{};
 let totalPages = /*[[${extend.pageInfo.getTotalPages()}]]*/{};
 let totalRecords, searchName;
+$("#searchBtn").on('click', function() {
+	let keyword = $("#keywordInput").val().trim().toString();
+	toSelectedPg(1, keyword);
+});
 function toSelectedPg(pageNum, searchName) {
 	$.ajax({
 		url: pathdeApp + '/city',
@@ -124,17 +128,6 @@ function buildPageNavi(result) {
 	let navElement = $("<nav></nav>").append(ul);
 	navElement.appendTo("#pageNavi");
 }
-$("#searchBtn").on('click', function() {
-	let keyword = $("#keywordInput").val().trim().toString();
-	$.ajax({
-		url: '/jpasample/city?pageNum=' + pageNum + '&keyword=' + keyword,
-		type: 'GET',
-		dataType: 'html',
-		success: function() {
-			window.location.replace('/jpasample/city?pageNum=1&keyword=' + keyword);
-		}
-	});
-});
 $("#cityAddModalBtn").on('click', function() {
 	formReset("#cityAddModal form");
 	getContinents("#continentInput");
