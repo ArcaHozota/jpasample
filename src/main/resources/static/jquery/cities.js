@@ -117,7 +117,7 @@ function buildPageNavi(result) {
 	$.each(result.extend.pageInfo.navigatePageNums, (index, item) => {
 		let numsLi = $("<li class='page-item'></li>").append(
 			$("<a class='page-link'></a>").append(item).attr("href", "#"));
-		if (currentPage === item) {
+		if (pageNum === item) {
 			numsLi.attr("href", "#").addClass("active");
 		}
 		numsLi.click(function() {
