@@ -134,7 +134,7 @@ function buildPageNavi(result) {
 $("#cityAddModalBtn").on('click', function() {
 	formReset("#cityAddModal form");
 	getContinents("#continentInput");
-	getNations($("#nationInput"), 'Africa', null);
+	getNations($("#nationInput"), 'Africa');
 	$("#cityAddModal").modal({
 		backdrop: 'static'
 	});
@@ -155,12 +155,12 @@ function getContinents(element) {
 }
 $("#continentInput").on('change', function() {
 	let continentVal = $("#continentInput option:selected").val();
-	getNations($("#nationInput"), continentVal, null);
+	getNations($("#nationInput"), continentVal);
 });
-function getNations(element, continentVal, id) {
+function getNations(element, continentVal) {
 	$(element).empty();
 	$.ajax({
-		url: '/jpasample/nations/' + id,
+		url: '/jpasample/nations',
 		data: 'continentVal=' + continentVal,
 		type: 'GET',
 		dataType: 'json',
@@ -255,12 +255,12 @@ function getCityInfo(id) {
 		dataType: 'json',
 		success: function(result) {
 			let cityData = result.extend.citySelected;
-			$("#cityEdit").text(cityData.name);
+			$("#nameEdit").text(cityData.name);
 			$("#continentEdit").text(cityData.continent);
 			$("#languageEdit").text(cityData.language);
 			$("#districtEdit").val(cityData.district);
 			$("#populationEdit").val(cityData.population);
-			getNations("#nationEdit", cityData.continent, id);
+			getNations("#nationEdit", id);
 		}
 	});
 }
