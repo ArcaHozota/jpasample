@@ -159,11 +159,10 @@ $("#continentInput").on('change', function() {
 	let continentVal = $("#continentInput option:selected").val();
 	getNations($("#nationInput"), continentVal);
 });
-function getNations(element, continentVal) {
+function getNations(element, id) {
 	$(element).empty();
 	$.ajax({
-		url: '/jpasample/nations',
-		data: 'continentVal=' + continentVal,
+		url: '/jpasample/nations' + id,
 		type: 'GET',
 		dataType: 'json',
 		success: function(result) {
@@ -262,7 +261,7 @@ function getCityInfo(id) {
 			$("#languageEdit").text(cityData.language);
 			$("#districtEdit").val(cityData.district);
 			$("#populationEdit").val(cityData.population);
-			getNations("#nationEdit", cityData.continent);
+			getNations("#nationEdit", id);
 		}
 	});
 }

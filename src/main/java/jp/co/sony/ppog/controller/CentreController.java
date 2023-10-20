@@ -109,9 +109,9 @@ public class CentreController {
 	 * @param continentVal 大陸名称
 	 * @return 国のリスト
 	 */
-	@GetMapping(value = "/nations")
-	public RestMsg getListOfNationsById(@RequestParam("continentVal") final String continentVal) {
-		final List<String> nations = this.centreLogicService.findNationsByCnt(continentVal);
+	@GetMapping(value = "/nations/{id}")
+	public RestMsg getListOfNationsById(@PathVariable("id") final Integer id) {
+		final List<String> nations = this.centreLogicService.findNationsById(id);
 		return RestMsg.success().add("nationList", nations);
 	}
 
