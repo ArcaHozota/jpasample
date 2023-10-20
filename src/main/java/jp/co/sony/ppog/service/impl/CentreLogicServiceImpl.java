@@ -1,6 +1,5 @@
 package jp.co.sony.ppog.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Example;
@@ -91,18 +90,6 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		final CityInfo cityInfo = this.cityInfoRepository.findById(id).orElseGet(CityInfo::new);
 		return new CityDto(cityInfo.getId(), cityInfo.getName(), cityInfo.getContinent(), cityInfo.getNation(),
 				cityInfo.getDistrict(), cityInfo.getPopulation(), cityInfo.getLanguage());
-	}
-
-	@Override
-	public List<String> getListOfNationsById(final Integer id) {
-		final List<String> list = new ArrayList<>();
-		final City city = this.cityRepository.findById(id).orElseGet(City::new);
-		final String nationName = city.getCountry().getName();
-		list.add(nationName);
-		final List<String> nations = this.countryRepository.findNationsByCnt(city.getCountry().getContinent()).stream()
-				.filter(item -> StringUtils.isNotEqual(item, nationName)).toList();
-		list.addAll(nations);
-		return list;
 	}
 
 	@Override

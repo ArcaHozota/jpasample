@@ -56,14 +56,6 @@ public interface CentreLogicService {
 	CityDto getCityInfoById(Integer id);
 
 	/**
-	 * 都市IDによって国家名を抽出する
-	 *
-	 * @param id 都市ID
-	 * @return List<String>
-	 */
-	List<String> getListOfNationsById(Integer id);
-
-	/**
 	 * パージング情報を抽出する
 	 *
 	 * @param pageNum ページングナンバー
