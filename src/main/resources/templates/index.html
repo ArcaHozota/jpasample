@@ -109,8 +109,7 @@
 				th:text="|The ${extend.pageInfo.getNumber()+1} page in ${extend.pageInfo.getTotalPages()} pages, ${extend.pageInfo.getTotalElements()} records found.|">
 			</div>
 			<div id="pageNavi" class="col-lg-7 d-flex justify-content-end">
-				<nav class="col-lg-7"
-					th:with="previousPage=${extend.pageInfo.getNumber()},nextPage=${extend.pageInfo.getNumber()+2},totalPg=${extend.pageInfo.getTotalPages()}">
+				<nav th:with="previousPage=${extend.pageInfo.getNumber()},nextPage=${extend.pageInfo.getNumber()+2},totalPg=${extend.pageInfo.getTotalPages()}">
 					<ul class="pagination">
 						<li id="toFirst" class='page-item'><a
 								th:href="@{'/jpasample/city?pageNum=1&amp;keyword='+${extend.keyword eq null ? '' : extend.keyword}}"
