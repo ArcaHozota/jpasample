@@ -80,7 +80,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	}
 
 	@Override
-	public List<String> findNationsByCnt(final String continentVal) {
+	public List<String> findNationsById(final Integer id) {
 		final String hankaku = StringUtils.toHankaku(continentVal);
 		return this.countryRepository.findNationsByCnt(hankaku);
 	}
