@@ -6,6 +6,14 @@ $("#searchBtn").on('click', function() {
 	searchName = $("#keywordInput").val().trim().toString();
 	toSelectedPg(1, searchName);
 });
+$("#toFirst").on('click', function() {
+	searchName = $("#keywordInput").val().trim().toString();
+	toSelectedPg(1, searchName);
+});
+$("#toLast").on('click', function() {
+	searchName = $("#keywordInput").val().trim().toString();
+	toSelectedPg(totalPages, searchName);
+});
 function toSelectedPg(pageNum, searchName) {
 	$.ajax({
 		url: pathdeApp + '/city',
