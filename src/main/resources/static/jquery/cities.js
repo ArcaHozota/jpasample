@@ -81,7 +81,6 @@ function buildPageInfos(result) {
 		+ " pages, " + totalRecords + " records found.");
 }
 function buildPageNavi(result) {
-	$("#initial-pagenavi").remove();
 	$("#pageNavi").empty();
 	let ul = $("<ul></ul>").addClass("pagination");
 	let firstPageLi = $("<li class='page-item'></li>").append(
@@ -189,7 +188,7 @@ $("#nameInput").change(function() {
 		}
 	});
 });
-$("#infoSaveBtn").on('click', function() {
+$("#cityInfoSaveBtn").on('click', function() {
 	let inputDistrict = $("#districtInput").val().trim();
 	let inputPopulation = $("#populationInput").val().trim();
 	let regularDistrict = /^[a-zA-Z-\s]{2,33}$/;
@@ -280,7 +279,7 @@ function getLanguages(element, nationVal) {
 		}
 	});
 }
-$("#infoChangeBtn").on('click', function() {
+$("#cityInfoChangeBtn").on('click', function() {
 	let editId = $(this).attr("editId");
 	let inputDistrict = $("#districtEdit").val().trim();
 	let inputPopulation = $("#populationEdit").val().trim();
