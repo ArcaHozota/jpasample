@@ -42,18 +42,10 @@ public interface CentreLogicService {
 	/**
 	 * 指定された大陸に位置するすべての国を取得する
 	 *
-	 * @param continentVal 大陸名称
+	 * @param continentVal 大陸名称もしくは都市ID
 	 * @return List<String>
 	 */
 	List<String> findNationsByCnt(String continentVal);
-
-	/**
-	 * 都市IDによって国家名を抽出する
-	 *
-	 * @param id 都市ID
-	 * @return List<String>
-	 */
-	List<String> findNationsById(Integer id);
 
 	/**
 	 * 都市IDによって情報を抽出する
