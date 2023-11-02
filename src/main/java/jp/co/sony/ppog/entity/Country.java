@@ -84,13 +84,13 @@ public final class Country implements Serializable {
 	 * This field corresponds to the database column GNP
 	 */
 	@Column(precision = 23, scale = 5)
-	private BigDecimal gnp;
+	private BigDecimal gnpUsd;
 
 	/**
 	 * This field corresponds to the database column GNP_OLD
 	 */
 	@Column(precision = 23, scale = 5)
-	private BigDecimal gnpOld;
+	private BigDecimal gnpUsdOld;
 
 	/**
 	 * This field corresponds to the database column LOCAL_NAME

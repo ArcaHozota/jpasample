@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import jp.co.sony.ppog.entity.Language;
-import jp.co.sony.ppog.utils.LanguageId;
 
 /**
  * 言語リポジトリ
@@ -14,5 +13,5 @@ import jp.co.sony.ppog.utils.LanguageId;
  * @since 4.12
  */
 @Repository
-public interface LanguageRepository extends JpaRepository<Language, LanguageId>, JpaSpecificationExecutor<Language> {
+public interface LanguageRepository extends JpaRepository<Language, String>, JpaSpecificationExecutor<Language> {
 }
