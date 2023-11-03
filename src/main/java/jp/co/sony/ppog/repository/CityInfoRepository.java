@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.sony.ppog.entity.CityInfo;
@@ -19,7 +18,6 @@ import jp.co.sony.ppog.entity.CityInfo;
  * @author ArkamaHozota
  * @since 6.78
  */
-@Repository
 public interface CityInfoRepository extends JpaRepository<CityInfo, Integer>, JpaSpecificationExecutor<CityInfo> {
 
 	/**

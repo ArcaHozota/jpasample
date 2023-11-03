@@ -1,5 +1,7 @@
 package jp.co.sony.ppog.entity;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -19,7 +21,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(name = "city_info")
-public class CityInfo {
+public final class CityInfo implements Serializable {
+
+	private static final long serialVersionUID = -6905329688598071268L;
 
 	/**
 	 * 都市ID
