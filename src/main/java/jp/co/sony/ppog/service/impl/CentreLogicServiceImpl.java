@@ -206,7 +206,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		city.setDistrict(cityDto.district());
 		city.setPopulation(cityDto.population());
 		city.setDeleteFlg(Messages.MSG007);
-		this.cityRepository.save(city);
+		this.cityRepository.saveAndFlush(city);
 		this.cityInfoRepository.refresh();
 	}
 
@@ -218,7 +218,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		city.setName(cityDto.name());
 		city.setDistrict(cityDto.district());
 		city.setPopulation(cityDto.population());
-		this.cityRepository.save(city);
+		this.cityRepository.saveAndFlush(city);
 		this.cityInfoRepository.refresh();
 	}
 }
