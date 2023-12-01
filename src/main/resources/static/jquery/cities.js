@@ -213,7 +213,6 @@ $("#cityInfoSaveBtn").on('click', function() {
 	} else {
 		showValidationMsg("#districtInput", "success", "√");
 		showValidationMsg("#populationInput", "success", "√");
-		// Send an ajax request to commit save options.
 		$.ajax({
 			url: '/jpasample/city',
 			type: 'POST',
