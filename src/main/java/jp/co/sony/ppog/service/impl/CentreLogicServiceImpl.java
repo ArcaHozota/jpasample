@@ -42,7 +42,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	/**
 	 * ページサイズ
 	 */
-	private static final Integer PAGE_SIZE = 12;
+	private static final Integer PAGE_SIZE = 8;
 
 	/**
 	 * デフォルトソート値
@@ -139,9 +139,9 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 								item.getDistrict(), item.getPopulation(), item.getLanguage()))
 						.toList();
 				if (pageMax >= sort) {
-					return Pagination.of(minimumRanks.subList(pageMin, sort), minimumRanks.size(), pageNum);
+					return Pagination.of(minimumRanks.subList(pageMin, sort), minimumRanks.size(), pageNum, PAGE_SIZE);
 				}
-				return Pagination.of(minimumRanks.subList(pageMin, pageMax), minimumRanks.size(), pageNum);
+				return Pagination.of(minimumRanks.subList(pageMin, pageMax), minimumRanks.size(), pageNum, PAGE_SIZE);
 			}
 			if (hankakuKeyword.startsWith("max(pop)")) {
 				final int indexOf = hankakuKeyword.indexOf(")");
@@ -155,9 +155,9 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 								item.getDistrict(), item.getPopulation(), item.getLanguage()))
 						.toList();
 				if (pageMax >= sort) {
-					return Pagination.of(maximumRanks.subList(pageMin, sort), maximumRanks.size(), pageNum);
+					return Pagination.of(maximumRanks.subList(pageMin, sort), maximumRanks.size(), pageNum, PAGE_SIZE);
 				}
-				return Pagination.of(maximumRanks.subList(pageMin, pageMax), maximumRanks.size(), pageNum);
+				return Pagination.of(maximumRanks.subList(pageMin, pageMax), maximumRanks.size(), pageNum, PAGE_SIZE);
 			}
 			// ページング検索；
 			final CityInfo cityInfo = new CityInfo();
@@ -170,7 +170,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 						.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
 								item.getDistrict(), item.getPopulation(), item.getLanguage()))
 						.toList();
-				return Pagination.of(list, pages.getTotalElements(), pageNum);
+				return Pagination.of(list, pages.getTotalElements(), pageNum, PAGE_SIZE);
 			}
 			cityInfo.setName(hankakuKeyword);
 			final ExampleMatcher matcher = ExampleMatcher.matching().withMatcher("name",
@@ -181,14 +181,14 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 					.map(item -> new CityDto(item.getId(), item.getName(), item.getContinent(), item.getNation(),
 							item.getDistrict(), item.getPopulation(), item.getLanguage()))
 					.toList();
-			return Pagination.of(list, pages.getTotalElements(), pageNum);
+			return Pagination.of(list, pages.getTotalElements(), pageNum, PAGE_SIZE);
 		}
 		// ページング検索；
 		final Page<CityInfo> pages = this.cityInfoRepository.findAll(pageRequest);
 		final List<CityDto> list = pages.getContent().stream().map(item -> new CityDto(item.getId(), item.getName(),
 				item.getContinent(), item.getNation(), item.getDistrict(), item.getPopulation(), item.getLanguage()))
 				.toList();
-		return Pagination.of(list, pages.getTotalElements(), pageNum);
+		return Pagination.of(list, pages.getTotalElements(), pageNum, PAGE_SIZE);
 	}
 
 	@Override
