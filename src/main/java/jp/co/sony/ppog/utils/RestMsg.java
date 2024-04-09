@@ -44,6 +44,19 @@ public final class RestMsg {
 	}
 
 	/**
+	 * retrieve successfully
+	 *
+	 * @param message メッセージ
+	 * @return result including data
+	 */
+	public static RestMsg success(final String message) {
+		final RestMsg result = new RestMsg();
+		result.setCode(200);
+		result.setMessage(message);
+		return result;
+	}
+
+	/**
 	 * data returned to browsers
 	 */
 	private final Map<String, Object> extend = new HashMap<>();
