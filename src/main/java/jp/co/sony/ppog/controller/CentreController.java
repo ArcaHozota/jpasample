@@ -148,7 +148,6 @@ public class CentreController {
 	 */
 	@PutMapping(value = "/city/{id}")
 	public RestMsg updateCityInfo(@RequestBody final CityDto cityDto) {
-		this.centreLogicService.update(cityDto);
-		return RestMsg.success();
+		return this.centreLogicService.update(cityDto);
 	}
 }

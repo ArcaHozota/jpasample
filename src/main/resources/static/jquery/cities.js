@@ -317,9 +317,14 @@ $("#cityInfoChangeBtn").on('click', function() {
 			'population': inputPopulation
 		}),
 		contentType: 'application/json;charset=UTF-8',
-		success: function() {
-			$("#cityEditModal").modal('hide');
-			toSelectedPg(pageNum, searchName);
+		success: function(result) {
+			if (result.code === 200) {
+				$("#cityEditModal").modal('hide');
+				toSelectedPg(pageNum, searchName);
+				layer.msg(result.message);
+			} else {
+				layer.msg(result.extend.errorMsg);
+			}
 		}
 	});
 });

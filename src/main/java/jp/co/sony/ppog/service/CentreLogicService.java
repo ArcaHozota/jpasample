@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import jp.co.sony.ppog.dto.CityDto;
 import jp.co.sony.ppog.entity.City;
 import jp.co.sony.ppog.utils.Pagination;
+import jp.co.sony.ppog.utils.RestMsg;
 
 /**
  * 中央処理サービスインターフェス
@@ -92,5 +93,5 @@ public interface CentreLogicService {
 	 *
 	 * @param cityInfoDto 都市情報
 	 */
-	void update(CityDto cityInfoDto);
+	RestMsg update(CityDto cityInfoDto);
 }

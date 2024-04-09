@@ -23,6 +23,8 @@ import jp.co.sony.ppog.repository.CountryRepository;
 import jp.co.sony.ppog.service.CentreLogicService;
 import jp.co.sony.ppog.utils.Messages;
 import jp.co.sony.ppog.utils.Pagination;
+import jp.co.sony.ppog.utils.RestMsg;
+import jp.co.sony.ppog.utils.SecondBeanUtils;
 import jp.co.sony.ppog.utils.StringUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -211,14 +213,18 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	}
 
 	@Override
-	public void update(final CityDto cityDto) {
+	public RestMsg update(final CityDto cityDto) {
+		final City originalEntity = new City();
 		final City city = this.cityRepository.findById(cityDto.id()).orElseGet(City::new);
+		SecondBeanUtils.copyNullableProperties(city, originalEntity);
+		SecondBeanUtils.copyNullableProperties(cityDto, city);
 		final String countryCode = this.countryRepository.findNationCode(cityDto.nation());
 		city.setCountryCode(countryCode);
-		city.setName(cityDto.name());
-		city.setDistrict(cityDto.district());
-		city.setPopulation(cityDto.population());
+		if (originalEntity.equals(city)) {
+			return RestMsg.failure().add("errorMsg", Messages.MSG012);
+		}
 		this.cityRepository.saveAndFlush(city);
 		this.cityInfoRepository.refresh();
+		return RestMsg.success();
 	}
 }
