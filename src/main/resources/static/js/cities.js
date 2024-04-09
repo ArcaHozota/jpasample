@@ -84,7 +84,7 @@ function buildPageNavi(result) {
 	$("#pageNavi").empty();
 	let ul = $("<ul></ul>").addClass("pagination");
 	let firstPageLi = $("<li class='page-item'></li>").append(
-		$("<a class='page-link'></a>").append("最初のページへ").attr("href", "#"));
+		$("<a class='page-link'></a>").append("最初へ").attr("href", "#"));
 	let previousPageLi = $("<li class='page-item'></li>").append(
 		$("<a class='page-link'></a>").append("&laquo;").attr("href", "#"));
 	if (!result.extend.pageInfo.hasPreviousPage) {
@@ -101,7 +101,7 @@ function buildPageNavi(result) {
 	let nextPageLi = $("<li class='page-item'></li>").append(
 		$("<a class='page-link'></a>").append("&raquo;").attr("href", "#"));
 	let lastPageLi = $("<li class='page-item'></li>").append(
-		$("<a class='page-link'></a>").append("最後のページへ").attr("href", "#"));
+		$("<a class='page-link'></a>").append("最後へ").attr("href", "#"));
 	if (!result.extend.pageInfo.hasNextPage) {
 		nextPageLi.addClass("disabled");
 		lastPageLi.addClass("disabled");
