@@ -44,7 +44,7 @@ public class CentreController {
 	 * @param cityName 都市名称
 	 * @return 処理成功のメッセージ
 	 */
-	@GetMapping(value = "/check")
+	@GetMapping("/check")
 	public RestMsg checkName(@RequestParam("cityName") final String cityName) {
 		if (!cityName.matches(Messages.MSG006)) {
 			return RestMsg.failure().add("validatedMsg", Messages.MSG005);
@@ -62,7 +62,7 @@ public class CentreController {
 	 * @param id 都市ID
 	 * @return 処理成功のメッセージ
 	 */
-	@DeleteMapping(value = "/city/{id}")
+	@DeleteMapping("/city/{id}")
 	public RestMsg deleteCityInfo(@PathVariable("id") final Integer id) {
 		this.centreLogicService.removeById(id);
 		return RestMsg.success();
@@ -74,7 +74,7 @@ public class CentreController {
 	 * @param id 都市ID
 	 * @return 都市情報
 	 */
-	@GetMapping(value = "/city/{id}")
+	@GetMapping("/city/{id}")
 	public RestMsg getCityInfo(@PathVariable("id") final Integer id) {
 		final CityDto cityDto = this.centreLogicService.getCityInfoById(id);
 		return RestMsg.success().add("citySelected", cityDto);
@@ -85,7 +85,7 @@ public class CentreController {
 	 *
 	 * @return 大陸名称のリスト
 	 */
-	@GetMapping(value = "/continents")
+	@GetMapping("/continents")
 	public RestMsg getContinents() {
 		final List<String> continents = this.centreLogicService.findAllContinents();
 		return RestMsg.success().add("continentList", continents);
@@ -97,7 +97,7 @@ public class CentreController {
 	 * @param nationVal 国名
 	 * @return 言語のリスト
 	 */
-	@GetMapping(value = "/languages")
+	@GetMapping("/languages")
 	public RestMsg getListOfLanguages(@RequestParam("nationVal") final String nationVal) {
 		final String language = this.centreLogicService.findLanguageByCty(nationVal);
 		return RestMsg.success().add("languages", language);
@@ -109,7 +109,7 @@ public class CentreController {
 	 * @param continentVal 大陸名称
 	 * @return 国のリスト
 	 */
-	@GetMapping(value = "/nations")
+	@GetMapping("/nations")
 	public RestMsg getListOfNationsById(@RequestParam("continentVal") final String continentVal) {
 		final List<String> nations = this.centreLogicService.findNationsByCnt(continentVal);
 		return RestMsg.success().add("nationList", nations);
@@ -120,7 +120,7 @@ public class CentreController {
 	 *
 	 * @return modelAndView
 	 */
-	@GetMapping(value = "/city")
+	@GetMapping("/city")
 	public RestMsg pagination(@RequestParam(value = "pageNum", defaultValue = "1") final Integer pageNum,
 			@RequestParam(value = "keyword", defaultValue = StringUtils.EMPTY_STRING) final String keyword) {
 		// ページング検索結果を吹き出します；
@@ -134,7 +134,7 @@ public class CentreController {
 	 * @param cityDto 都市情報DTO
 	 * @return 処理成功のメッセージ
 	 */
-	@PostMapping(value = "/city")
+	@PostMapping("/city")
 	public RestMsg saveCityInfo(@RequestBody final CityDto cityDto) {
 		this.centreLogicService.save(cityDto);
 		return RestMsg.success();
@@ -146,7 +146,7 @@ public class CentreController {
 	 * @param cityDto 都市情報DTO
 	 * @return 処理成功のメッセージ
 	 */
-	@PutMapping(value = "/city/{id}")
+	@PutMapping("/city/{id}")
 	public RestMsg updateCityInfo(@RequestBody final CityDto cityDto) {
 		return this.centreLogicService.update(cityDto);
 	}
