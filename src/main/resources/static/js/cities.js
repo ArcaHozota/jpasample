@@ -344,8 +344,7 @@ $(document).on('click', '.delete_btn', function() {
 	}).then((result) => {
 		if (result.isConfirmed) {
 			$.ajax({
-				url: pathdeApp + '/cityDel',
-				data: 'cityId=' + cityId,
+				url: pathdeApp + '/city/' + cityId,
 				type: 'DELETE',
 				success: function(result) {
 					toSelectedPg(currentPage, searchName);
