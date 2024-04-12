@@ -86,7 +86,7 @@ public interface CentreLogicService {
 	 *
 	 * @param cityInfoDto 都市情報
 	 */
-	void save(CityDto cityInfoDto);
+	RestMsg save(CityDto cityInfoDto);
 
 	/**
 	 * 入力した都市情報を更新する

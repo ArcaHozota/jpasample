@@ -207,18 +207,21 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	}
 
 	@Override
-	public void save(final CityDto cityDto) {
+	public RestMsg save(final CityDto cityDto) {
+		final City city = new City();
 		final String countryCode = this.countryRepository.findNationCode(cityDto.nation());
 		final Integer saiban = this.cityRepository.saiban();
-		final City city = new City();
+		SecondBeanUtils.copyNullableProperties(cityDto, city);
 		city.setId(saiban);
-		city.setName(cityDto.name());
 		city.setCountryCode(countryCode);
-		city.setDistrict(cityDto.district());
-		city.setPopulation(cityDto.population());
 		city.setDeleteFlg(Messages.MSG007);
-		this.cityRepository.saveAndFlush(city);
-		this.cityInfoRepository.refresh();
+		try {
+			this.cityRepository.saveAndFlush(city);
+			this.cityInfoRepository.refresh();
+		} catch (final Exception e) {
+			return RestMsg.failure().add("errorMsg", Messages.MSG009);
+		}
+		return RestMsg.success(Messages.MSG011);
 	}
 
 	@Override

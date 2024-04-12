@@ -231,8 +231,8 @@ $("#cityInfoSaveBtn").on('click', function() {
 					$("#cityAddModal").modal('hide');
 					window.location
 						.replace('/jpasample/city?pageNum=' + totalPages + '&keyword=');
-				} else if (undefined !== result.extend.errorFields.name) {
-					showValidationMsg("#nameInput", "error", result.extend.errorFields.name);
+				} else {
+					layer.msg(result.extend.errorMsg);
 				}
 			}
 		});

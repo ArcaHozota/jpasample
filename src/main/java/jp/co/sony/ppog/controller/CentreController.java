@@ -136,8 +136,7 @@ public class CentreController {
 	 */
 	@PostMapping("/city")
 	public RestMsg saveCityInfo(@RequestBody final CityDto cityDto) {
-		this.centreLogicService.save(cityDto);
-		return RestMsg.success();
+		return this.centreLogicService.save(cityDto);
 	}
 
 	/**
