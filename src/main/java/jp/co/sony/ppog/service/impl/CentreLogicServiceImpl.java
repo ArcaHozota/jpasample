@@ -55,6 +55,11 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 	private static final Integer SORT_NUMBER = 100;
 
 	/**
+	 * エラーメッセージ
+	 */
+	private static final String ERROR_MSG = "errorMsg";
+
+	/**
 	 * 都市リポジトリ
 	 */
 	private final CityRepository cityRepository;
@@ -219,7 +224,7 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 			this.cityRepository.saveAndFlush(city);
 			this.cityInfoRepository.refresh();
 		} catch (final Exception e) {
-			return RestMsg.failure().add("errorMsg", Messages.MSG009);
+			return RestMsg.failure().add(ERROR_MSG, Messages.MSG009);
 		}
 		return RestMsg.success(Messages.MSG011);
 	}
@@ -233,13 +238,13 @@ public class CentreLogicServiceImpl implements CentreLogicService {
 		final String countryCode = this.countryRepository.findNationCode(cityDto.nation());
 		city.setCountryCode(countryCode);
 		if (originalEntity.equals(city)) {
-			return RestMsg.failure().add("errorMsg", Messages.MSG012);
+			return RestMsg.failure().add(ERROR_MSG, Messages.MSG012);
 		}
 		try {
 			this.cityRepository.saveAndFlush(city);
 			this.cityInfoRepository.refresh();
 		} catch (final Exception e) {
-			return RestMsg.failure().add("errorMsg", Messages.MSG009);
+			return RestMsg.failure().add(ERROR_MSG, Messages.MSG009);
 		}
 		return RestMsg.success();
 	}
