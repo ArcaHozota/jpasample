@@ -61,10 +61,10 @@ function buildCityTable(result) {
 			languageTd = $("<td class='text-center' style='width:80px;font-size:15px;vertical-align:bottom;'></td>").append(languageName);
 		}
 		let editBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
-			.append($("<i class='bi bi-pencil-fill'></i>")).append("編集");
+			.append($("<i class='fa-solid fa-pencil'></i>")).append("編集");
 		editBtn.attr("editId", item.id);
 		let deleteBtn = $("<button></button>").addClass("btn btn-danger btn-sm delete_btn")
-			.append($("<i class='bi bi-trash'></i>")).append("削除");
+			.append($("<i class='fa-solid fa-trash'></i>")).append("削除");
 		deleteBtn.attr("deleteId", item.id);
 		let btnTd = $("<td class='text-center' style='width:120px;vertical-align:bottom;'></td>").append(editBtn).append(" ").append(deleteBtn);
 		$("<tr></tr>").append(idTd).append(nameTd).append(continentTd).append(nationTd).append(districtTd).append(populationTd).append(languageTd)
@@ -134,9 +134,10 @@ $("#cityAddModalBtn").on('click', function() {
 	formReset("#cityAddModal form");
 	getContinents("#continentInput");
 	getNations($("#nationInput"), 'Africa');
-	$("#cityAddModal").modal({
+	let addModal = new bootstrap.Modal($("#cityAddModal"), {
 		backdrop: 'static'
 	});
+	addModal.show();
 });
 function getContinents(element) {
 	$(element).empty();
@@ -242,15 +243,15 @@ $(document).on('click', '.edit_btn', function() {
 	formReset("#cityEditModal form");
 	getCityInfo(editId);
 	$("#cityInfoChangeBtn").attr("editId", editId);
-	$("#cityEditModal").modal({
+	let editModal = new bootstrap.Modal($("#cityEditModal"), {
 		backdrop: 'static'
 	});
+	editModal.show();
 });
 function getCityInfo(id) {
 	$.ajax({
 		url: '/jpasample/city/' + id,
 		type: 'GET',
-		dataType: 'json',
 		success: function(result) {
 			let cityData = result.extend.citySelected;
 			$("#nameEdit").text(cityData.name);
@@ -331,16 +332,30 @@ $("#cityInfoChangeBtn").on('click', function() {
 $(document).on('click', '.delete_btn', function() {
 	let cityName = $(this).parents("tr").find("td:eq(0)").text().trim();
 	let cityId = $(this).attr("deleteId");
-	if (confirm("この" + cityName + "という都市の情報を削除する、よろしいでしょうか。")) {
-		$.ajax({
-			url: '/jpasample/city/' + cityId,
-			type: 'DELETE',
-			dataType: 'json',
-			success: function() {
-				toSelectedPg(pageNum, searchName);
-			}
-		});
-	}
+	swal.fire({
+		title: 'メッセージ',
+		text: 'この「' + cityName + '」という都市の情報を削除する、よろしいでしょうか。',
+		icon: 'question',
+		showDenyButton: true,
+		denyButtonText: 'いいえ',
+		denyButtonColor: '#002FA7',
+		confirmButtonText: 'はい',
+		confirmButtonColor: '#7F0020'
+	}).then((result) => {
+		if (result.isConfirmed) {
+			$.ajax({
+				url: pathdeApp + '/cityDel',
+				data: 'cityId=' + cityId,
+				type: 'DELETE',
+				success: function(result) {
+					toSelectedPg(currentPage, searchName);
+					layer.msg(result.message);
+				}
+			});
+		} else {
+			$(this).close();
+		}
+	});
 });
 function formReset(element) {
 	$(element)[0].reset();
